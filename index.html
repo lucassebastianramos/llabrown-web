@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Libertad Avanza – Almirante Brown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════ -->
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="header-inner">
+
+    <nav class="nav" id="nav">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#territorio" class="nav-link">Territorio</a>
+      <a href="#equipo" class="nav-link">Equipo</a>
+      <a href="#mapa" class="nav-link">Localidades</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+
+      <a href="https://wa.me/5491171682115?text=Hola%20quiero%20sumarme" 
+         class="nav-cta" target="_blank">
+        Sumate
+      </a>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+    <button class="burger" id="burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-container">
+
+    <p class="hero-top">EL CAMBIO EMPIEZA ACÁ</p>
+
+    <img src="img/logo.png" alt="La Libertad Avanza" class="hero-logo"/>
+
+    <h1 class="hero-title">
+      #Tu voz construye
+    </h1>
+
+    <p class="hero-text">
+      Más libertad para los vecinos de Almirante Brown
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#contacto" class="btn-primary">Sumate al cambio →</a>
+      <a href="#equipo" class="btn-secondary">Conocé el equipo</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <h3>12</h3>
+        <p>Localidades</p>
+      </div>
+      <div>
+        <h3>8</h3>
+        <p>Concejales</p>
+      </div>
+      <div>
+        <h3>4</h3>
+        <p>Consejeros escolares</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     TERRITORIO
+═══════════════════════════════════════════════ -->
+<section class="section territorio" id="territorio">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Nuestro trabajo</span>
+      <h2 class="section-title">Estamos en el <span class="accent">territorio</span></h2>
+      <p class="section-desc">Recorriendo cada rincón de Almirante Brown, escuchando a los vecinos y construyendo el cambio desde la base.</p>
+    </div>
+    <div class="carousel-wrap">
+      <div class="carousel" id="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- Cards generadas por JS -->
+        </div>
+      </div>
+      <button class="carousel-btn prev" id="prevBtn" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <button class="carousel-btn next" id="nextBtn" aria-label="Siguiente">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MAPA INTERACTIVO
+═══════════════════════════════════════════════ -->
+<section class="section mapa-section" id="mapa">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Red territorial</span>
+      <h2 class="section-title">Las <span class="accent">12 localidades</span></h2>
+      <p class="section-desc">Hacé click en tu localidad para contactar al referente de zona por WhatsApp.</p>
+    </div>
+    <div class="mapa-layout">
+      <div class="mapa-container">
+        <div class="mapa-label-top">Almirante Brown</div>
+        <!-- SVG MAPA -->
+        <svg class="mapa-svg" id="mapaSvg" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#7c3aed" stroke-width="0.3" opacity="0.2"/>
+            </pattern>
+          </defs>
+          <!-- Fondo grilla -->
+          <rect width="600" height="700" fill="url(#grid)"/>
+
+          <!-- LOCALIDADES – polígonos aproximados del partido -->
+
+          <!-- Adrogué (centro-norte) -->
+          <g class="localidad" data-nombre="Adrogué" data-wa="https://wa.me/5491100000001">
+            <polygon points="260,80 330,80 340,130 310,155 255,145 245,110" class="zona"/>
+            <text x="292" y="122" class="zona-label" text-anchor="middle">Adrogué</text>
+          </g>
+
+          <!-- José Mármol (oeste de Adrogué) -->
+          <g class="localidad" data-nombre="José Mármol" data-wa="https://wa.me/5491100000002">
+            <polygon points="180,90 255,80 245,110 255,145 210,150 175,130" class="zona"/>
+            <text x="215" y="120" class="zona-label" text-anchor="middle">José</text>
+            <text x="215" y="135" class="zona-label" text-anchor="middle">Mármol</text>
+          </g>
+
+          <!-- Don Orione (norte-este) -->
+          <g class="localidad" data-nombre="Don Orione" data-wa="https://wa.me/5491100000003">
+            <polygon points="330,60 420,65 415,115 370,125 340,130 330,80" class="zona"/>
+            <text x="375" y="100" class="zona-label" text-anchor="middle">Don</text>
+            <text x="375" y="115" class="zona-label" text-anchor="middle">Orione</text>
+          </g>
+
+          <!-- Malvinas Argentinas (este) -->
+          <g class="localidad" data-nombre="Malvinas Argentinas" data-wa="https://wa.me/5491100000004">
+            <polygon points="415,65 500,80 495,140 430,150 370,125 415,115" class="zona"/>
+            <text x="450" y="112" class="zona-label" text-anchor="middle">Malvinas</text>
+            <text x="450" y="127" class="zona-label" text-anchor="middle">Arg.</text>
+          </g>
+
+          <!-- Burzaco (centro) -->
+          <g class="localidad" data-nombre="Burzaco" data-wa="https://wa.me/5491100000005">
+            <polygon points="255,145 310,155 340,130 370,125 430,150 420,200 370,220 300,225 240,210 230,170" class="zona"/>
+            <text x="330" y="190" class="zona-label" text-anchor="middle">Burzaco</text>
+          </g>
+
+          <!-- Rafael Calzada (oeste-centro) -->
+          <g class="localidad" data-nombre="Rafael Calzada" data-wa="https://wa.me/5491100000006">
+            <polygon points="175,130 210,150 230,170 240,210 185,225 145,200 150,155" class="zona"/>
+            <text x="192" y="185" class="zona-label" text-anchor="middle">R. Calzada</text>
+          </g>
+
+          <!-- Ministro Rivadavia (noroeste) -->
+          <g class="localidad" data-nombre="Ministro Rivadavia" data-wa="https://wa.me/5491100000007">
+            <polygon points="105,80 175,80 175,130 150,155 110,145 95,110" class="zona"/>
+            <text x="138" y="118" class="zona-label" text-anchor="middle">Min.</text>
+            <text x="138" y="133" class="zona-label" text-anchor="middle">Rivadavia</text>
+          </g>
+
+          <!-- San Francisco de Asís (este-centro) -->
+          <g class="localidad" data-nombre="San Francisco de Asís" data-wa="https://wa.me/5491100000008">
+            <polygon points="430,150 495,140 510,210 470,240 420,240 370,220 420,200" class="zona"/>
+            <text x="450" y="195" class="zona-label" text-anchor="middle">S. Fco.</text>
+            <text x="450" y="210" class="zona-label" text-anchor="middle">de Asís</text>
+          </g>
+
+          <!-- Longchamps (sur-este) -->
+          <g class="localidad" data-nombre="Longchamps" data-wa="https://wa.me/5491100000009">
+            <polygon points="370,220 420,240 470,240 475,310 420,330 355,330 330,280 350,250" class="zona"/>
+            <text x="415" y="285" class="zona-label" text-anchor="middle">Longchamps</text>
+          </g>
+
+          <!-- Claypole (centro-sur) -->
+          <g class="localidad" data-nombre="Claypole" data-wa="https://wa.me/5491100000010">
+            <polygon points="300,225 370,220 350,250 330,280 300,300 260,295 240,260 250,235" class="zona"/>
+            <text x="305" y="262" class="zona-label" text-anchor="middle">Claypole</text>
+          </g>
+
+          <!-- Glew (sur-oeste) -->
+          <g class="localidad" data-nombre="Glew" data-wa="https://wa.me/5491100000011">
+            <polygon points="185,225 240,210 250,235 240,260 260,295 220,320 170,310 150,265 165,240" class="zona"/>
+            <text x="205" y="270" class="zona-label" text-anchor="middle">Glew</text>
+          </g>
+
+          <!-- Solano (sur) -->
+          <g class="localidad" data-nombre="Solano" data-wa="https://wa.me/5491100000012">
+            <polygon points="220,320 260,295 300,300 330,280 355,330 330,390 280,410 225,400 200,365" class="zona"/>
+            <text x="275" y="360" class="zona-label" text-anchor="middle">Solano</text>
+          </g>
+
+          <!-- Bordes del mapa -->
+          <rect x="1" y="1" width="598" height="698" rx="12" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <!-- Panel lateral -->
+      <div class="mapa-panel" id="mapaPanel">
+        <div class="panel-idle" id="panelIdle">
+          <div class="panel-icon">📍</div>
+          <p>Seleccioná una localidad en el mapa para ver el contacto de tu referente.</p>
+        </div>
+        <div class="panel-info" id="panelInfo" style="display:none">
+          <div class="panel-zona-name" id="panelNombre"></div>
+        <div class="panel-zona-detail">
+  Referente territorial activo en tu zona
+</div>
+
+<div class="panel-extra">
+  <p>📍 Atención personalizada para vecinos</p>
+  <p>🤝 Sumate como voluntario o fiscal</p>
+</div>
+          <a class="panel-wa-btn" id="panelWaBtn" href="#" target="_blank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Hablar con tu referente →
+          </a>
+          <button class="panel-reset" id="panelReset">← Volver al mapa</button>
+        </div>
+
+        <div class="localidades-list">
+          <div class="lista-titulo">Todas las localidades</div>
+          <div id="listadoLocalidades"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     EQUIPO
+═══════════════════════════════════════════════ -->
+<section class="section equipo-section" id="equipo">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Quiénes somos</span>
+      <h2 class="section-title">Nuestro <span class="accent">equipo</span></h2>
+      <p class="section-desc">Representantes comprometidos con la libertad, el orden y el progreso de Almirante Brown.</p>
+    </div>
+
+    <div class="equipo-tabs">
+      <button class="tab-btn active" data-tab="concejales">Concejales</button>
+      <button class="tab-btn" data-tab="consejeros">Consejeros Escolares</button>
+    </div>
+
+    <div class="equipo-grid" id="equipoGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     CONTACTO
+═══════════════════════════════════════════════ -->
+<section class="section contacto-section" id="contacto">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Sumate</span>
+      <h2 class="section-title">Conectate con <span class="accent">nosotros</span></h2>
+<p class="section-desc">
+  Sumate al equipo en tu localidad. Dejanos tus datos y nos contactamos con vos para que seas parte del cambio en Almirante Brown.
+</p>    </div>
+
+    <div class="contacto-layout">
+      <div class="contacto-info">
+        <div class="contacto-item">
+          <div class="c-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+           <div class="c-label">Sede</div>
+           <div class="c-val">Humberto Primo 990, Burzaco</div>
+          </div>
+        </div>
+        <div class="contacto-item">
+          <div class="c-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 6.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 13.92z"/></svg>
+          </div>
+          <div>
+          <div class="c-label">Equipo territorial</div>
+            <div class="c-val">+54 9 11 71682115</div>
+          </div>
+        </div>
+        <div class="contacto-item">
+          <div class="c-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-val">contacto@llaalmibrown.ar</div>
+          </div>
+        </div>
+
+        <!-- Mini mapa embed -->
+        <div class="mini-mapa">
+         <iframe
+  src="https://www.google.com/maps?q=Humberto+Primo+990,+Burzaco&z=16&output=embed"
+  width="100%" height="220"
+ style="border:0;border-radius:12px;filter:grayscale(50%) brightness(0.9) contrast(1.1);"
+  allowfullscreen=""
+  loading="lazy">
+</iframe>
+          <a href="https://www.google.com/maps?q=Humberto+Primo+990+Burzaco" 
+   target="_blank" 
+   class="map-btn">
+   📍 Cómo llegar
+</a>
+        </div>
+      </div>
+
+<form class="contacto-form" action="https://formspree.io/f/meeprnvp" method="POST">
+
+  <div class="form-row">          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required/>
+          </div>
+          <div class="form-group">
+            <label for="localidad">Localidad</label>
+            <select id="localidad" name="localidad" required>
+              <option value="">Seleccioná tu localidad</option>
+              <option>Adrogué</option>
+              <option>Burzaco</option>
+              <option>Claypole</option>
+              <option>Don Orione</option>
+              <option>Glew</option>
+              <option>José Mármol</option>
+              <option>Longchamps</option>
+              <option>Malvinas Argentinas</option>
+              <option>Ministro Rivadavia</option>
+              <option>Rafael Calzada</option>
+              <option>San Francisco de Asís</option>
+              <option>Solano</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telefono">Teléfono / WhatsApp</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+54 9 11 XXXX-XXXX"/>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com"/>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label for="mensaje">¿Cómo querés participar?</label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Ej: quiero fiscalizar, participar en actividades o sumarme al equipo de mi barrio"></textarea>
+        </div>
+        <button type="submit" class="btn-primary form-submit">
+<span>Quiero sumarme →</span>          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-success" id="formSuccess">
+          ✓ Mensaje enviado. ¡Te contactamos pronto!
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon sm">
+            <span class="logo-l">L</span><span class="logo-la">LA</span>
+          </div>
+          <div class="logo-text">
+            <span class="logo-main">La Libertad Avanza</span>
+            <span class="logo-sub">Almirante Brown</span>
+          </div>
+        </div>
+        <p class="footer-claim">Construyendo el cambio desde el territorio.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#territorio">Territorio</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#mapa">Localidades</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-social">
+        <div class="social-title">Seguinos</div>
+       <div class="social-row">
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/lalibertadavanza_altebrownok?igsh=OGJsNTlpMWlrM2I2" class="social-btn ig" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="2" width="20" height="20" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17" cy="7" r="1.5"/>
+    </svg>
+  </a>
+
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/lalibertadavanzaaltebrown" class="social-btn fb" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+    </svg>
+  </a>
+
+  <!-- X -->
+  <a href="#" class="social-btn tw" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l7-8-8-12h6l5 7z"/>
+    </svg>
+  </a>
+
+  <!-- WhatsApp -->
+<a href="https://wa.me/5491167218190" class="social-btn wa" target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.52 3.48A11.77 11.77 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.15 1.6 5.95L0 24l6.3-1.65a11.83 11.83 0 005.75 1.47h.01c6.55 0 11.88-5.34 11.88-11.89 0-3.18-1.24-6.17-3.42-8.45zM12.06 21.4h-.01a9.5 9.5 0 01-4.84-1.32l-.35-.21-3.74.98.99-3.65-.23-.37a9.45 9.45 0 01-1.46-5.06c0-5.24 4.27-9.5 9.52-9.5 2.54 0 4.93.99 6.73 2.79a9.43 9.43 0 012.78 6.72c0 5.24-4.27 9.5-9.51 9.5zm5.22-7.12c-.29-.15-1.7-.84-1.96-.93-.26-.1-.45-.15-.64.15-.19.29-.73.93-.9 1.12-.17.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.6-2.01-.17-.29-.02-.44.13-.58.13-.13.29-.33.44-.49.15-.17.2-.29.3-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.13-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.44s1.02 2.84 1.17 3.03c.15.19 2.02 3.08 4.9 4.32.68.29 1.21.46 1.62.59.68.22 1.3.19 1.78.12.55-.08 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.19-.55-.33z"/>
+  </svg>
+</a>
+
+  <!-- TikTok -->
+  <a href="#" class="social-btn tt" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 7c-1-.2-2-.8-2.5-1.7V15a5 5 0 11-5-5c.2 0 .5 0 .7.1v2.1a3 3 0 102.3 2.9V2h2.5c.2 1.4 1.3 2.5 2.5 2.8V7z"/>
+    </svg>
+  </a>
+
+</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 La Libertad Avanza – Almirante Brown. Todos los derechos reservados.</span>
+      <span class="footer-made">Coordinación: Juan Pedro Aquino</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <div class="lightbox-inner">
+    <button class="lightbox-prev">‹</button>
+<button class="lightbox-next">›</button>
+    <img id="lightboxImg" src="" alt=""/>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+<a href="https://wa.me/5491167218190?text=Hola%20quiero%20sumarme%20desde%20la%20web" 
+   class="wa-float" 
+   target="_blank">
+
+  <svg viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+  </svg>
+
+</a>
+
+
+</body>
+</html>
+
