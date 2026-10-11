@@ -69,10 +69,9 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
       maxZoom: 18,
     });
 
-    // Dark CartoDB tile layer with high contrast streets
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-      subdomains: 'abcd',
+    // OpenStreetMap official tile layer (100% libre, sin API key, soporte de calles y esquinas hasta zoom 19)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
 
