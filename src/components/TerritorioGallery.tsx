@@ -39,7 +39,7 @@ export default function TerritorioGallery() {
   };
 
   return (
-    <section id="territorio" className="py-20 relative bg-gradient-to-b from-[#0b0614] via-[#100720] to-[#0b0614]">
+    <section id="territorio" className="py-20 relative bg-[#08040d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

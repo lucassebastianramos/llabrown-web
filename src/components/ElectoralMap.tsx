@@ -103,23 +103,19 @@ export default function ElectoralMap() {
   });
 
   return (
-    <section id="mapa" className="py-20 relative bg-[#0b0614]">
-      {/* Background accents */}
-      <div className="absolute top-1/3 left-0 w-96 h-96 bg-purple-900/15 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-[130px] pointer-events-none" />
-
+    <section id="mapa" className="py-20 relative bg-[#08040d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#120722] border border-white/10 text-purple-200 text-xs font-semibold tracking-wider uppercase mb-3">
             <Layers className="w-3.5 h-3.5 text-amber-400" />
             <span>Mapas Oficiales de la Justicia Electoral PBA</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Mapa Electoral & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-amber-400">Territorio Brown</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+            Mapa Electoral & Territorio Brown
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Explorá los 11 circuitos electorales y las 12 localidades del distrito. Seleccioná una zona para ver proyectos, recorridas y contactar al referente barrial.
+            Explorá los 11 circuitos electorales y las 13 localidades del distrito. Seleccioná una zona para ver proyectos, recorridas y contactar al referente barrial.
           </p>
 
           {/* View Mode Switcher */}
@@ -194,16 +190,6 @@ export default function ElectoralMap() {
                   className="w-full h-full max-h-[620px] drop-shadow-xl"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <defs>
-                    <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur stdDeviation="6" result="blur" />
-                      <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
-
                   {/* Polygons */}
                   {mapData.circuits.map((c) => {
                     const isSelected = selectedCircuit?.circuito === c.circuito;
@@ -216,12 +202,11 @@ export default function ElectoralMap() {
                           onClick={() => handleSelectCircuit(c)}
                           onMouseEnter={() => setHoveredCircuit(c)}
                           onMouseLeave={() => setHoveredCircuit(null)}
-                          className="circuit-polygon transition-all duration-300"
-                          fill={isSelected ? '#7c3aed' : isHovered ? '#6d28d9' : c.color}
-                          fillOpacity={isSelected ? 0.75 : isHovered ? 0.55 : 0.3}
-                          stroke={isSelected ? '#fbbf24' : isHovered ? '#f59e0b' : '#a78bfa'}
-                          strokeWidth={isSelected ? 2.5 : isHovered ? 2 : 1}
-                          filter={isSelected ? 'url(#glowEffect)' : undefined}
+                          className="circuit-polygon transition-all duration-200"
+                          fill={isSelected ? '#581c87' : isHovered ? '#4c1d95' : c.color}
+                          fillOpacity={isSelected ? 0.85 : isHovered ? 0.6 : 0.35}
+                          stroke={isSelected ? '#fbbf24' : isHovered ? '#f59e0b' : '#c084fc'}
+                          strokeWidth={isSelected ? 3 : isHovered ? 2 : 1}
                         />
 
                         {/* Centroid Label */}

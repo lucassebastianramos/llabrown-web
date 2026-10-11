@@ -11,19 +11,16 @@ export default function EquipoSection() {
   const list = activeTab === 'concejales' ? CONCEJALES : CONSEJEROS;
 
   return (
-    <section id="equipo" className="py-20 relative bg-[#0b0614]">
-      {/* Glow accent */}
-      <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-purple-900/15 rounded-full blur-[120px] pointer-events-none" />
-
+    <section id="equipo" className="py-20 relative bg-[#08040d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#120722] border border-white/10 text-purple-200 text-xs font-semibold tracking-wider uppercase mb-3">
             <Users className="w-3.5 h-3.5 text-amber-400" />
-            <span>Quiénes Somos</span>
+            <span>Representantes Institucionales</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Nuestro <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Equipo</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+            Nuestro Equipo
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
             Representantes comprometidos con la libertad, el orden institucional y el progreso de Almirante Brown.

@@ -99,22 +99,39 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
 
     filtered.forEach((pin) => {
       let color = '#f59e0b';
-      let iconEmoji = '🚧';
-      if (pin.categoria.includes('Seguridad')) { color = '#3b82f6'; iconEmoji = '🚨'; }
-      else if (pin.categoria.includes('Ordenanza') || pin.categoria.includes('HCD')) { color = '#371859'; iconEmoji = '🏛️'; }
-      else if (pin.categoria.includes('Visita')) { color = '#10b981'; iconEmoji = '🤝'; }
-      else if (pin.categoria.includes('Salud')) { color = '#ef4444'; iconEmoji = '🏥'; }
-      else if (pin.categoria.includes('Medio Ambiente')) { color = '#14b8a6'; iconEmoji = '♻️'; }
+      let iconSvg = '<path d="M4 14h8M5 14l2-8h2l2 8M7 9h2" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>';
+      if (pin.categoria.includes('Seguridad')) {
+        color = '#2563eb';
+        iconSvg = '<path d="M8 2l5 2.5v4c0 3.5-2.2 6.5-5 7.5-2.8-1-5-4-5-7.5v-4L8 2z" stroke="#ffffff" stroke-width="1.5" fill="none"/>';
+      } else if (pin.categoria.includes('Ordenanza') || pin.categoria.includes('HCD')) {
+        color = '#6b21a8';
+        iconSvg = '<path d="M2 14h12M4 14V6M8 14V6M12 14V6M2 6h12M8 2L2 6h12L8 2z" stroke="#ffffff" stroke-width="1.4" fill="none"/>';
+      } else if (pin.categoria.includes('Visita')) {
+        color = '#059669';
+        iconSvg = '<path d="M8 7a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM3 14a5 5 0 0110 0H3z" stroke="#ffffff" stroke-width="1.5" fill="none"/>';
+      } else if (pin.categoria.includes('Salud')) {
+        color = '#dc2626';
+        iconSvg = '<path d="M8 4v8M4 8h8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>';
+      } else if (pin.categoria.includes('Medio Ambiente')) {
+        color = '#0d9488';
+        iconSvg = '<path d="M4 12c0-4 4-8 8-8 0 4-4 8-8 8zm0 0l4-4" stroke="#ffffff" stroke-width="1.6" fill="none"/>';
+      }
 
       const icon = L.divIcon({
         className: 'custom-pin-marker',
         html: `
-          <div style="background-color: ${color}; width: 34px; height: 34px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.6); cursor: pointer; transition: transform 0.2s;">
-            <span style="transform: rotate(45deg); font-size: 15px;">${iconEmoji}</span>
+          <div style="cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));">
+            <svg width="30" height="38" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="${color}"/>
+              <path d="M16 1C7.72 1 1 7.72 1 16c0 9.8 14.2 22.3 15 23 0.8-.7 15-13.2 15-23C31 7.72 24.28 1 16 1z" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.85"/>
+              <g transform="translate(8, 6)">
+                ${iconSvg}
+              </g>
+            </svg>
           </div>
         `,
-        iconSize: [34, 34],
-        iconAnchor: [17, 34],
+        iconSize: [30, 38],
+        iconAnchor: [15, 38],
       });
 
       const marker = L.marker([pin.lat, pin.lng], { icon });

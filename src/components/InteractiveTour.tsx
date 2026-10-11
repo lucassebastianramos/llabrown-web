@@ -77,7 +77,7 @@ export default function InteractiveTour() {
     setIsPlaying(false);
   };
 
-  const shareText = `🇦🇷 #TuVozConstruye en las 12 localidades de Almirante Brown!\n\nConocé los proyectos y visitas de La Libertad Avanza en cada barrio.\n\n🏛️ Coordinación: Juan Pedro Aquino\n🔗 Visitá: https://llabrown.com.ar`;
+  const shareText = `🇦🇷 #TuVozConstruye en las 13 localidades de Almirante Brown!\n\nConocé los proyectos y visitas de La Libertad Avanza en cada barrio.\n\n🏛️ Coordinación: Juan Pedro Aquino\n🔗 Visitá: https://llabrown.com.ar`;
 
   const copyShareText = () => {
     navigator.clipboard.writeText(shareText);
@@ -88,19 +88,16 @@ export default function InteractiveTour() {
   const currentLoc = currentIndex < totalSteps ? LOCALIDADES[currentIndex] : null;
 
   return (
-    <section id="interactivo" className="py-20 relative overflow-hidden bg-gradient-to-b from-[#0b0614] via-[#120722] to-[#0b0614]">
-      {/* Decorative background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-purple-900/20 rounded-full blur-[140px] pointer-events-none" />
-
+    <section id="interactivo" className="py-20 relative overflow-hidden bg-[#08040d]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#140826] border border-white/10 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Experiencia Interactiva para Redes</span>
+            <span>Recorrido Territorial Oficial</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Recorrido por las <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">12 Localidades</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+            Las 13 Localidades de Brown
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
             Explorá el compromiso territorial de La Libertad Avanza localidad por localidad, culminando con la placa oficial de #TuVozConstruye.
@@ -108,7 +105,7 @@ export default function InteractiveTour() {
         </div>
 
         {/* Story / Tour Card Container */}
-        <div className="relative rounded-3xl glass-panel border border-purple-500/30 overflow-hidden shadow-2xl p-6 sm:p-10 transition-all duration-500 min-h-[500px] flex flex-col justify-between">
+        <div className="relative rounded-3xl bg-[#0f071b] border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 transition-all duration-300 min-h-[500px] flex flex-col justify-between">
           
           {/* Top Progress Bars (Story style) */}
           <div className="w-full flex gap-1.5 mb-6">

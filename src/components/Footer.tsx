@@ -131,14 +131,6 @@ export default function Footer() {
                 <MessageCircle className="w-4 h-4" />
               </a>
             </div>
-
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-purple-800/80 bg-purple-950/40 text-purple-200 text-xs font-semibold hover:bg-purple-900/60 transition-colors"
-            >
-              <Shield className="w-3.5 h-3.5 text-amber-400" />
-              <span>Acceso Administrador / Concejales</span>
-            </Link>
           </div>
         </div>
 

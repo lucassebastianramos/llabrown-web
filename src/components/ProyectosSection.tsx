@@ -42,7 +42,7 @@ export default function ProyectosSection() {
   });
 
   return (
-    <section id="proyectos" className="py-20 relative bg-[#0b0614]">
+    <section id="proyectos" className="py-20 relative bg-[#08040d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
