@@ -17,32 +17,45 @@ import {
   Copy,
   Calendar,
   Users,
-  Send
+  Send,
+  Scale,
+  Building2,
+  ExternalLink,
+  MessageCircle,
+  Clock,
+  Upload
 } from 'lucide-react';
 import { LOCALIDADES, PROYECTOS_INICIALES, VISITAS_INICIALES, CONCEJALES } from '@/data/mockData';
-import { ProyectoHCD, VisitaTerritorial } from '@/types';
+import { ProyectoHCD, VisitaTerritorial, ReclamoVecinal } from '@/types';
 import AdminPinPicker from '@/components/admin/AdminPinPicker';
+import { getDigestoSearchUrl } from '@/lib/digestoService';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
-  const [activeTab, setActiveTab] = useState<'proyectos' | 'visitas' | 'pines' | 'placas'>('pines');
+  const [activeTab, setActiveTab] = useState<'proyectos' | 'visitas' | 'pines' | 'placas' | 'reclamos'>('reclamos');
 
   // Persistence in localStorage
   const [proyectos, setProyectos] = useState<ProyectoHCD[]>([]);
   const [visitas, setVisitas] = useState<VisitaTerritorial[]>([]);
+  const [reclamos, setReclamos] = useState<ReclamoVecinal[]>([]);
+  const [editingMunicipalNumbers, setEditingMunicipalNumbers] = useState<Record<string, string>>({});
+  const [savingReclamoId, setSavingReclamoId] = useState<string | null>(null);
 
   // Form states for new project
   const [newProj, setNewProj] = useState({
     titulo: '',
     expediente: '',
+    archivoPdf: '',
+    archivoNombre: '',
     autor: 'Juan Pedro Aquino',
     localidad: 'Almirante Brown',
     categoria: 'Baja de Tasas' as ProyectoHCD['categoria'],
     estado: 'Presentado' as ProyectoHCD['estado'],
     resumen: '',
   });
+  const [uploadingPdf, setUploadingPdf] = useState(false);
 
   // Form states for new visit
   const [newVisita, setNewVisita] = useState({
@@ -89,7 +102,49 @@ export default function AdminPage() {
         }
       })
       .catch(() => setVisitas(VISITAS_INICIALES));
+
+    fetch('/api/reclamos')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setReclamos(data);
+          const initialEditing: Record<string, string> = {};
+          data.forEach(r => {
+            if (r.numeroReclamoMunicipal) {
+              initialEditing[r.id] = r.numeroReclamoMunicipal;
+            }
+          });
+          setEditingMunicipalNumbers(initialEditing);
+        }
+      })
+      .catch(() => {});
   }, []);
+
+  const handleSaveNumeroMunicipal = async (id: string) => {
+    const num = editingMunicipalNumbers[id];
+    if (!num) return;
+    setSavingReclamoId(id);
+    try {
+      const res = await fetch(`/api/reclamos/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          numeroReclamoMunicipal: num,
+          estado: 'Enviado a BrownGestión'
+        })
+      });
+      if (res.ok) {
+        setReclamos(prev => prev.map(r => r.id === id ? { ...r, numeroReclamoMunicipal: num, estado: 'Enviado a BrownGestión' } : r));
+        alert('¡Número de reclamo municipal guardado exitosamente!');
+      } else {
+        alert('Error al guardar número de reclamo.');
+      }
+    } catch (e) {
+      alert('Error de conexión.');
+    } finally {
+      setSavingReclamoId(null);
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +163,40 @@ export default function AdminPage() {
     localStorage.removeItem('lla_admin_auth');
   };
 
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+      alert('Por favor, seleccioná un archivo en formato PDF.');
+      return;
+    }
+
+    setUploadingPdf(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.url) {
+        setNewProj((prev) => ({
+          ...prev,
+          archivoPdf: data.url,
+          archivoNombre: data.originalName || file.name
+        }));
+      } else {
+        alert('Error al subir el PDF: ' + (data.error || 'Desconocido'));
+      }
+    } catch (err) {
+      alert('Error de conexión al subir el archivo');
+    } finally {
+      setUploadingPdf(false);
+    }
+  };
+
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProj.titulo || !newProj.resumen) return;
@@ -116,6 +205,8 @@ export default function AdminPage() {
       id: `p-${Date.now()}`,
       titulo: newProj.titulo,
       expediente: newProj.expediente || `HCD-EXP-${Math.floor(100 + Math.random() * 900)}/2025`,
+      archivoPdf: newProj.archivoPdf || undefined,
+      archivoNombre: newProj.archivoNombre || undefined,
       fecha: new Date().toLocaleDateString('es-AR'),
       autor: newProj.autor,
       localidad: newProj.localidad,
@@ -141,6 +232,8 @@ export default function AdminPage() {
     setNewProj({
       titulo: '',
       expediente: '',
+      archivoPdf: '',
+      archivoNombre: '',
       autor: 'Juan Pedro Aquino',
       localidad: 'Almirante Brown',
       categoria: 'Baja de Tasas',
@@ -335,6 +428,18 @@ export default function AdminPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab('reclamos')}
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
+              activeTab === 'reclamos'
+                ? 'bg-gradient-to-r from-purple-600 to-amber-500 text-white shadow-lg'
+                : 'bg-purple-950/40 border border-purple-900/50 text-slate-300 hover:text-white'
+            }`}
+          >
+            <Scale className="w-4 h-4 text-amber-400" />
+            <span>Auditoría de Reclamos Vecinales ({reclamos.length})</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('proyectos')}
             className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
               activeTab === 'proyectos'
@@ -436,6 +541,58 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {/* Subida de PDF del Expediente */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Documento / PDF del Expediente (Opcional)
+                  </label>
+                  {newProj.archivoPdf ? (
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-purple-950/80 border border-amber-400/50">
+                      <div className="flex items-center gap-2 overflow-hidden">
+                        <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span className="text-xs text-amber-300 truncate font-mono">
+                          {newProj.archivoNombre || 'expediente.pdf'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <a
+                          href={newProj.archivoPdf}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2 py-1 rounded-lg bg-amber-400/20 text-amber-300 hover:text-white text-[11px] font-bold flex items-center gap-1"
+                        >
+                          <span>Ver</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => setNewProj({ ...newProj, archivoPdf: '', archivoNombre: '' })}
+                          className="px-2 py-1 rounded-lg bg-rose-950/60 text-rose-300 hover:text-white text-[11px] font-semibold"
+                        >
+                          Quitar
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <label className="flex items-center justify-center gap-2 p-3 rounded-xl border border-dashed border-purple-700/80 bg-purple-950/40 hover:bg-purple-900/50 hover:border-amber-400/60 cursor-pointer transition-all text-xs text-slate-300">
+                        <Upload className="w-4 h-4 text-amber-400" />
+                        <span>{uploadingPdf ? 'Subiendo PDF...' : 'Subir archivo PDF del expediente'}</span>
+                        <input
+                          type="file"
+                          accept=".pdf,application/pdf"
+                          disabled={uploadingPdf}
+                          onChange={handlePdfUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      <p className="text-[10px] text-slate-400 leading-tight">
+                        ⚡ <strong>Fácil y automático:</strong> Si subís el PDF se abre directo con 1 clic. Si no lo subís, los vecinos podrán consultarlo automáticamente en el Digesto Oficial del HCD con el número de expediente.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-semibold text-slate-300 mb-1">
@@ -518,37 +675,75 @@ export default function AdminPage() {
               <h3 className="text-sm font-bold uppercase tracking-wider text-purple-300 mb-2">
                 Proyectos Registrados ({proyectos.length})
               </h3>
-              {proyectos.map((p) => (
-                <div
-                  key={p.id}
-                  className="p-4 rounded-2xl glass-panel border border-purple-900/40 flex items-start justify-between gap-4"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-200">
-                        {p.categoria}
-                      </span>
-                      <span className="text-[10px] font-semibold text-amber-300">
-                        {p.estado}
-                      </span>
-                      <span className="text-[10px] text-slate-400">· {p.fecha}</span>
-                    </div>
-                    <h4 className="text-sm font-bold text-white mb-1">{p.titulo}</h4>
-                    <p className="text-xs text-slate-300 line-clamp-2">{p.resumen}</p>
-                    <span className="text-[11px] text-purple-300 mt-2 block">
-                      Autor: {p.autor} · {p.localidad}
-                    </span>
-                  </div>
+              {proyectos.map((p) => {
+                const digestoUrl = getDigestoSearchUrl(p.expediente, p.titulo);
 
-                  <button
-                    onClick={() => handleDeleteProject(p.id)}
-                    className="p-2 rounded-lg bg-rose-950/40 hover:bg-rose-900/80 text-rose-300 hover:text-white border border-rose-800/60 transition-colors"
-                    title="Eliminar proyecto"
+                return (
+                  <div
+                    key={p.id}
+                    className="p-4 rounded-2xl glass-panel border border-purple-900/40 flex items-start justify-between gap-4"
                   >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-200">
+                          {p.categoria}
+                        </span>
+                        <span className="text-[10px] font-semibold text-amber-300">
+                          {p.estado}
+                        </span>
+                        <span className="text-[10px] text-slate-400">· {p.fecha}</span>
+                      </div>
+                      <h4 className="text-sm font-bold text-white mb-1">{p.titulo}</h4>
+
+                      {/* Expediente and PDF / Digesto Quick Actions */}
+                      <div className="flex flex-wrap items-center gap-2 my-2">
+                        {p.expediente && (
+                          <span className="text-[11px] font-mono text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30 font-bold">
+                            {p.expediente}
+                          </span>
+                        )}
+
+                        {p.archivoPdf && (
+                          <a
+                            href={p.archivoPdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[11px] text-amber-300 hover:text-white bg-purple-900/50 hover:bg-purple-800/60 px-2 py-0.5 rounded border border-amber-400/40 flex items-center gap-1 font-semibold transition-colors"
+                          >
+                            <FileText className="w-3 h-3 text-amber-400" />
+                            <span>Ver PDF</span>
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                        )}
+
+                        <a
+                          href={digestoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] text-purple-300 hover:text-white bg-purple-950/60 hover:bg-purple-900/60 px-2 py-0.5 rounded border border-purple-800/60 flex items-center gap-1 transition-colors"
+                          title="Probar búsqueda en Digesto Oficial HCD"
+                        >
+                          <span>Digesto HCD</span>
+                          <ExternalLink className="w-2.5 h-2.5" />
+                        </a>
+                      </div>
+
+                      <p className="text-xs text-slate-300 line-clamp-2">{p.resumen}</p>
+                      <span className="text-[11px] text-purple-300 mt-2 block">
+                        Autor: {p.autor} · {p.localidad}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => handleDeleteProject(p.id)}
+                      className="p-2 rounded-lg bg-rose-950/40 hover:bg-rose-900/80 text-rose-300 hover:text-white border border-rose-800/60 transition-colors"
+                      title="Eliminar proyecto"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -752,7 +947,7 @@ export default function AdminPage() {
                     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(placaTextFull)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md"
+                    className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md"
                   >
                     <Send className="w-4 h-4" />
                     <span>WhatsApp</span>
@@ -805,6 +1000,214 @@ export default function AdminPage() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB: RECLAMOS VECINALES & AUDITORÍA MUNICIPAL */}
+        {activeTab === 'reclamos' && (
+          <div className="space-y-6 animate-fadeIn">
+            {/* Header & Quick Actions */}
+            <div className="p-6 rounded-3xl bg-[#0e071c] border border-purple-500/30 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-white">Mesa de Auditoría y Reclamos Vecinales</h2>
+                  <span className="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/40">
+                    {reclamos.length} Recibidos
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-1 max-w-2xl">
+                  Reclamos cargados por los vecinos desde la plataforma web. Cada caso se audita formalmente y se ingresa a <strong>Solicitudes Brown</strong> bajo el patrocinio del Concejal Juan Pedro Aquino.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                <a
+                  href="https://www.browngestion.ar/solicitudesciudadanas/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-900 border border-purple-700 text-xs font-semibold text-white flex items-center gap-1.5 transition-colors"
+                >
+                  <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Solicitudes Brown</span>
+                  <ExternalLink className="w-3 h-3 text-slate-400" />
+                </a>
+
+                <a
+                  href="https://a.brown.gob.ar/hcd/digesto"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-900 border border-purple-700 text-xs font-semibold text-white flex items-center gap-1.5 transition-colors"
+                >
+                  <Scale className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Digesto HCD</span>
+                  <ExternalLink className="w-3 h-3 text-slate-400" />
+                </a>
+
+                <button
+                  onClick={() => {
+                    fetch('/api/reclamos')
+                      .then((res) => (res.ok ? res.json() : []))
+                      .then((data) => {
+                        if (Array.isArray(data)) setReclamos(data);
+                      });
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                >
+                  Actualizar Lista
+                </button>
+              </div>
+            </div>
+
+            {/* Claims List */}
+            {reclamos.length === 0 ? (
+              <div className="text-center py-16 bg-[#0e071c] rounded-3xl border border-purple-900/40 text-slate-400">
+                <Scale className="w-12 h-12 mx-auto text-amber-400/40 mb-3" />
+                <p className="text-sm font-semibold text-white">No hay reclamos registrados aún.</p>
+                <p className="text-xs text-slate-400 mt-1">Los reclamos ingresados desde la sección pública aparecerán aquí para su gestión legislativa.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {reclamos.map((rec) => {
+                  const numMunicipal = editingMunicipalNumbers[rec.id] !== undefined 
+                    ? editingMunicipalNumbers[rec.id] 
+                    : (rec.numeroReclamoMunicipal || '');
+
+                  const cleanPhone = rec.telefonoVecino.replace(/\D/g, '');
+                  const waNeighborUrl = `https://wa.me/549${cleanPhone}?text=${encodeURIComponent(
+                    `Hola ${rec.nombreVecino}, te contactamos desde el equipo del Concejal Juan Pedro Aquino (La Libertad Avanza Almirante Brown) por tu reclamo ${rec.codigoSeguimiento} sobre "${rec.tipoReclamo}" en ${rec.calle}.` +
+                    (rec.numeroReclamoMunicipal ? ` Te informamos que fue ingresado formalmente ante el Municipio con el N° de Reclamo Oficial ${rec.numeroReclamoMunicipal}.` : ' Estamos gestionando su auditoría.')
+                  )}`;
+
+                  return (
+                    <div
+                      key={rec.id}
+                      className="p-6 rounded-2xl bg-[#0f071b] border border-purple-500/25 hover:border-purple-500/50 transition-all shadow-xl space-y-4"
+                    >
+                      {/* Top Bar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-purple-900/40">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono font-bold text-xs text-amber-400 bg-purple-950/80 px-2.5 py-1 rounded-lg border border-purple-800">
+                            {rec.codigoSeguimiento}
+                          </span>
+                          <span className="text-xs font-bold text-white">
+                            {rec.tipoReclamo}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] text-slate-400">
+                            {rec.fecha}
+                          </span>
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            rec.numeroReclamoMunicipal
+                              ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
+                              : 'bg-purple-900/40 text-purple-200 border border-purple-700/60'
+                          }`}>
+                            {rec.numeroReclamoMunicipal ? `N° Mun: ${rec.numeroReclamoMunicipal}` : rec.estado}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
+                        {/* Vecino & Contacto (4 cols) */}
+                        <div className="md:col-span-4 p-3.5 rounded-xl bg-[#140a25] border border-purple-900/40 space-y-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                            Datos del Vecino
+                          </span>
+                          <p className="font-bold text-white text-sm">
+                            {rec.nombreVecino} {rec.apellidoVecino || ''}
+                          </p>
+                          <div className="space-y-1 text-slate-300">
+                            <p className="flex items-center gap-1.5">
+                              <span className="text-amber-400 font-semibold">Teléfono:</span> {rec.telefonoVecino}
+                            </p>
+                            {rec.dniVecino && (
+                              <p className="flex items-center gap-1.5">
+                                <span className="text-amber-400 font-semibold">DNI:</span> {rec.dniVecino}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="pt-2">
+                            <a
+                              href={waNeighborUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full py-1.5 px-3 rounded-lg bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" />
+                              <span>Escribir por WhatsApp</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Ubicación y Detalle (5 cols) */}
+                        <div className="md:col-span-5 space-y-2">
+                          <div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                              Ubicación en Almirante Brown
+                            </span>
+                            <p className="font-semibold text-white mt-0.5">
+                              {rec.calle} {rec.altura || 'S/N'} {rec.entreCalles ? `(${rec.entreCalles})` : ''}
+                            </p>
+                            <p className="text-[11px] text-purple-300">
+                              {rec.barrio ? `Barrio ${rec.barrio} · ` : ''}{rec.localidad}
+                            </p>
+                          </div>
+
+                          <div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                              Descripción del Reclamo
+                            </span>
+                            <p className="text-slate-200 text-xs mt-0.5 leading-relaxed bg-[#140a25] p-2.5 rounded-xl border border-purple-900/30">
+                              {rec.descripcion}
+                            </p>
+                          </div>
+
+                          {rec.normaDigesto && (
+                            <p className="text-[11px] text-amber-300 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">
+                              ⚖️ <strong>Digesto HCD:</strong> {rec.normaDigesto}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Gestión Municipal & Auditoría (3 cols) */}
+                        <div className="md:col-span-3 p-3.5 rounded-xl bg-[#140a25] border border-purple-900/40 flex flex-col justify-between space-y-3">
+                          <div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                              N° Reclamo Municipal
+                            </span>
+                            <input
+                              type="text"
+                              value={numMunicipal}
+                              onChange={(e) => setEditingMunicipalNumbers(prev => ({ ...prev, [rec.id]: e.target.value }))}
+                              placeholder="Ej: 148902"
+                              className="w-full px-3 py-1.5 rounded-lg bg-purple-950/80 border border-purple-800 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                            />
+                            <button
+                              onClick={() => handleSaveNumeroMunicipal(rec.id)}
+                              disabled={savingReclamoId === rec.id}
+                              className="w-full mt-2 py-1.5 rounded-lg bg-purple-800 hover:bg-purple-700 text-amber-300 font-bold text-[11px] flex items-center justify-center gap-1 transition-all"
+                            >
+                              <CheckCircle2 className="w-3 h-3 text-amber-400" />
+                              <span>{savingReclamoId === rec.id ? 'Guardando...' : 'Guardar N° Oficial'}</span>
+                            </button>
+                          </div>
+
+                          <div className="pt-2 border-t border-purple-900/40">
+                            <span className="text-[10px] text-slate-400 block mb-1">Patrocinado por:</span>
+                            <span className="text-[11px] font-bold text-white block">
+                              Juan Pedro Aquino
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </div>

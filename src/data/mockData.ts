@@ -5,7 +5,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'adrogue',
     nombre: 'Adrogué',
     circuito: '0017',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Cabecera histórica de Almirante Brown. Centro neurálgico con intensa actividad cívica, educativa y comercial.',
     coordenadas: [-34.7983, -58.3917],
     hitos: ['Plaza Brown', 'Palacio Municipal', 'Estación Adrogué', 'Centro Comercial Mitre'],
@@ -16,7 +16,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'burzaco',
     nombre: 'Burzaco',
     circuito: '0019',
-    wa: 'https://wa.me/5491171682115',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Corazón productivo e industrial del partido. Aquí se encuentra nuestra Sede Central en Humberto Primo 990.',
     coordenadas: [-34.8290, -58.3942],
     hitos: ['Sede Central Humberto Primo 990', 'Plaza Manuel Belgrano', 'Monumento a la Bandera', 'Parque Industrial Burzaco'],
@@ -27,7 +27,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'claypole',
     nombre: 'Claypole',
     circuito: '0022A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Localidad con gran tradición deportiva y barrial. Importante nodo de conexión con Florencio Varela y Quilmes.',
     coordenadas: [-34.7989, -58.3377],
     hitos: ['Estación Claypole', 'Club Atlético Claypole', 'Avenida 2 de Abril', 'Peatonal Alsina'],
@@ -38,7 +38,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'don-orione',
     nombre: 'Don Orione',
     circuito: '0022A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Gran complejo habitacional y comunidad viva con enorme potencial de desarrollo y demandas de infraestructura.',
     coordenadas: [-34.8105, -58.3411],
     hitos: ['Complejo Habitacional Don Orione', 'Santuario Cottolengo', 'Polideportivo', 'Centro Comunitario'],
@@ -49,7 +49,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'glew',
     nombre: 'Glew',
     circuito: '0022',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Polo cultural del maestro Soldi y puerta sur de Almirante Brown. Zona en sostenida expansión demográfica.',
     coordenadas: [-34.8872, -58.3842],
     hitos: ['Fundación Soldi', 'Estación Glew', 'Circuito Almafuerte', 'Barrio Los Álamos'],
@@ -60,7 +60,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'jose-marmol',
     nombre: 'José Mármol',
     circuito: '0018',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Tranquila localidad residencial con gran identidad barrial y comercios de cercanía.',
     coordenadas: [-34.7836, -58.3752],
     hitos: ['Estación José Mármol', 'Plaza Nuestra Señora de Luján', 'Avenida Bynnon'],
@@ -71,7 +71,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'longchamps',
     nombre: 'Longchamps',
     circuito: '0021',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Cuna de la aviación sudamericana, núcleo comercial vibrante con barrios unidos y participativos.',
     coordenadas: [-34.8601, -58.3881],
     hitos: ['Primer Vuelo Controlado', 'Estación Longchamps', 'Plaza González', 'Avenida Hipólito Yrigoyen'],
@@ -82,7 +82,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'malvinas-argentinas',
     nombre: 'Malvinas Argentinas',
     circuito: '0018A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Comunidad pujante en el límite noreste, comprometida con el progreso y la seguridad de sus familias.',
     coordenadas: [-34.7862, -58.3490],
     hitos: ['Plaza Puerto Argentino', 'Avenida Monteverde', 'Sociedad de Fomento'],
@@ -93,7 +93,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'ministro-rivadavia',
     nombre: 'Ministro Rivadavia',
     circuito: '0020A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'El pueblo histórico más antiguo del distrito, polo agroproductivo, viveros y zonas campestres.',
     coordenadas: [-34.8436, -58.4239],
     hitos: ['Iglesia Nuestra Señora del Tránsito', 'Paraje La Alameda', 'Zona Rural y Granjas'],
@@ -104,7 +104,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'rafael-calzada',
     nombre: 'Rafael Calzada',
     circuito: '0018',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Ciudad con gran vida social, parroquias históricas y un centro comercial activo frente a las vías.',
     coordenadas: [-34.7878, -58.3615],
     hitos: ['Arco de Calzada', 'Plaza 25 de Mayo', 'Estación Rafael Calzada', 'Avenida San Martín'],
@@ -115,7 +115,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'san-francisco-de-asis',
     nombre: 'San Francisco de Asís',
     circuito: '0022A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Localidad creada para jerarquizar el sector este, abarcando complejos y barrios en consolidación.',
     coordenadas: [-34.8055, -58.3278],
     hitos: ['Centro Cívico San Francisco', 'Plaza de las Américas', 'Complejo habitacional'],
@@ -126,7 +126,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'san-jose',
     nombre: 'San José',
     circuito: '0018A',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'Localidad del noreste de Brown, caracterizada por su fuerte identidad comunitaria y comercial sobre avenidas Eva Perón y Salta.',
     coordenadas: [-34.7735, -58.3512],
     hitos: ['Plaza San Jerónimo', 'Avenida Eva Perón (Pasco)', 'Centro Comercial Salta', 'Sociedad de Fomento San José'],
@@ -137,7 +137,7 @@ export const LOCALIDADES: LocalidadInfo[] = [
     id: 'solano',
     nombre: 'Solano',
     circuito: '0022B',
-    wa: 'https://wa.me/5491167218190',
+    wa: 'https://wa.me/5491131596936',
     descripcion: 'San Francisco Solano (sector Brown). Polo de empuje comercial arrollador y vecinos sumamente trabajadores.',
     coordenadas: [-34.7812, -58.3184],
     hitos: ['Paseo Comercial Calle 844', 'Plaza 13 de Julio', 'Límite arroyo Las Piedras'],
@@ -151,10 +151,10 @@ export const CONCEJALES: MiembroEquipo[] = [
     id: 'juan-pedro-aquino',
     nombre: 'Juan Pedro Aquino',
     rol: 'Jefe de Bloque · Concejal',
-    localidad: 'Almirante Brown',
+    localidad: 'Burzaco / Almirante Brown',
     foto: '/img/foto1.jpeg',
     tipo: 'concejal',
-    bio: 'Abogado y referente territorial. Lidera el bloque legislativo de La Libertad Avanza en el Honorable Concejo Deliberante de Almirante Brown, promoviendo la baja de tasas, la desregulación municipal y el orden institucional.',
+    bio: 'Profesor de Historia y Ciencias Sociales formado en el Instituto Superior de Formación Docente Nº 41 (ISFD Nº 41) y referente territorial. Presidente del bloque de concejales de La Libertad Avanza en Almirante Brown y Coordinador seccional de concejales de LLA en la Tercera Sección Electoral bonaerense, promoviendo la baja de tasas municipales y el control del gasto público.',
     redes: {
       instagram: 'https://www.instagram.com/juanpedroaquino.ok'
     }
@@ -163,28 +163,28 @@ export const CONCEJALES: MiembroEquipo[] = [
     id: 'diego-garrido',
     nombre: 'Diego Garrido',
     rol: 'Concejal',
-    localidad: 'Almirante Brown',
+    localidad: 'Burzaco / Almirante Brown',
     foto: '/img/foto2.jpeg',
     tipo: 'concejal',
-    bio: 'Concejal de Almirante Brown, comprometido con la transparencia presupuestaria y la auditoría constante de las cuentas públicas.'
+    bio: 'Comerciante y empresario pyme del sector de equipamiento comercial. Concejal de LLA con trayectoria en gestión pública local, enfocado en el desarrollo económico, el alivio fiscal al comercio barrial y la simplificación de habilitaciones.'
   },
   {
     id: 'ezequiel-barreiro',
     nombre: 'Ezequiel Barreiro',
     rol: 'Concejal',
-    localidad: 'Almirante Brown',
+    localidad: 'Glew / Almirante Brown',
     foto: '/img/foto3.jpeg',
     tipo: 'concejal',
-    bio: 'Concejal con presencia activa en los barrios del sur del distrito, enfocado en obras de infraestructura y seguridad.'
+    bio: 'Dirigente político y concejal de La Libertad Avanza (período 2023–2027). Referente de organización territorial y fiscalización en el distrito, canalizando reclamos vecinales sobre seguridad, luminarias e infraestructura barrial.'
   },
   {
     id: 'florencia-colman',
     nombre: 'Florencia Colman',
     rol: 'Concejal',
-    localidad: 'Almirante Brown',
+    localidad: 'Claypole / Almirante Brown',
     foto: '/img/foto4.jpeg',
     tipo: 'concejal',
-    bio: 'Concejal comprometida con la modernización de trámites, simplificación administrativa y apoyo a mujeres emprendedoras.'
+    bio: 'Dirigente política y militante comunitaria de La Libertad Avanza en Almirante Brown. Concejala electa con mandato hasta 2029, abocada al trabajo social, cercanía barrial y relevamiento de servicios públicos en Claypole, Longchamps y Malvinas Argentinas.'
   },
   {
     id: 'ariel-vieyra',
@@ -193,7 +193,7 @@ export const CONCEJALES: MiembroEquipo[] = [
     localidad: 'Almirante Brown',
     foto: '/img/foto5.jpeg',
     tipo: 'concejal',
-    bio: 'Concejal defensor del libre comercio, fomento del empleo genuino y eliminación de trabas burocráticas a pymes.'
+    bio: 'Coordinador de Relaciones Institucionales y dirigente territorial de La Libertad Avanza en Almirante Brown. Concejal electo (mandato hasta 2029), enfocado en la articulación legislativa distrital y el armado de mesas de trabajo vecinal.'
   },
   {
     id: 'natalia-german',
@@ -202,7 +202,7 @@ export const CONCEJALES: MiembroEquipo[] = [
     localidad: 'Almirante Brown',
     foto: '/img/foto6.jpeg',
     tipo: 'concejal',
-    bio: 'Concejal con labor en salud pública, gestión comunitaria y fiscalización de los centros de salud barriales (CAPS).'
+    bio: 'Abogada y concejala de La Libertad Avanza (asumida en 2023). Ejerce la docencia y capacitación ciudadana sobre instituciones municipales, con labor legislativa centrada en fiscalización de servicios públicos, legalidad de tasas y corredores seguros.'
   },
   {
     id: 'ivan-ibanez',
@@ -212,16 +212,16 @@ export const CONCEJALES: MiembroEquipo[] = [
     foto: '/img/foto7.jpeg',
     estilo: 'object-position: center 15%;',
     tipo: 'concejal',
-    bio: 'Concejal de LLA Brown, impulsor de proyectos para la juventud, inserción laboral privada e innovación tecnológica.'
+    bio: 'Docente, músico y dirigente territorial de La Libertad Avanza. Concejal electo (mandato hasta 2029) con trayectoria en formación cultural y educación barrial en zonas periféricas del distrito, enfocado en contención comunitaria y juventud.'
   },
   {
     id: 'miriam-locher',
     nombre: 'Miriam Locher',
     rol: 'Concejal',
-    localidad: 'Almirante Brown',
+    localidad: 'Adrogué / Almirante Brown',
     foto: '/img/foto8.jpg',
     tipo: 'concejal',
-    bio: 'Concejal cercana a instituciones vecinales, clubes de barrio y asociaciones civiles de las 12 localidades.'
+    bio: 'Abogada y concejala de La Libertad Avanza con extensa trayectoria legislativa en Almirante Brown (mandato 2007–2011 y 2025–2029). Especializada en derecho y control de gestión, auditoría de fondos de seguridad y transparencia institucional.'
   }
 ];
 
@@ -229,11 +229,11 @@ export const CONSEJEROS: MiembroEquipo[] = [
   {
     id: 'jorge-gangi',
     nombre: 'Jorge Gangi',
-    rol: 'Consejero Escolar',
+    rol: 'Consejero Escolar · Vicepresidente',
     localidad: 'Almirante Brown',
     foto: '/img/foto9.jpeg',
     tipo: 'consejero',
-    bio: 'Consejero escolar a cargo de supervisar el estado edilicio de los establecimientos escolares del distrito.'
+    bio: 'Vicepresidente del Consejo Escolar de Almirante Brown y referente educativo de La Libertad Avanza. A cargo de la supervisión administrativa, mantenimiento edilicio y funcionamiento de los establecimientos educativos del partido.'
   },
   {
     id: 'yanina-niczyporuk',
@@ -242,7 +242,7 @@ export const CONSEJEROS: MiembroEquipo[] = [
     localidad: 'Almirante Brown',
     foto: '/img/foto10.jpeg',
     tipo: 'consejero',
-    bio: 'Consejera escolar enfocada en el servicio alimentario escolar (SAE) y la calidad nutricional en escuelas públicas.'
+    bio: 'Consejera escolar de La Libertad Avanza (asumida en 2023), técnica abocada a la inspección edilicia, condiciones de seguridad en establecimientos escolares y fiscalización de partidas de infraestructura provincial.'
   },
   {
     id: 'silvina-barreiro',
@@ -252,7 +252,7 @@ export const CONSEJEROS: MiembroEquipo[] = [
     foto: '/img/foto11.jpeg',
     estilo: 'object-position: center top;',
     tipo: 'consejero',
-    bio: 'Consejera escolar abocada al equipamiento tecnológico y la seguridad de la comunidad educativa de Brown.'
+    bio: 'Consejera escolar electa de La Libertad Avanza. Trabaja en la articulación comunitaria, seguimiento del estado de las escuelas públicas del distrito y participación en plenarios de debate educativo de LLA.'
   },
   {
     id: 'juan-jose-cardenas',
@@ -261,7 +261,7 @@ export const CONSEJEROS: MiembroEquipo[] = [
     localidad: 'Almirante Brown',
     foto: '/img/foto12.jpeg',
     tipo: 'consejero',
-    bio: 'Consejero escolar vigilando la transparencia y la asignación eficiente de los fondos de infraestructura provincial.'
+    bio: 'Consejero escolar electo de La Libertad Avanza. Dedicado al relevamiento de servicios escolares, supervisión de comedores (SAE) y fiscalización de partidas provinciales en establecimientos de Brown.'
   }
 ];
 

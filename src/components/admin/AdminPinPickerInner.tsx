@@ -722,7 +722,7 @@ export default function AdminPinPickerInner() {
                   />
                 </label>
                 {fotoUrl && (
-                  <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
+                  <span className="text-[10px] text-amber-400 font-mono truncate max-w-[150px]">
                     {fotoUrl}
                   </span>
                 )}
@@ -746,7 +746,7 @@ export default function AdminPinPickerInner() {
                   />
                 </label>
                 {pdfUrl && (
-                  <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
+                  <span className="text-[10px] text-amber-400 font-mono truncate max-w-[150px]">
                     {pdfNombre}
                   </span>
                 )}
@@ -807,7 +807,7 @@ export default function AdminPinPickerInner() {
               </div>
 
               <div className="pt-2 mt-2 border-t border-purple-900/40 flex items-center justify-between">
-                <span className="text-[10px] text-emerald-400">{pin.estado}</span>
+                <span className="text-[10px] text-amber-400">{pin.estado}</span>
                 <button
                   onClick={() => handleDeletePin(pin.id)}
                   className="p-1 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors"

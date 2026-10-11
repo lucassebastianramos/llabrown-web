@@ -1,62 +1,64 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { Montserrat } from 'next/font/google';
 import './globals.css';
 import FloatingWA from '@/components/FloatingWA';
 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-montserrat',
+});
+
+export const viewport: Viewport = {
+  themeColor: '#0a0612',
+  colorScheme: 'dark',
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://llabrown.com.ar'),
-  title: 'La Libertad Avanza · Almirante Brown | #Tu voz construye',
-  description: 'Sitio oficial de La Libertad Avanza en Almirante Brown. Concejales, proyectos de ordenanza, recorridas territoriales, mapa electoral y participación ciudadana. Coordinación: Juan Pedro Aquino.',
+  title: {
+    default: 'La Libertad Avanza · Almirante Brown',
+    template: '%s · LLA Almirante Brown',
+  },
+  description:
+    'Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown. Proyectos en el HCD, reclamos vecinales con seguimiento y presencia en los 13 barrios del distrito.',
   keywords: [
     'La Libertad Avanza',
     'Almirante Brown',
     'Juan Pedro Aquino',
-    'Concejales Brown',
-    'Tu voz construye',
+    'Concejales Almirante Brown',
+    'HCD Almirante Brown',
+    'Reclamos vecinales',
     'Adrogué',
     'Burzaco',
     'Glew',
     'Longchamps',
     'Claypole',
-    'Justicia Electoral PBA'
   ],
   authors: [{ name: 'La Libertad Avanza Almirante Brown' }],
   openGraph: {
-    title: 'La Libertad Avanza · Almirante Brown | #Tu voz construye',
-    description: 'Más libertad para los vecinos de Almirante Brown. Conocé nuestro equipo, proyectos y mapa territorial interactivo.',
+    title: 'La Libertad Avanza · Almirante Brown',
+    description: 'Concejales en el HCD, reclamos con número de seguimiento y trabajo en cada barrio de Brown.',
     url: 'https://llabrown.com.ar',
     siteName: 'LLA Almirante Brown',
-    images: [
-      {
-        url: '/img/logo.png',
-        width: 800,
-        height: 600,
-        alt: 'La Libertad Avanza Almirante Brown'
-      }
-    ],
+    images: [{ url: '/img/a10.jpg', width: 568, height: 820, alt: 'Tu voz construye — Almirante Brown' }],
     locale: 'es_AR',
     type: 'website',
   },
-  icons: {
-    icon: '/img/logo.png',
-  }
+  icons: { icon: '/img/logo.png' },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="bg-[#0b0614] text-slate-100 min-h-screen font-sans antialiased selection:bg-purple-600 selection:text-white">
+    <html lang="es" className={`${montserrat.variable} scroll-smooth`}>
+      <body className="min-h-screen bg-[#0a0612] font-sans text-[#f4f2f7] antialiased">
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#371859]"
+        >
+          Saltar al contenido
+        </a>
         {children}
         <FloatingWA />
       </body>

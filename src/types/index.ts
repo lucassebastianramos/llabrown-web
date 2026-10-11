@@ -29,6 +29,8 @@ export interface ProyectoHCD {
   id: string;
   titulo: string;
   expediente?: string;
+  archivoPdf?: string;
+  archivoNombre?: string;
   fecha: string;
   autor: string;
   localidad: string;
@@ -96,5 +98,36 @@ export interface PinTerritorial {
   pdfNombre?: string;
   fecha: string;
   apoyosVecinales?: number;
+}
+
+export type ReclamoEstado = 
+  | 'Registrado en LLA'
+  | 'Enviado a BrownGestión'
+  | 'En Auditoría HCD'
+  | 'Resuelto';
+
+export interface ReclamoVecinal {
+  id: string;
+  codigoSeguimiento: string; // ej. LLA-REC-2025-XXXX
+  nombreVecino: string;
+  apellidoVecino?: string;
+  dniVecino?: string;
+  telefonoVecino: string;
+  localidad: LocalidadNombre;
+  barrio?: string; // Barrio de Ordenanza 13.906
+  calle: string;
+  altura?: string;
+  entreCalles?: string;
+  tipoReclamo: string;
+  subtipoReclamo?: string;
+  descripcion: string;
+  normaDigesto?: string; // Cita del Digesto Oficial (https://a.brown.gob.ar/hcd/digesto)
+  estado: ReclamoEstado;
+  numeroReclamoMunicipal?: string; // N° oficial devuelto o registrado en Solicitudes Brown
+  patrocinadoPor: string; // 'Juan Pedro Aquino - Jefe de Bloque Concejales LLA'
+  fecha: string;
+  lat?: number;
+  lng?: number;
+  createdAt?: string;
 }
 

@@ -63,13 +63,18 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#territorio" className="hover:text-amber-400 transition-colors">
-                  Territorio y Recorridas
+                <a href="#mapa" className="hover:text-amber-400 transition-colors">
+                  Mapa Territorial
                 </a>
               </li>
               <li>
-                <a href="#mapa" className="hover:text-amber-400 transition-colors">
-                  Pines en Calles y Obras
+                <a href="#reclamos" className="hover:text-amber-400 transition-colors">
+                  Reclamos Vecinales
+                </a>
+              </li>
+              <li>
+                <a href="#territorio" className="hover:text-amber-400 transition-colors">
+                  Territorio y Recorridas
                 </a>
               </li>
               <li>
@@ -79,17 +84,12 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#equipo" className="hover:text-amber-400 transition-colors">
-                  Equipo de Concejales
-                </a>
-              </li>
-              <li>
-                <a href="#interactivo" className="hover:text-amber-400 transition-colors">
-                  #TuVozConstruye (Interactivo)
+                  Equipo Institucional
                 </a>
               </li>
               <li>
                 <a href="#contacto" className="hover:text-amber-400 transition-colors">
-                  Sumate / Contacto
+                  Contacto y Participación
                 </a>
               </li>
             </ul>
@@ -100,12 +100,12 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
               Seguinos en Redes
             </h4>
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-4">
               <a
-                href="https://www.instagram.com/lalibertadavanza_altebrownok?igsh=OGJsNTlpMWlrM2I2"
+                href="https://www.instagram.com/lalibertadavanza_altebrownok"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-pink-600/30 hover:border-pink-500/60 transition-all"
+                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
                 aria-label="Instagram LLA Brown"
               >
                 <Instagram className="w-4 h-4" />
@@ -115,21 +115,37 @@ export default function Footer() {
                 href="https://www.facebook.com/lalibertadavanzaaltebrown"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600/30 hover:border-blue-500/60 transition-all"
+                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
                 aria-label="Facebook LLA Brown"
               >
                 <Facebook className="w-4 h-4" />
               </a>
 
               <a
-                href="https://wa.me/5491167218190"
+                href="https://wa.me/5491131596936"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-emerald-600/30 hover:border-emerald-500/60 transition-all"
+                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
                 aria-label="WhatsApp LLA Brown"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
+            </div>
+
+            <div className="space-y-1.5 text-[11px] text-slate-400">
+              <p className="flex items-center gap-1.5">
+                <span className="text-amber-400 font-bold">WhatsApp:</span> 11 3159-6936
+              </p>
+              <p>
+                <a
+                  href="https://a.brown.gob.ar/hcd/digesto"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-300 hover:text-amber-400 underline decoration-purple-600 underline-offset-2 transition-colors"
+                >
+                  Digesto Oficial HCD Brown &rarr;
+                </a>
+              </p>
             </div>
           </div>
         </div>

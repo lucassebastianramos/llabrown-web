@@ -46,7 +46,7 @@ export default function Hero() {
         {/* Action Buttons */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="https://wa.me/5491171682115?text=Hola%20quiero%20sumarme%20a%20La%20Libertad%20Avanza%20Brown"
+            href="https://wa.me/5491131596936?text=Hola%20quiero%20sumarme%20a%20La%20Libertad%20Avanza%20Brown"
             target="_blank"
             rel="noopener noreferrer"
             className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-purple-700 via-purple-600 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-purple-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 group"

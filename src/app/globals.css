@@ -2,75 +2,206 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   LLA Almirante Brown — Design System
+   Paleta: Violeta institucional Pantone 2627 C (#371859) sobre fondo tinta,
+   oro reservado para acentos puntuales (no para degradés).
+   ========================================================================== */
+
 :root {
-  /* Fondo obsidian oscuro y color oficial #371859 según Manual de Marca LLA */
-  --background: #08040d;
-  --foreground: #f8fafc;
-  --lla-primary: #371859;
+  --ink: #0a0612;          /* fondo base */
+  --ink-2: #110a1d;        /* superficie elevada */
+  --ink-3: #181026;        /* superficie de campos / hover */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --violet: #371859;       /* Pantone 2627 C */
+  --violet-500: #5b2a91;
+  --violet-300: #b49ad6;
+  --gold: #f5b82e;
+  --text: #f4f2f7;
+  --muted: #a49bb3;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
-  selection-background-color: #371859;
-  selection-color: #ffffff;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background: var(--ink);
+    color: var(--text);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--violet-500);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
 
-/* Superficies editoriales de alta jerarquía (reemplazo de glassmorphism genérico) */
-.card-editorial {
-  background: #0f071b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+@layer components {
+  /* --- Layout ------------------------------------------------------------ */
+  .container-x {
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8;
+  }
+
+  .section {
+    @apply relative py-20 sm:py-28;
+  }
+
+  .section-alt {
+    background: var(--ink-2);
+  }
+
+  /* --- Editorial heading ------------------------------------------------- */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[13px] font-semibold text-[color:var(--violet-300)];
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-8 bg-[color:var(--gold)];
+  }
+
+  .display {
+    @apply font-extrabold leading-[1.02] tracking-[-0.035em] text-white;
+  }
+
+  .lead {
+    @apply text-base leading-relaxed text-[color:var(--muted)] sm:text-lg;
+  }
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  .surface {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    @apply rounded-2xl;
+  }
+
+  .surface-interactive {
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .surface-interactive:hover {
+    border-color: var(--line-strong);
+    background: #140c22;
+  }
+
+  /* Compatibilidad con clases legacy usadas en el mapa / admin */
+  .glass-panel {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+  }
+
+  .glass-panel-hover {
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .glass-panel-hover:hover {
+    border-color: var(--line-strong);
+  }
+
+  .card-editorial {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-white text-[color:var(--violet)] hover:bg-[#ece6f5];
+  }
+
+  .btn-violet {
+    @apply btn bg-[color:var(--violet-500)] text-white hover:bg-[#6a35a6];
+  }
+
+  .btn-gold {
+    @apply btn bg-[color:var(--gold)] text-[#1b0f2b] hover:bg-[#ffc94d];
+  }
+
+  .btn-ghost {
+    @apply btn border border-[color:var(--line-strong)] text-white hover:border-white/40 hover:bg-white/[0.04];
+  }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/25 underline-offset-[6px] transition-colors hover:decoration-[color:var(--gold)];
+  }
+
+  /* --- Form fields ------------------------------------------------------- */
+  .field-label {
+    @apply mb-2 block text-[13px] font-medium text-[#d9d3e3];
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-[color:var(--line-strong)] bg-[color:var(--ink-3)] px-4 py-3 text-[15px] text-white placeholder:text-[#6f6680] transition-colors focus:border-[color:var(--violet-300)] focus:outline-none focus:ring-2 focus:ring-[color:var(--violet-500)]/40;
+  }
+
+  select.field {
+    @apply appearance-none bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23a49bb3' stroke-width='1.5' d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+    background-position: right 1rem center;
+  }
+
+  select.field option {
+    background: var(--ink-3);
+    color: #fff;
+  }
+
+  /* --- Tag --------------------------------------------------------------- */
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[color:var(--line-strong)] px-3 py-1 text-xs font-medium text-[#d9d3e3];
+  }
 }
 
-.card-editorial:hover {
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: 0 16px 40px -12px rgba(55, 24, 89, 0.4);
+/* --- Motion ---------------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Compatibilidad con clases existentes pero con terminación premium */
-.glass-panel {
-  background: #0e061a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.6);
+.animate-fadeIn {
+  animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.glass-panel-hover {
-  transition: all 0.25s ease;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.glass-panel-hover:hover {
-  background: #130924;
-  border-color: rgba(168, 85, 247, 0.3);
-  transform: translateY(-2px);
-}
-
-/* Custom Scrollbar elegante */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #08040d;
-}
+/* --- Scrollbar ------------------------------------------------------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--ink); }
 ::-webkit-scrollbar-thumb {
-  background: #27113e;
+  background: #2a1d3d;
+  border: 3px solid var(--ink);
   border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #371859;
-}
+::-webkit-scrollbar-thumb:hover { background: var(--violet-500); }
 
-/* Circuitos electorales en mapa SVG */
-.circuit-polygon {
-  cursor: pointer;
-  transition: all 0.2s ease-out;
-}
-
-.circuit-polygon:hover {
-  stroke-width: 2px;
-  stroke: #fbbf24;
-}
+/* --- Map polygons (legacy) ------------------------------------------------- */
+.circuit-polygon { cursor: pointer; transition: all 0.2s ease-out; }
+.circuit-polygon:hover { stroke-width: 2px; stroke: var(--gold); }

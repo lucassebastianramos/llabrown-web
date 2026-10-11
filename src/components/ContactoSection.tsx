@@ -83,13 +83,18 @@ export default function ContactoSection() {
                 </div>
                 <div>
                   <span className="text-xs uppercase tracking-wider text-slate-400 font-bold block">
-                    Equipo Territorial
+                    WhatsApp & Atención Vecinal
                   </span>
-                  <span className="text-sm font-bold text-white block mt-0.5">
-                    +54 9 11 71682115
-                  </span>
+                  <a 
+                    href="https://wa.me/5491131596936" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-sm font-bold text-white hover:text-amber-400 transition-colors block mt-0.5"
+                  >
+                    +54 9 11 3159-6936 (11 3159 6936)
+                  </a>
                   <span className="text-xs text-purple-300 block">
-                    Atención directa a vecinos y fiscales
+                    Atención directa a vecinos y fiscales de Brown
                   </span>
                 </div>
               </div>
@@ -134,7 +139,7 @@ export default function ContactoSection() {
           <div className="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/30 shadow-2xl">
             {formSubmitted ? (
               <div className="py-12 flex flex-col items-center justify-center text-center">
-                <CheckCircle2 className="w-16 h-16 text-emerald-400 mb-4 animate-bounce" />
+                <CheckCircle2 className="w-16 h-16 text-amber-400 mb-4 animate-bounce" />
                 <h3 className="text-2xl font-black text-white mb-2">¡Mensaje Enviado con Éxito!</h3>
                 <p className="text-slate-300 text-sm max-w-md mb-6">
                   Muchas gracias por sumarte. El equipo territorial de tu localidad se estará comunicando con vos muy pronto.

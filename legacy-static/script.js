@@ -9,18 +9,18 @@
 ───────────────────────────────────────── */
 let currentIndex = 0;
 const localidades = [
-  { nombre: 'Adrogué',              wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Burzaco',              wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Claypole',             wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Don Orione',           wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Glew',                 wa: 'https://wa.me/5491167218190' },
-  { nombre: 'José Mármol',          wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Longchamps',           wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Malvinas Argentinas',  wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Ministro Rivadavia',   wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Rafael Calzada',       wa: 'https://wa.me/5491167218190' },
-  { nombre: 'San Francisco de Asís',wa: 'https://wa.me/5491167218190' },
-  { nombre: 'Solano',               wa: 'https://wa.me/5491167218190' },
+  { nombre: 'Adrogué',              wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Burzaco',              wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Claypole',             wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Don Orione',           wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Glew',                 wa: 'https://wa.me/5491131596936' },
+  { nombre: 'José Mármol',          wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Longchamps',           wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Malvinas Argentinas',  wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Ministro Rivadavia',   wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Rafael Calzada',       wa: 'https://wa.me/5491131596936' },
+  { nombre: 'San Francisco de Asís',wa: 'https://wa.me/5491131596936' },
+  { nombre: 'Solano',               wa: 'https://wa.me/5491131596936' },
 ];
 
 const concejales = [
