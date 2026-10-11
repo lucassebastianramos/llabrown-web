@@ -25,12 +25,41 @@ import {
   X
 } from 'lucide-react';
 
+const CARTO_KEY = 'cb1_4gpl_1_91252c0c164ed9fcbdef50a7';
+
+const ADMIN_BASEMAPS = {
+  esri: {
+    name: 'ESRI Calles',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Map &copy; Esri &mdash; Almirante Brown',
+    maxZoom: 19,
+  },
+  'carto-dark': {
+    name: 'CARTO Obsidiana',
+    url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_KEY}`,
+    attribution: '&copy; CARTO &copy; OpenStreetMap',
+    maxZoom: 20,
+    subdomains: 'abcd',
+  },
+  'carto-voyager': {
+    name: 'CARTO Voyager',
+    url: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_KEY}`,
+    attribution: '&copy; CARTO &copy; OpenStreetMap',
+    maxZoom: 20,
+    subdomains: 'abcd',
+  },
+};
+
+type AdminBasemapKey = keyof typeof ADMIN_BASEMAPS;
+
 export default function AdminPinPickerInner() {
   const [pines, setPines] = useState<PinTerritorial[]>([]);
   const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number }>({
     lat: -34.825,
     lng: -58.385
   });
+
+  const [basemapStyle, setBasemapStyle] = useState<AdminBasemapKey>('esri');
 
   // Form fields
   const [titulo, setTitulo] = useState('');
@@ -61,6 +90,7 @@ export default function AdminPinPickerInner() {
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
   const tempMarkerRef = useRef<L.Marker | null>(null);
   const existingPinsLayerRef = useRef<L.LayerGroup | null>(null);
 
@@ -135,11 +165,13 @@ export default function AdminPinPickerInner() {
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // ESRI World Street Map
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Map &copy; Esri &mdash; Almirante Brown',
-      maxZoom: 19,
+    // Initial TileLayer
+    const initialCfg = ADMIN_BASEMAPS.esri;
+    const tileLayer = L.tileLayer(initialCfg.url, {
+      attribution: initialCfg.attribution,
+      maxZoom: initialCfg.maxZoom,
     }).addTo(map);
+    tileLayerRef.current = tileLayer;
 
     // Cargar máscara perimetral
     fetch('/data/almirante-brown-rings.json')
@@ -229,6 +261,13 @@ export default function AdminPinPickerInner() {
       mapInstanceRef.current = null;
     };
   }, []);
+
+  // Update basemap when basemapStyle changes in Admin
+  useEffect(() => {
+    if (!tileLayerRef.current) return;
+    const cfg = ADMIN_BASEMAPS[basemapStyle];
+    tileLayerRef.current.setUrl(cfg.url);
+  }, [basemapStyle]);
 
   // Show existing pins on map with smaller badges
   useEffect(() => {
@@ -480,16 +519,34 @@ export default function AdminPinPickerInner() {
         
         {/* Map Picker Column (6 cols) */}
         <div className="lg:col-span-6 glass-panel rounded-3xl p-5 border border-purple-500/30 flex flex-col gap-4">
-          <div className="flex items-center justify-between pb-2 border-b border-purple-900/40">
+          <div className="flex flex-wrap items-center justify-between pb-2 border-b border-purple-900/40 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">
                 1. Posicioná el Pin en la Calle
               </h3>
             </div>
-            <span className="text-xs text-amber-300 font-mono">
-              Lat: {selectedCoords.lat}, Lng: {selectedCoords.lng}
-            </span>
+
+            <div className="flex items-center gap-1 bg-purple-950/80 p-1 rounded-xl border border-purple-800/80">
+              {(['esri', 'carto-dark', 'carto-voyager'] as AdminBasemapKey[]).map((key) => {
+                const cfg = ADMIN_BASEMAPS[key];
+                const isActive = basemapStyle === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setBasemapStyle(key)}
+                    className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all ${
+                      isActive
+                        ? 'bg-gradient-to-r from-purple-700 to-amber-500 text-white shadow-sm'
+                        : 'text-slate-300 hover:text-white hover:bg-purple-900/50'
+                    }`}
+                  >
+                    {cfg.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Barrio Detectado Banner */}

@@ -26,17 +26,68 @@ import {
   Layers,
   Compass,
   Check,
-  ChevronDown
+  Map as MapIcon,
+  MessageCircle,
+  Vote,
+  School
 } from 'lucide-react';
 
 interface Props {
   initialPins?: PinTerritorial[];
 }
 
+export interface CircuitoProperties {
+  circuito?: string;
+  circuitoCode?: string;
+  nombre: string;
+  descripcion?: string;
+  localidadesPrincipales?: string[];
+  referente?: string;
+  wa?: string;
+  color?: string;
+  electores?: number;
+  establecimientosCount?: number;
+}
+
+const CARTO_KEY = 'cb1_4gpl_1_91252c0c164ed9fcbdef50a7';
+
+const BASEMAP_STYLES = {
+  esri: {
+    id: 'esri',
+    name: 'ESRI Calles',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Map &copy; Esri &mdash; Almirante Brown',
+    maxZoom: 19,
+    subdomains: 'abc',
+  },
+  'carto-dark': {
+    id: 'carto-dark',
+    name: 'CARTO Obsidiana',
+    url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_KEY}`,
+    attribution: '&copy; CARTO &copy; OpenStreetMap',
+    maxZoom: 20,
+    subdomains: 'abcd',
+  },
+  'carto-voyager': {
+    id: 'carto-voyager',
+    name: 'CARTO Voyager',
+    url: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_KEY}`,
+    attribution: '&copy; CARTO &copy; OpenStreetMap',
+    maxZoom: 20,
+    subdomains: 'abcd',
+  },
+};
+
+type BasemapKey = keyof typeof BASEMAP_STYLES;
+
 export default function StreetPinsMapInner({ initialPins = [] }: Props) {
   const [pins, setPins] = useState<PinTerritorial[]>(initialPins);
   const [selectedPin, setSelectedPin] = useState<PinTerritorial | null>(null);
   const [selectedBarrioInfo, setSelectedBarrioInfo] = useState<BarrioProperties | null>(null);
+  const [selectedCircuitoInfo, setSelectedCircuitoInfo] = useState<CircuitoProperties | null>(null);
+
+  // Basemap style switcher
+  const [basemapStyle, setBasemapStyle] = useState<BasemapKey>('esri');
 
   // Filters
   const [selectedCategoria, setSelectedCategoria] = useState<string>('Todas');
@@ -62,6 +113,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const barriosLayerRef = useRef<L.GeoJSON | null>(null);
   const circuitosLayerRef = useRef<L.GeoJSON | null>(null);
@@ -81,19 +133,16 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
 
   // Fetch barrios, calles and circuitos data
   useEffect(() => {
-    // 1. Barrios (155 barrios oficiales Ord. 13.906)
     fetch('/data/almirante-brown-barrios.json')
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => setBarriosGeoJSON(d))
       .catch((e) => console.warn('Could not load barrios GeoJSON:', e));
 
-    // 2. Calles (1.484 calles geocodificadas de Brown)
     fetch('/data/almirante-brown-calles.json')
       .then((r) => (r.ok ? r.json() : []))
       .then((d) => setCallesData(Array.isArray(d) ? d : []))
       .catch((e) => console.warn('Could not load calles data:', e));
 
-    // 3. Circuitos Electorales
     fetch('/data/almirante-brown-circuitos.json')
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => setCircuitosGeoJSON(d))
@@ -149,14 +198,15 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
       zoomControl: false,
     });
 
-    // Custom Zoom control at bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // Capa ESRI World Street Map (sin marcas de agua)
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Map &copy; Esri &mdash; Almirante Brown',
-      maxZoom: 19,
+    // Initial TileLayer (ESRI)
+    const initialConfig = BASEMAP_STYLES.esri;
+    const tileLayer = L.tileLayer(initialConfig.url, {
+      attribution: initialConfig.attribution,
+      maxZoom: initialConfig.maxZoom,
     }).addTo(map);
+    tileLayerRef.current = tileLayer;
 
     // Cargar máscara perimetral oscura para aislar Almirante Brown
     fetch('/data/almirante-brown-rings.json')
@@ -198,6 +248,13 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
     };
   }, []);
 
+  // Update Basemap when basemapStyle changes
+  useEffect(() => {
+    if (!tileLayerRef.current) return;
+    const cfg = BASEMAP_STYLES[basemapStyle];
+    tileLayerRef.current.setUrl(cfg.url);
+  }, [basemapStyle]);
+
   // Manage Circuitos Layer
   useEffect(() => {
     if (!mapInstanceRef.current) return;
@@ -212,16 +269,34 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
         style: {
           color: '#38bdf8',
           weight: 2,
-          opacity: 0.7,
-          dashArray: '4, 6',
+          opacity: 0.75,
+          dashArray: '5, 6',
           fillColor: '#0284c7',
-          fillOpacity: 0.08,
+          fillOpacity: 0.1,
         },
         onEachFeature: (feature, layer) => {
-          const p = feature.properties;
-          layer.bindTooltip(`Circuito ${p.circuitoCode || p.circuito || ''} · ${p.nombre || ''}`, {
+          const p = feature.properties as CircuitoProperties;
+          layer.bindTooltip(`<strong>Circuito ${p.circuitoCode || p.circuito || ''}</strong><br/>${p.nombre || ''}`, {
             direction: 'center',
-            className: 'custom-leaflet-tooltip font-bold text-xs bg-slate-900 text-sky-300 border border-sky-400 px-2 py-1 rounded shadow-lg'
+            className: 'custom-leaflet-tooltip'
+          });
+
+          layer.on({
+            mouseover: (e) => {
+              const l = e.target;
+              l.setStyle({ weight: 3.5, opacity: 1, fillOpacity: 0.35, color: '#38bdf8' });
+              l.bringToFront();
+            },
+            mouseout: (e) => {
+              const l = e.target;
+              l.setStyle({ weight: 2, opacity: 0.75, fillOpacity: 0.1, color: '#38bdf8' });
+            },
+            click: (e) => {
+              L.DomEvent.stopPropagation(e);
+              setSelectedCircuitoInfo(p);
+              setSelectedBarrioInfo(null);
+              setSelectedPin(null);
+            }
           });
         }
       }).addTo(mapInstanceRef.current);
@@ -281,6 +356,8 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
             click: (e) => {
               L.DomEvent.stopPropagation(e);
               setSelectedBarrioInfo(p);
+              setSelectedCircuitoInfo(null);
+              setSelectedPin(null);
               if (p.center && mapInstanceRef.current) {
                 mapInstanceRef.current.flyTo(p.center, 15);
               }
@@ -347,6 +424,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
       marker.on('click', () => {
         setSelectedPin(pin);
         setSelectedBarrioInfo(null);
+        setSelectedCircuitoInfo(null);
         if (mapInstanceRef.current) {
           mapInstanceRef.current.panTo([pin.lat, pin.lng]);
         }
@@ -360,7 +438,6 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
     if (supportedPins[pinId]) return;
     setSupportedPins((prev) => ({ ...prev, [pinId]: true }));
 
-    // Optimistic UI update
     setPins((prev) =>
       prev.map((p) => (p.id === pinId ? { ...p, apoyosVecinales: (p.apoyosVecinales || 0) + 1 } : p))
     );
@@ -408,6 +485,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
       const bMatch = barriosGeoJSON?.features?.find((f: any) => f.properties.nombre === res.title);
       if (bMatch) {
         setSelectedBarrioInfo(bMatch.properties as BarrioProperties);
+        setSelectedCircuitoInfo(null);
       }
     }
   };
@@ -435,13 +513,20 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
     });
   }, [pins, selectedBarrioInfo, barriosGeoJSON]);
 
+  // Count pins inside selected circuito
+  const pinsInSelectedCircuito = useMemo(() => {
+    if (!selectedCircuitoInfo || !selectedCircuitoInfo.localidadesPrincipales) return [];
+    const locs = selectedCircuitoInfo.localidadesPrincipales.map(l => l.toLowerCase());
+    return pins.filter(p => locs.includes(p.localidad.toLowerCase()));
+  }, [pins, selectedCircuitoInfo]);
+
   return (
     <div className="flex flex-col gap-5">
-      {/* Search & Top Action Bar */}
+      {/* Search, Basemap Style & Top Action Bar */}
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 glass-panel p-3.5 rounded-2xl border border-purple-500/30">
         
         {/* Instant Search in Almirante Brown */}
-        <div className="relative flex-1 max-w-xl">
+        <div className="relative flex-1 max-w-lg">
           <div className="relative flex items-center">
             <Search className="w-4 h-4 text-amber-400 absolute left-3.5 pointer-events-none" />
             <input
@@ -504,52 +589,77 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
           )}
         </div>
 
-        {/* Map Layers Toggles (Pines, Barrios, Circuitos) */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] font-bold uppercase text-slate-300 flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5 text-amber-400" />
-            Capas:
-          </span>
+        {/* Controls: Basemap Style (ESRI / CARTO) & Layers */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          
+          {/* Basemap Style Picker */}
+          <div className="flex items-center gap-1 bg-purple-950/80 p-1 rounded-xl border border-purple-800/80">
+            <span className="text-[10px] font-bold uppercase text-slate-400 px-1.5 hidden sm:inline">
+              Estilo:
+            </span>
+            {(['esri', 'carto-dark', 'carto-voyager'] as BasemapKey[]).map((key) => {
+              const cfg = BASEMAP_STYLES[key];
+              const isActive = basemapStyle === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setBasemapStyle(key)}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-bold transition-all ${
+                    isActive
+                      ? 'bg-gradient-to-r from-purple-700 to-amber-500 text-white shadow-sm'
+                      : 'text-slate-300 hover:text-white hover:bg-purple-900/50'
+                  }`}
+                  title={`Cambiar a ${cfg.name}`}
+                >
+                  {cfg.name}
+                </button>
+              );
+            })}
+          </div>
 
-          <button
-            onClick={() => setShowPinsLayer(!showPinsLayer)}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
-              showPinsLayer
-                ? 'bg-amber-400 text-purple-950 font-bold shadow-md'
-                : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
-            }`}
-          >
-            <MapPin className="w-3.5 h-3.5" />
-            <span>Pines ({pins.length})</span>
-            {showPinsLayer && <Check className="w-3 h-3 stroke-[3]" />}
-          </button>
+          {/* Map Layers Toggles (Pines, Barrios, Circuitos) */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setShowPinsLayer(!showPinsLayer)}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                showPinsLayer
+                  ? 'bg-amber-400 text-purple-950 font-bold shadow-md'
+                  : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
+              }`}
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              <span>Pines</span>
+              {showPinsLayer && <Check className="w-3 h-3 stroke-[3]" />}
+            </button>
 
-          <button
-            onClick={() => setShowBarriosLayer(!showBarriosLayer)}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
-              showBarriosLayer
-                ? 'bg-purple-700 text-white font-bold shadow-md border border-purple-400'
-                : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
-            }`}
-            title="Límites oficiales de los 155 barrios según Ordenanza N° 13.906 de Almirante Brown"
-          >
-            <Building2 className="w-3.5 h-3.5 text-purple-300" />
-            <span>Barrios (155)</span>
-            {showBarriosLayer && <Check className="w-3 h-3 stroke-[3]" />}
-          </button>
+            <button
+              onClick={() => setShowBarriosLayer(!showBarriosLayer)}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                showBarriosLayer
+                  ? 'bg-purple-700 text-white font-bold shadow-md border border-purple-400'
+                  : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
+              }`}
+              title="Límites oficiales de los 155 barrios según Ordenanza N° 13.906 de Almirante Brown"
+            >
+              <Building2 className="w-3.5 h-3.5 text-purple-300" />
+              <span>Barrios (155)</span>
+              {showBarriosLayer && <Check className="w-3 h-3 stroke-[3]" />}
+            </button>
 
-          <button
-            onClick={() => setShowCircuitosLayer(!showCircuitosLayer)}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
-              showCircuitosLayer
-                ? 'bg-sky-600 text-white font-bold shadow-md border border-sky-400'
-                : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5 text-sky-300" />
-            <span>Circuitos (11)</span>
-            {showCircuitosLayer && <Check className="w-3 h-3 stroke-[3]" />}
-          </button>
+            <button
+              onClick={() => setShowCircuitosLayer(!showCircuitosLayer)}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                showCircuitosLayer
+                  ? 'bg-sky-600 text-white font-bold shadow-md border border-sky-400'
+                  : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
+              }`}
+              title="Superponer los 11 circuitos electorales oficiales"
+            >
+              <Compass className="w-3.5 h-3.5 text-sky-300" />
+              <span>Circuitos</span>
+              {showCircuitosLayer && <Check className="w-3 h-3 stroke-[3]" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -596,6 +706,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
                     if (match && match.center && mapInstanceRef.current) {
                       mapInstanceRef.current.flyTo(match.center, 15.5);
                       setSelectedBarrioInfo(match);
+                      setSelectedCircuitoInfo(null);
                     }
                   }
                 }}
@@ -668,10 +779,10 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
           <div className="flex items-center justify-between mb-3 px-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              Pines Territoriales & Barrios de Almirante Brown
+              Pines Territoriales, Barrios & Circuitos de Brown
             </span>
             <span className="text-[11px] font-semibold text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-              {pins.length} Reclamos y Obras · 155 Barrios (Ord. 13.906)
+              {pins.length} Reclamos y Obras · 155 Barrios · 11 Circuitos
             </span>
           </div>
 
@@ -687,16 +798,117 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#371859] border border-purple-400" /> HCD</span>
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Visitas</span>
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-purple-500" /> Límite Barrial</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-sky-400" /> Circuito</span>
             </div>
-            <span className="text-purple-300 font-medium">Hacé click en un pin o en cualquier barrio para ver detalles</span>
+            <span className="text-purple-300 font-medium">Hacé click en un pin, barrio o circuito para ver su ficha</span>
           </div>
         </div>
 
-        {/* Detail Panel of Selected Pin or Selected Barrio (4 cols) */}
+        {/* Detail Panel of Selected Pin, Barrio or Circuito (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
           
-          {/* 1. Selected Barrio Card (if clicked) */}
-          {selectedBarrioInfo && !selectedPin && (
+          {/* 1. Selected Circuito Card (inspired by elecciones-ARG) */}
+          {selectedCircuitoInfo && (
+            <div className="glass-panel rounded-3xl p-5 border border-sky-400/50 shadow-2xl relative animate-fadeIn">
+              <button
+                onClick={() => setSelectedCircuitoInfo(null)}
+                className="absolute top-4 right-4 p-1.5 rounded-full bg-purple-950/80 hover:bg-purple-900 text-slate-300 hover:text-white border border-purple-800"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="flex items-center gap-2 mb-2 pr-6">
+                <span className="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[11px] font-bold border border-sky-400/40">
+                  Circuito {selectedCircuitoInfo.circuitoCode || selectedCircuitoInfo.circuito}
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-200 text-[10px] font-semibold">
+                  Sección 3ra PBA
+                </span>
+              </div>
+
+              <h3 className="text-xl font-black text-white mb-1">
+                {selectedCircuitoInfo.nombre}
+              </h3>
+              <p className="text-xs text-slate-300 mb-4 leading-relaxed">
+                {selectedCircuitoInfo.descripcion || 'Zona electoral y territorial de Almirante Brown.'}
+              </p>
+
+              {/* Electoral stats from elecciones-ARG */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="p-2.5 rounded-xl bg-purple-950/60 border border-purple-800/60 text-center">
+                  <Vote className="w-4 h-4 text-amber-400 mx-auto mb-1" />
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Electores</span>
+                  <span className="text-sm font-black text-white">
+                    {selectedCircuitoInfo.electores ? selectedCircuitoInfo.electores.toLocaleString('es-AR') : '28.000+'}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-purple-950/60 border border-purple-800/60 text-center">
+                  <School className="w-4 h-4 text-sky-400 mx-auto mb-1" />
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Escuelas</span>
+                  <span className="text-sm font-black text-white">
+                    {selectedCircuitoInfo.establecimientosCount || 15} centros
+                  </span>
+                </div>
+              </div>
+
+              {/* Localities covered */}
+              {selectedCircuitoInfo.localidadesPrincipales && (
+                <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/60 mb-4 text-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-400 block mb-1">
+                    Localidades comprendidas:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedCircuitoInfo.localidadesPrincipales.map(loc => (
+                      <span key={loc} className="px-2 py-0.5 rounded-lg bg-purple-900/60 text-slate-200 font-semibold text-[11px]">
+                        {loc}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Related LLA Pins in this zone */}
+              <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/60 mb-4 text-xs">
+                <span className="text-[10px] font-bold uppercase text-amber-400 block mb-1">
+                  Reclamos & Obras en esta zona: {pinsInSelectedCircuito.length}
+                </span>
+                {pinsInSelectedCircuito.length > 0 ? (
+                  <div className="space-y-1.5 mt-1">
+                    {pinsInSelectedCircuito.slice(0, 3).map(p => (
+                      <button
+                        key={p.id}
+                        onClick={() => {
+                          setSelectedPin(p);
+                          setSelectedCircuitoInfo(null);
+                        }}
+                        className="w-full text-left p-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-800 text-xs text-slate-200 truncate block"
+                      >
+                        • {p.titulo}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-slate-400 text-[11px]">No hay reclamos cargados para este circuito.</span>
+                )}
+              </div>
+
+              {/* Referente WhatsApp Contact */}
+              {selectedCircuitoInfo.wa && (
+                <a
+                  href={selectedCircuitoInfo.wa}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Contactar Referente del Circuito</span>
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* 2. Selected Barrio Card (if clicked) */}
+          {selectedBarrioInfo && !selectedPin && !selectedCircuitoInfo && (
             <div className="glass-panel rounded-3xl p-5 border border-purple-400/50 shadow-2xl relative animate-fadeIn">
               <button
                 onClick={() => setSelectedBarrioInfo(null)}
@@ -761,7 +973,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
             </div>
           )}
 
-          {/* 2. Selected Pin Card (if clicked) */}
+          {/* 3. Selected Pin Card (if clicked) */}
           {selectedPin ? (
             <div className="glass-panel rounded-3xl p-6 border border-amber-400/50 shadow-2xl relative animate-fadeIn flex flex-col justify-between">
               <button
@@ -872,20 +1084,23 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
                 </a>
               </div>
             </div>
-          ) : !selectedBarrioInfo && (
+          ) : !selectedBarrioInfo && !selectedCircuitoInfo && (
             <div className="glass-panel rounded-3xl p-8 border border-purple-500/30 text-center flex flex-col items-center justify-center min-h-[420px]">
               <MapPin className="w-10 h-10 text-amber-400 mb-3 animate-bounce" />
               <h4 className="text-base font-bold text-white mb-1">
                 Explorá el Mapa de Almirante Brown
               </h4>
               <p className="text-xs text-slate-300 max-w-xs leading-relaxed mb-4">
-                Hacé click en cualquiera de los pines de obras para ver fotos y descargar el proyecto de ordenanza en PDF, o hacé click en cualquier barrio para ver sus límites según Ordenanza N° 13.906.
+                Hacé click en cualquiera de los pines de obras para ver fotos y descargar el proyecto en PDF, o explorá los 155 barrios (Ord. 13.906) y 11 circuitos electorales.
               </p>
-              <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/50 text-left text-xs text-slate-300 w-full max-w-xs">
-                <span className="text-[10px] uppercase font-bold text-amber-400 block mb-1">
-                  💡 Buscador Inteligente Integrado
-                </span>
-                Escribí el nombre de tu calle o barrio arriba para enfocarlo de inmediato en el mapa de Brown.
+              <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/50 text-left text-xs text-slate-300 w-full max-w-xs space-y-1.5">
+                <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[11px]">
+                  <Compass className="w-3.5 h-3.5" />
+                  <span>Opciones de Cartografía</span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Cambiá el estilo entre <strong>ESRI Calles</strong>, <strong>CARTO Obsidiana</strong> o <strong>CARTO Voyager</strong> con el selector superior.
+                </p>
               </div>
             </div>
           )}

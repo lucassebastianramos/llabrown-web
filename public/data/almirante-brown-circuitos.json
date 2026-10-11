@@ -29,7 +29,9 @@
         "color": "#8b5cf6",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0017"
+        "circuitoCode": "0017",
+        "electores": 25681,
+        "establecimientosCount": 12
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -610,7 +612,9 @@
         "color": "#f59e0b",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0019"
+        "circuitoCode": "0019",
+        "electores": 53650,
+        "establecimientosCount": 22
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1961,7 +1965,9 @@
         "color": "#f97316",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0022A"
+        "circuitoCode": "0022A",
+        "electores": 42481,
+        "establecimientosCount": 18
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2566,7 +2572,9 @@
         "color": "#ef4444",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0022B"
+        "circuitoCode": "0022B",
+        "electores": 21056,
+        "establecimientosCount": 9
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3180,7 +3188,9 @@
         "color": "#a855f7",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0018"
+        "circuitoCode": "0018",
+        "electores": 32730,
+        "establecimientosCount": 17
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3690,7 +3700,9 @@
         "color": "#ec4899",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0018A"
+        "circuitoCode": "0018A",
+        "electores": 40669,
+        "establecimientosCount": 18
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4348,7 +4360,9 @@
         "color": "#10b981",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0020"
+        "circuitoCode": "0020",
+        "electores": 58210,
+        "establecimientosCount": 26
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5353,7 +5367,9 @@
         "color": "#06b6d4",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0020A"
+        "circuitoCode": "0020A",
+        "electores": 31860,
+        "establecimientosCount": 18
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6027,7 +6043,9 @@
         "color": "#6366f1",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0021A"
+        "circuitoCode": "0021A",
+        "electores": 20889,
+        "establecimientosCount": 10
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6580,7 +6598,9 @@
         "color": "#3b82f6",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0021"
+        "circuitoCode": "0021",
+        "electores": 50961,
+        "establecimientosCount": 26
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7345,7 +7365,9 @@
         "color": "#eab308",
         "seccionElectoral": "Tercera Sección Electoral (PBA)",
         "municipio": "Almirante Brown",
-        "circuitoCode": "0022"
+        "circuitoCode": "0022",
+        "electores": 52697,
+        "establecimientosCount": 23
       },
       "geometry": {
         "type": "MultiPolygon",
