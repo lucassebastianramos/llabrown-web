@@ -14,12 +14,6 @@ export default function Hero() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-gradient-to-b from-[#371859]/30 via-transparent to-transparent pointer-events-none" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center z-10">
-        
-        {/* Eyebrow Institutional Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#120722] border border-white/10 text-purple-200 text-xs font-semibold tracking-[0.2em] uppercase mb-8 shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          <span>Almirante Brown · 3ra Sección Electoral</span>
-        </div>
 
         {/* Official LLA Crest / Logo */}
         <div className="relative w-32 h-32 sm:w-40 sm:h-40 my-1 drop-shadow-[0_10px_30px_rgba(55,24,89,0.5)] transition-transform duration-300 hover:scale-105">

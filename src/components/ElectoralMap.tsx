@@ -106,16 +106,12 @@ export default function ElectoralMap() {
     <section id="mapa" className="py-20 relative bg-[#08040d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#120722] border border-white/10 text-purple-200 text-xs font-semibold tracking-wider uppercase mb-3">
-            <Layers className="w-3.5 h-3.5 text-amber-400" />
-            <span>Mapas Oficiales de la Justicia Electoral PBA</span>
-          </div>
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
-            Mapa Electoral & Territorio Brown
+            Mapa Territorial & Electoral
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Explorá los 11 circuitos electorales y las 13 localidades del distrito. Seleccioná una zona para ver proyectos, recorridas y contactar al referente barrial.
+            Georreferenciación de pedidos vecinales en calles, 11 circuitos de la Justicia Electoral de la Provincia de Buenos Aires y proyectos en las 13 localidades.
           </p>
 
           {/* View Mode Switcher */}
@@ -170,14 +166,11 @@ export default function ElectoralMap() {
           
           {/* Map Container (7 cols) */}
           <div className="lg:col-span-7 glass-panel rounded-3xl p-4 sm:p-6 border border-purple-500/30 shadow-2xl relative">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-purple-900/40">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
-                  Almirante Brown · 3ra Sección Electoral
-                </span>
-              </div>
-              <span className="text-[11px] font-semibold text-purple-300 bg-purple-950/80 px-2.5 py-1 rounded-full border border-purple-800/60">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/[0.08]">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-white">
+                Circuitos Electorales Oficiales
+              </span>
+              <span className="text-[11px] font-semibold text-purple-200 bg-white/[0.06] px-2.5 py-1 rounded-full border border-white/10">
                 11 Circuitos · 13 Localidades
               </span>
             </div>

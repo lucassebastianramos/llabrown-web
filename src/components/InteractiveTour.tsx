@@ -92,15 +92,11 @@ export default function InteractiveTour() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#140826] border border-white/10 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Recorrido Territorial Oficial</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
-            Las 13 Localidades de Brown
+            #TuVozConstruye en cada localidad
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
-            Explorá el compromiso territorial de La Libertad Avanza localidad por localidad, culminando con la placa oficial de #TuVozConstruye.
+            Propuestas, relevamiento de demandas y presencia activa de La Libertad Avanza en las 13 localidades de Almirante Brown.
           </p>
         </div>
 
@@ -210,7 +206,7 @@ export default function InteractiveTour() {
                 </h3>
 
                 <p className="text-slate-200 text-sm sm:text-base font-medium mb-6 leading-relaxed">
-                  Presentes en Adrogué, Burzaco, Claypole, Don Orione, Glew, José Mármol, Longchamps, Malvinas Argentinas, Ministro Rivadavia, Rafael Calzada, San Francisco de Asís y Solano.
+                  Presentes en Adrogué, Burzaco, Claypole, Don Orione, Glew, José Mármol, Longchamps, Malvinas Argentinas, Ministro Rivadavia, Rafael Calzada, San Francisco de Asís, San José y Solano.
                 </p>
 
                 {/* Coordination Plaque requested */}

@@ -69,30 +69,11 @@ export default function AdminPinPickerInner() {
       maxZoom: 18,
     });
 
-    const CARTO_KEY = 'cb1_4gpl_1_91252c0c164ed9fcbdef50a7';
-    const cartoUrl = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?api_key=${CARTO_KEY}`;
-    const osmUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-
-    const cartoLayer = L.tileLayer(cartoUrl, {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-      subdomains: 'abcd',
+    // Capa oficial ESRI World Street Map: 100% limpia, sin marcas de agua de API key
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Map &copy; Esri &mdash; Almirante Brown',
       maxZoom: 19,
-    });
-
-    let hasFallenBack = false;
-    cartoLayer.on('tileerror', () => {
-      if (!hasFallenBack) {
-        hasFallenBack = true;
-        console.warn('CARTO tile error detected in admin. Switching smoothly to OpenStreetMap.');
-        map.removeLayer(cartoLayer);
-        L.tileLayer(osmUrl, {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 19,
-        }).addTo(map);
-      }
-    });
-
-    cartoLayer.addTo(map);
+    }).addTo(map);
 
     const pinIcon = L.divIcon({
       className: 'admin-temp-pin',
