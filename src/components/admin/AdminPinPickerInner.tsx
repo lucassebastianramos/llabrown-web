@@ -62,11 +62,18 @@ export default function AdminPinPickerInner() {
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
 
+    // Límites territoriales estrictos de Almirante Brown
+    const southWest = L.latLng(-34.918, -58.455);
+    const northEast = L.latLng(-34.748, -58.285);
+    const brownBounds = L.latLngBounds(southWest, northEast);
+
     const map = L.map(mapContainerRef.current, {
-      center: [-34.820, -58.380],
+      center: [-34.825, -58.380],
       zoom: 13,
-      minZoom: 11,
+      minZoom: 12,
       maxZoom: 18,
+      maxBounds: brownBounds,
+      maxBoundsViscosity: 1.0,
     });
 
     // Capa oficial ESRI World Street Map: 100% limpia, sin marcas de agua de API key
@@ -74,6 +81,36 @@ export default function AdminPinPickerInner() {
       attribution: 'Map &copy; Esri &mdash; Almirante Brown',
       maxZoom: 19,
     }).addTo(map);
+
+    // Cargar máscara perimetral para ocultar los municipios de alrededor
+    fetch('/data/almirante-brown-rings.json')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((rings: [number, number][][]) => {
+        if (!rings || !Array.isArray(rings) || !mapInstanceRef.current) return;
+        const outerWorld: [number, number][] = [
+          [-90, -180],
+          [-90, 180],
+          [90, 180],
+          [90, -180]
+        ];
+
+        L.polygon([outerWorld, ...rings], {
+          fillColor: '#08040d',
+          fillOpacity: 0.93,
+          stroke: false,
+          interactive: false,
+        }).addTo(mapInstanceRef.current);
+
+        rings.forEach((ring) => {
+          L.polyline(ring, {
+            color: '#a855f7',
+            weight: 2,
+            opacity: 0.85,
+            interactive: false,
+          }).addTo(mapInstanceRef.current!);
+        });
+      })
+      .catch((e) => console.warn('Could not load mask rings in admin:', e));
 
     const pinIcon = L.divIcon({
       className: 'admin-temp-pin',

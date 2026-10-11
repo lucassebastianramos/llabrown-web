@@ -61,19 +61,57 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
 
-    // Center of Almirante Brown (-34.825, -58.385)
+    // Límites territoriales estrictos de Almirante Brown
+    const southWest = L.latLng(-34.918, -58.455);
+    const northEast = L.latLng(-34.748, -58.285);
+    const brownBounds = L.latLngBounds(southWest, northEast);
+
     const map = L.map(mapContainerRef.current, {
-      center: [-34.815, -58.375],
-      zoom: 12,
-      minZoom: 11,
+      center: [-34.825, -58.380],
+      zoom: 12.5,
+      minZoom: 12, // Bloqueo: no permite alejarse más allá del partido
       maxZoom: 18,
+      maxBounds: brownBounds, // Barrera rígida: no permite desplazarse fuera de Brown
+      maxBoundsViscosity: 1.0, // 100% rigidez de rebote
     });
 
-    // Capa oficial ESRI World Street Map: 100% limpia, sin marcas de agua de API key, máxima resolución de calles
+    // Capa oficial ESRI World Street Map: 100% limpia, sin marcas de agua de API key
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Map &copy; Esri &mdash; Almirante Brown',
       maxZoom: 19,
     }).addTo(map);
+
+    // Cargar máscara perimetral para ocultar todo lo que esté por fuera de Brown
+    fetch('/data/almirante-brown-rings.json')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((rings: [number, number][][]) => {
+        if (!rings || !Array.isArray(rings) || !mapInstanceRef.current) return;
+        const outerWorld: [number, number][] = [
+          [-90, -180],
+          [-90, 180],
+          [90, 180],
+          [90, -180]
+        ];
+
+        // Máscara que tapa en color oscuro todos los distritos colindantes
+        L.polygon([outerWorld, ...rings], {
+          fillColor: '#08040d',
+          fillOpacity: 0.93,
+          stroke: false,
+          interactive: false,
+        }).addTo(mapInstanceRef.current);
+
+        // Contorno destacado de la frontera municipal de Almirante Brown
+        rings.forEach((ring) => {
+          L.polyline(ring, {
+            color: '#a855f7',
+            weight: 2,
+            opacity: 0.85,
+            interactive: false,
+          }).addTo(mapInstanceRef.current!);
+        });
+      })
+      .catch((e) => console.warn('Could not load mask rings:', e));
 
     markersLayerRef.current = L.layerGroup().addTo(map);
     mapInstanceRef.current = map;
