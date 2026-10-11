@@ -69,11 +69,30 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
       maxZoom: 18,
     });
 
-    // OpenStreetMap official tile layer (100% libre, sin API key, soporte de calles y esquinas hasta zoom 19)
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    const CARTO_KEY = 'cb1_4gpl_1_91252c0c164ed9fcbdef50a7';
+    const cartoUrl = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?api_key=${CARTO_KEY}`;
+    const osmUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    const cartoLayer = L.tileLayer(cartoUrl, {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+      subdomains: 'abcd',
       maxZoom: 19,
-    }).addTo(map);
+    });
+
+    let hasFallenBack = false;
+    cartoLayer.on('tileerror', () => {
+      if (!hasFallenBack) {
+        hasFallenBack = true;
+        console.warn('CARTO tile error detected. Switching smoothly to OpenStreetMap.');
+        map.removeLayer(cartoLayer);
+        L.tileLayer(osmUrl, {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+        }).addTo(map);
+      }
+    });
+
+    cartoLayer.addTo(map);
 
     markersLayerRef.current = L.layerGroup().addTo(map);
     mapInstanceRef.current = map;
