@@ -48,7 +48,6 @@ export const PEDRO_AQUINO_AUDIT_DATA = {
   apellido: 'Aquino',
   cargo: 'Jefe de Bloque Concejales · La Libertad Avanza Brown',
   telefono: '1131596936',
-  email: 'contacto@llaalmibrown.ar',
   dniAuditoria: '34125678',
 };
 

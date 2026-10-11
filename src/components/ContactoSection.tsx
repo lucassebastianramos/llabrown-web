@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { LOCALIDADES } from '@/data/mockData';
-import { Mail, Phone, MapPin, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Phone, MapPin, Send, CheckCircle2, ShieldCheck, MessageCircle } from 'lucide-react';
 
 export default function ContactoSection() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -43,7 +43,7 @@ export default function ContactoSection() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-3">
-            <Mail className="w-3.5 h-3.5 text-amber-400" />
+            <MessageCircle className="w-3.5 h-3.5 text-amber-400" />
             <span>Sumate al Cambio</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
@@ -95,20 +95,6 @@ export default function ContactoSection() {
                   </a>
                   <span className="text-xs text-purple-300 block">
                     Atención directa a vecinos y fiscales de Brown
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-purple-900/50 border border-purple-700/50 text-amber-400">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-wider text-slate-400 font-bold block">
-                    Correo Electrónico
-                  </span>
-                  <span className="text-sm font-bold text-white block mt-0.5">
-                    contacto@llaalmibrown.ar
                   </span>
                 </div>
               </div>
@@ -188,33 +174,18 @@ export default function ContactoSection() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="telefono" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Teléfono / WhatsApp *
-                    </label>
-                    <input
-                      type="tel"
-                      id="telefono"
-                      name="telefono"
-                      required
-                      placeholder="+54 9 11 XXXX-XXXX"
-                      className="w-full px-4 py-2.5 rounded-xl bg-purple-950/40 border border-purple-800/60 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="tu@email.com"
-                      className="w-full px-4 py-2.5 rounded-xl bg-purple-950/40 border border-purple-800/60 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="telefono" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    Teléfono / WhatsApp *
+                  </label>
+                  <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    required
+                    placeholder="+54 9 11 XXXX-XXXX (ej: 11 3159 6936)"
+                    className="w-full px-4 py-2.5 rounded-xl bg-purple-950/40 border border-purple-800/60 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                  />
                 </div>
 
                 <div>
