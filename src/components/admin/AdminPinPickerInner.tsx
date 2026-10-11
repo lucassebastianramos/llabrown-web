@@ -1,20 +1,28 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { PinTerritorial, PinCategoria, PinEstado, LocalidadNombre } from '@/types';
 import { LOCALIDADES, CONCEJALES } from '@/data/mockData';
+import { 
+  detectBarrio, 
+  searchBrownTerritory, 
+  SearchResult, 
+  StreetItem,
+  BarrioProperties 
+} from '@/lib/geoUtils';
 import { 
   MapPin, 
   PlusCircle, 
   Trash2, 
   Upload, 
   FileText, 
-  Image as ImageIcon, 
-  CheckCircle2, 
+  Building2,
+  Search,
+  CheckCircle2,
   AlertCircle,
-  Building2
+  X
 } from 'lucide-react';
 
 export default function AdminPinPickerInner() {
@@ -28,6 +36,7 @@ export default function AdminPinPickerInner() {
   const [titulo, setTitulo] = useState('');
   const [calle, setCalle] = useState('');
   const [localidad, setLocalidad] = useState<LocalidadNombre>('Burzaco');
+  const [barrio, setBarrio] = useState<string>('');
   const [categoria, setCategoria] = useState<PinCategoria>('Arreglo de Calles / Asfalto');
   const [estado, setEstado] = useState<PinEstado>('Proyecto Presentado en HCD');
   const [concejal, setConcejal] = useState('Juan Pedro Aquino');
@@ -40,9 +49,20 @@ export default function AdminPinPickerInner() {
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const [isUploadingPdf, setIsUploadingPdf] = useState(false);
 
+  // Geo data
+  const [barriosGeoJSON, setBarriosGeoJSON] = useState<any | null>(null);
+  const [callesData, setCallesData] = useState<StreetItem[]>([]);
+  const [detectedBarrioInfo, setDetectedBarrioInfo] = useState<BarrioProperties | null>(null);
+
+  // Search input in Admin
+  const [adminSearchQuery, setAdminSearchQuery] = useState('');
+  const [adminSearchResults, setAdminSearchResults] = useState<SearchResult[]>([]);
+  const [isAdminSearching, setIsAdminSearching] = useState(false);
+
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const tempMarkerRef = useRef<L.Marker | null>(null);
+  const existingPinsLayerRef = useRef<L.LayerGroup | null>(null);
 
   // Load existing pins
   const loadPines = () => {
@@ -56,7 +76,43 @@ export default function AdminPinPickerInner() {
 
   useEffect(() => {
     loadPines();
+
+    fetch('/data/almirante-brown-barrios.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setBarriosGeoJSON(d))
+      .catch((e) => console.warn('Error loading barrios in admin:', e));
+
+    fetch('/data/almirante-brown-calles.json')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((d) => setCallesData(Array.isArray(d) ? d : []))
+      .catch((e) => console.warn('Error loading calles in admin:', e));
   }, []);
+
+  // Update barrio detection whenever coordinates change
+  useEffect(() => {
+    if (!barriosGeoJSON) return;
+    const detected = detectBarrio(selectedCoords.lat, selectedCoords.lng, barriosGeoJSON);
+    if (detected) {
+      setDetectedBarrioInfo(detected);
+      setBarrio(detected.nombre);
+      const matchLoc = LOCALIDADES.find(l => l.nombre.toLowerCase() === detected.localidad.toLowerCase());
+      if (matchLoc) {
+        setLocalidad(matchLoc.nombre);
+      }
+    } else {
+      setDetectedBarrioInfo(null);
+    }
+  }, [selectedCoords, barriosGeoJSON]);
+
+  // Search handler in Admin
+  useEffect(() => {
+    if (!adminSearchQuery.trim() || adminSearchQuery.trim().length < 2) {
+      setAdminSearchResults([]);
+      return;
+    }
+    const results = searchBrownTerritory(adminSearchQuery, callesData, barriosGeoJSON);
+    setAdminSearchResults(results);
+  }, [adminSearchQuery, callesData, barriosGeoJSON]);
 
   // Initialize Map
   useEffect(() => {
@@ -74,15 +130,18 @@ export default function AdminPinPickerInner() {
       maxZoom: 18,
       maxBounds: brownBounds,
       maxBoundsViscosity: 1.0,
+      zoomControl: false,
     });
 
-    // Capa oficial ESRI World Street Map: 100% limpia, sin marcas de agua de API key
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    // ESRI World Street Map
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Map &copy; Esri &mdash; Almirante Brown',
       maxZoom: 19,
     }).addTo(map);
 
-    // Cargar máscara perimetral para ocultar los municipios de alrededor
+    // Cargar máscara perimetral
     fetch('/data/almirante-brown-rings.json')
       .then((res) => (res.ok ? res.json() : null))
       .then((rings: [number, number][][]) => {
@@ -112,22 +171,41 @@ export default function AdminPinPickerInner() {
       })
       .catch((e) => console.warn('Could not load mask rings in admin:', e));
 
+    // Render gentle barrios boundaries on admin map for visual guidance
+    fetch('/data/almirante-brown-barrios.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((barriosData) => {
+        if (barriosData && mapInstanceRef.current) {
+          L.geoJSON(barriosData, {
+            style: (f) => ({
+              color: f?.properties?.color || '#a855f7',
+              weight: 1,
+              opacity: 0.5,
+              fillOpacity: 0.08,
+              dashArray: '3, 4'
+            }),
+            interactive: false
+          }).addTo(mapInstanceRef.current);
+        }
+      })
+      .catch((e) => console.warn('Could not load barrios overlay in admin:', e));
+
     const pinIcon = L.divIcon({
       className: 'admin-temp-pin',
       html: `
         <div style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); cursor: grab;">
-          <svg width="34" height="42" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="36" height="44" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#f59e0b"/>
             <path d="M16 1C7.72 1 1 7.72 1 16c0 9.8 14.2 22.3 15 23 0.8-.7 15-13.2 15-23C31 7.72 24.28 1 16 1z" stroke="#ffffff" stroke-width="2"/>
             <circle cx="16" cy="15" r="5" fill="#08040d"/>
           </svg>
         </div>
       `,
-      iconSize: [34, 42],
-      iconAnchor: [17, 42],
+      iconSize: [36, 44],
+      iconAnchor: [18, 44],
     });
 
-    // Create default marker
+    // Create marker
     const marker = L.marker([-34.825, -58.385], { icon: pinIcon, draggable: true }).addTo(map);
     tempMarkerRef.current = marker;
 
@@ -143,6 +221,7 @@ export default function AdminPinPickerInner() {
       marker.setLatLng([lat, lng]);
     });
 
+    existingPinsLayerRef.current = L.layerGroup().addTo(map);
     mapInstanceRef.current = map;
 
     return () => {
@@ -151,7 +230,50 @@ export default function AdminPinPickerInner() {
     };
   }, []);
 
-  // Center map when locality changes
+  // Show existing pins on map with smaller badges
+  useEffect(() => {
+    if (!existingPinsLayerRef.current) return;
+    existingPinsLayerRef.current.clearLayers();
+
+    pines.forEach((p) => {
+      const icon = L.divIcon({
+        className: 'admin-existing-pin',
+        html: `
+          <div style="cursor: pointer; opacity: 0.7; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+            <svg width="22" height="28" viewBox="0 0 32 40" fill="none">
+              <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#7e22ce"/>
+              <path d="M16 1C7.72 1 1 7.72 1 16c0 9.8 14.2 22.3 15 23 0.8-.7 15-13.2 15-23C31 7.72 24.28 1 16 1z" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+          </div>
+        `,
+        iconSize: [22, 28],
+        iconAnchor: [11, 28],
+      });
+
+      const m = L.marker([p.lat, p.lng], { icon });
+      m.bindTooltip(`<strong>${p.titulo}</strong><br/>${p.calle} (${p.localidad})`, { sticky: true });
+      m.addTo(existingPinsLayerRef.current!);
+    });
+  }, [pines]);
+
+  // Handle Search Result Selection in Admin
+  const handleSelectAdminSearchResult = (res: SearchResult) => {
+    if (!mapInstanceRef.current || !tempMarkerRef.current) return;
+    setIsAdminSearching(false);
+    setAdminSearchQuery('');
+    setAdminSearchResults([]);
+
+    mapInstanceRef.current.flyTo([res.lat, res.lng], res.zoom);
+    tempMarkerRef.current.setLatLng([res.lat, res.lng]);
+    setSelectedCoords({ lat: res.lat, lng: res.lng });
+
+    // Pre-fill calle if street was selected
+    if (res.type === 'calle' && !calle) {
+      setCalle(res.title);
+    }
+  };
+
+  // Center map when locality changes manually
   const handleLocalidadChange = (locNombre: LocalidadNombre) => {
     setLocalidad(locNombre);
     const loc = LOCALIDADES.find((l) => l.nombre === locNombre);
@@ -230,6 +352,7 @@ export default function AdminPinPickerInner() {
       titulo,
       calle,
       localidad,
+      barrio: barrio || undefined,
       lat: selectedCoords.lat,
       lng: selectedCoords.lng,
       categoria,
@@ -252,7 +375,6 @@ export default function AdminPinPickerInner() {
 
       if (res.ok) {
         alert('¡Pin territorial guardado exitosamente en PostgreSQL!');
-        // Reset form
         setTitulo('');
         setCalle('');
         setDescripcion('');
@@ -282,295 +404,361 @@ export default function AdminPinPickerInner() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      
-      {/* Map Picker Column (6 cols) */}
-      <div className="lg:col-span-6 glass-panel rounded-3xl p-5 border border-purple-500/30 flex flex-col gap-4">
-        <div className="flex items-center justify-between pb-2 border-b border-purple-900/40">
+    <div className="flex flex-col gap-8">
+      {/* Top Street Search bar for Concejales */}
+      <div className="glass-panel p-4 rounded-3xl border border-amber-400/40 relative">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
             <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-              1. Elegí la Calle en el Mapa
+              Buscador Rápido de Calles y Barrios para Concejales
             </h3>
           </div>
-          <span className="text-xs text-amber-300 font-mono">
-            Lat: {selectedCoords.lat}, Lng: {selectedCoords.lng}
+          <span className="text-xs text-purple-300">
+            Escribí la calle o barrio y el mapa se posicionará de inmediato
           </span>
         </div>
 
-        <p className="text-xs text-slate-300">
-          Hacé click en cualquier calle o esquina de Almirante Brown para posicionar el pin, o arrastrá el marcador amarillo:
-        </p>
+        <div className="relative">
+          <div className="relative flex items-center">
+            <Search className="w-4 h-4 text-amber-400 absolute left-3.5 pointer-events-none" />
+            <input
+              type="text"
+              value={adminSearchQuery}
+              onChange={(e) => {
+                setAdminSearchQuery(e.target.value);
+                setIsAdminSearching(true);
+              }}
+              onFocus={() => setIsAdminSearching(true)}
+              placeholder="Ej: Amenedo, Alsina, Salta, Bynnon, Corimayo, Don Orione..."
+              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-purple-950/80 border border-purple-800 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400"
+            />
+            {adminSearchQuery && (
+              <button
+                onClick={() => {
+                  setAdminSearchQuery('');
+                  setAdminSearchResults([]);
+                  setIsAdminSearching(false);
+                }}
+                className="absolute right-3 text-slate-400 hover:text-white"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
 
-        {/* Leaflet Canvas */}
-        <div
-          ref={mapContainerRef}
-          className="w-full h-[400px] rounded-2xl overflow-hidden border border-purple-900/60 z-0"
-        />
-
-        <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/50 flex items-center justify-between text-xs">
-          <span className="text-slate-300 font-semibold">Punto seleccionado:</span>
-          <span className="text-amber-400 font-mono font-bold">
-            [{selectedCoords.lat}, {selectedCoords.lng}]
-          </span>
+          {/* Search Dropdown */}
+          {isAdminSearching && adminSearchResults.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[#120722] border border-purple-600/60 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-purple-900/50 backdrop-blur-md">
+              <div className="p-2 bg-purple-950/70 text-[10px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                <span>Calles y Barrios encontrados</span>
+                <span className="text-amber-400">{adminSearchResults.length} sugerencias</span>
+              </div>
+              <div className="max-h-56 overflow-y-auto">
+                {adminSearchResults.map((res, i) => (
+                  <button
+                    key={`${res.title}-${i}`}
+                    onClick={() => handleSelectAdminSearchResult(res)}
+                    className="w-full px-3.5 py-2 text-left hover:bg-purple-900/50 flex items-center justify-between gap-2 transition-colors"
+                  >
+                    <div className="truncate">
+                      <span className="text-xs font-bold text-white block truncate">{res.title}</span>
+                      <span className="text-[10px] text-slate-300 truncate">{res.subtitle}</span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">
+                      Ubicar aquí
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Form Column (6 cols) */}
-      <div className="lg:col-span-6 glass-panel rounded-3xl p-6 border border-purple-500/30">
-        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-900/40">
-          <PlusCircle className="w-5 h-5 text-amber-400" />
-          <h3 className="text-base font-bold text-white">
-            2. Completá los Datos del Reclamo o Proyecto
-          </h3>
-        </div>
-
-        <form onSubmit={handleCreatePin} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Título del Reclamo / Obra *
-            </label>
-            <input
-              type="text"
-              required
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-              placeholder="Ej: Pedido de Asfalto y Cordón Cuneta en Calle Salta"
-              className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-            />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        {/* Map Picker Column (6 cols) */}
+        <div className="lg:col-span-6 glass-panel rounded-3xl p-5 border border-purple-500/30 flex flex-col gap-4">
+          <div className="flex items-center justify-between pb-2 border-b border-purple-900/40">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                1. Posicioná el Pin en la Calle
+              </h3>
+            </div>
+            <span className="text-xs text-amber-300 font-mono">
+              Lat: {selectedCoords.lat}, Lng: {selectedCoords.lng}
+            </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          {/* Barrio Detectado Banner */}
+          {detectedBarrioInfo ? (
+            <div className="p-3 rounded-xl bg-purple-950/80 border border-purple-500/50 flex items-center justify-between text-xs animate-fadeIn">
+              <div className="flex items-center gap-2 truncate">
+                <Building2 className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="truncate text-slate-200">
+                  Detectado: <strong>Barrio {detectedBarrioInfo.nombre}</strong> ({detectedBarrioInfo.localidad})
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-purple-300 bg-purple-900/60 px-2 py-0.5 rounded-full shrink-0">
+                {detectedBarrioInfo.anexo}
+              </span>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-300">
+              Hacé click o arrastrá el marcador amarillo a cualquier punto de Almirante Brown:
+            </p>
+          )}
+
+          {/* Leaflet Canvas */}
+          <div
+            ref={mapContainerRef}
+            className="w-full h-[420px] rounded-2xl overflow-hidden border border-purple-900/60 z-0"
+          />
+
+          <div className="flex items-center justify-between text-xs text-slate-400 px-1">
+            <span>Arrastrá el pin amarillo para ajustar la posición</span>
+            <span className="text-purple-300">Líneas punteadas: Límites de barrios</span>
+          </div>
+        </div>
+
+        {/* Form Column (6 cols) */}
+        <div className="lg:col-span-6 glass-panel rounded-3xl p-6 border border-purple-500/30">
+          <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-900/40">
+            <PlusCircle className="w-5 h-5 text-amber-400" />
+            <h3 className="text-base font-bold text-white">
+              2. Completá los Datos del Reclamo o Proyecto
+            </h3>
+          </div>
+
+          <form onSubmit={handleCreatePin} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Calle y Altura / Esquina *
+                Título del Reclamo / Obra *
               </label>
               <input
                 type="text"
                 required
-                value={calle}
-                onChange={(e) => setCalle(e.target.value)}
-                placeholder="Ej: Calle Salta y Bynnon"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
+                placeholder="Ej: Pedido de Asfalto y Cordón Cuneta en Calle Salta"
                 className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Localidad *
-              </label>
-              <select
-                value={localidad}
-                onChange={(e) => handleLocalidadChange(e.target.value as LocalidadNombre)}
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-              >
-                {LOCALIDADES.map((l) => (
-                  <option key={l.id} value={l.nombre} className="bg-[#140b24]">
-                    {l.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Categoría *
-              </label>
-              <select
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value as PinCategoria)}
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-              >
-                <option value="Arreglo de Calles / Asfalto" className="bg-[#140b24]">🚧 Arreglo de Calles / Asfalto</option>
-                <option value="Seguridad / Luminarias" className="bg-[#140b24]">🚨 Seguridad / Luminarias</option>
-                <option value="Proyecto de Ordenanza HCD" className="bg-[#140b24]">🏛️ Proyecto de Ordenanza HCD</option>
-                <option value="Visita Vecinal / Reclamo" className="bg-[#140b24]">🤝 Visita Vecinal / Reclamo</option>
-                <option value="Salud / CAPS" className="bg-[#140b24]">🏥 Salud / CAPS</option>
-                <option value="Medio Ambiente / Basurales" className="bg-[#140b24]">♻️ Medio Ambiente / Basurales</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Estado *
-              </label>
-              <select
-                value={estado}
-                onChange={(e) => setEstado(e.target.value as PinEstado)}
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-              >
-                <option value="Reclamo Vecinal Recibido" className="bg-[#140b24]">Reclamo Vecinal Recibido</option>
-                <option value="Proyecto Presentado en HCD" className="bg-[#140b24]">Proyecto Presentado en HCD</option>
-                <option value="En Gestión / Comisión" className="bg-[#140b24]">En Gestión / Comisión</option>
-                <option value="Resuelto / Completado" className="bg-[#140b24]">Resuelto / Completado</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Concejal Responsable / Autor
-            </label>
-            <select
-              value={concejal}
-              onChange={(e) => setConcejal(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-            >
-              {CONCEJALES.map((c) => (
-                <option key={c.id} value={c.nombre} className="bg-[#140b24]">
-                  {c.nombre}
-                </option>
-              ))}
-              <option value="Bloque LLA Almirante Brown" className="bg-[#140b24]">Bloque LLA Almirante Brown</option>
-            </select>
-          </div>
-
-          {/* Subir Foto */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Foto del Lugar / Bache / Actividad
-            </label>
-            <div className="flex items-center gap-2">
-              <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
-                <Upload className="w-4 h-4 text-amber-400" />
-                <span>{isUploadingPhoto ? 'Subiendo...' : fotoUrl ? 'Foto Cargada ✓' : 'Seleccionar Imagen (JPG/PNG)'}</span>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Calle y Altura / Esquina *
+                </label>
                 <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  className="hidden"
+                  type="text"
+                  required
+                  value={calle}
+                  onChange={(e) => setCalle(e.target.value)}
+                  placeholder="Ej: Calle Salta y Bynnon"
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
                 />
-              </label>
-              {fotoUrl && (
-                <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
-                  {fotoUrl}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Subir PDF */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Proyecto de Ordenanza / Nota Oficial (PDF)
-            </label>
-            <div className="flex items-center gap-2">
-              <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
-                <FileText className="w-4 h-4 text-amber-400" />
-                <span>{isUploadingPdf ? 'Subiendo PDF...' : pdfUrl ? `PDF: ${pdfNombre} ✓` : 'Adjuntar Documento PDF'}</span>
-                <input
-                  type="file"
-                  accept=".pdf,application/pdf"
-                  onChange={handlePdfUpload}
-                  className="hidden"
-                />
-              </label>
-              {pdfUrl && (
-                <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
-                  {pdfNombre}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Descripción del Problema o Propuesta *
-            </label>
-            <textarea
-              required
-              rows={3}
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              placeholder="Explicación del reclamo de los vecinos, expediente legislativo, plazo estimado..."
-              className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg"
-          >
-            Guardar Pin en el Mapa de Brown
-          </button>
-        </form>
-      </div>
-
-      {/* Existing Pins List (12 cols) */}
-      <div className="lg:col-span-12 mt-6 pt-6 border-t border-purple-900/40">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-amber-400" />
-            <span>Pines y Proyectos Registrados en Almirante Brown ({pines.length})</span>
-          </h3>
-          <span className="text-xs text-purple-300">
-            Monitoreo en tiempo real por localidad
-          </span>
-        </div>
-
-        {/* Cobertura Territorial por Localidad */}
-        <div className="mb-6 p-4 rounded-2xl glass-panel border border-purple-900/50">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 block mb-2">
-            Cantidad de Proyectos y Reclamos por Localidad:
-          </span>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-            {LOCALIDADES.map((loc) => {
-              const count = pines.filter((p) => p.localidad === loc.nombre).length;
-              return (
-                <div
-                  key={loc.id}
-                  className={`p-2.5 rounded-xl border text-center transition-all ${
-                    count > 0
-                      ? 'bg-purple-900/40 border-purple-700/60 text-white'
-                      : 'bg-purple-950/20 border-purple-900/30 text-slate-400'
-                  }`}
-                >
-                  <span className="text-xs font-semibold block truncate">{loc.nombre}</span>
-                  <span className={`text-sm font-black block mt-0.5 ${count > 0 ? 'text-amber-400' : 'text-slate-500'}`}>
-                    {count} {count === 1 ? 'pin' : 'pines'}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {pines.map((p) => (
-            <div
-              key={p.id}
-              className="p-4 rounded-2xl glass-panel border border-purple-900/40 flex items-start justify-between gap-3"
-            >
-              <div className="flex-1">
-                <div className="flex items-center gap-1.5 text-xs text-amber-400 font-bold mb-1">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>{p.calle} · {p.localidad}</span>
-                </div>
-                <h4 className="text-sm font-bold text-white mb-1 line-clamp-1">{p.titulo}</h4>
-                <p className="text-xs text-slate-300 line-clamp-2 mb-2">{p.descripcion}</p>
-                
-                <div className="flex flex-wrap items-center gap-2 text-[10px]">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-200">
-                    {p.categoria}
-                  </span>
-                  <span className="text-slate-400">Autor: {p.concejal}</span>
-                  {p.pdfUrl && (
-                    <span className="text-amber-400 font-semibold flex items-center gap-0.5">
-                      <FileText className="w-3 h-3" /> PDF
-                    </span>
-                  )}
-                </div>
               </div>
 
-              <button
-                onClick={() => handleDeletePin(p.id)}
-                className="p-2 rounded-lg bg-rose-950/50 hover:bg-rose-900 text-rose-300 hover:text-white border border-rose-800/60 transition-colors"
-                title="Eliminar pin"
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Localidad *
+                </label>
+                <select
+                  value={localidad}
+                  onChange={(e) => handleLocalidadChange(e.target.value as LocalidadNombre)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                >
+                  {LOCALIDADES.map((l) => (
+                    <option key={l.id} value={l.nombre} className="bg-[#140b24]">
+                      {l.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Barrio according to Ordenanza 13.906 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Barrio (Ordenanza N° 13.906)
+              </label>
+              <input
+                type="text"
+                value={barrio}
+                onChange={(e) => setBarrio(e.target.value)}
+                placeholder="Se auto-detecta al mover el pin en el mapa"
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-amber-300 font-semibold focus:outline-none focus:border-amber-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Categoría *
+                </label>
+                <select
+                  value={categoria}
+                  onChange={(e) => setCategoria(e.target.value as PinCategoria)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                >
+                  <option value="Arreglo de Calles / Asfalto" className="bg-[#140b24]">🚧 Arreglo de Calles / Asfalto</option>
+                  <option value="Seguridad / Luminarias" className="bg-[#140b24]">🚨 Seguridad / Luminarias</option>
+                  <option value="Proyecto de Ordenanza HCD" className="bg-[#140b24]">🏛️ Proyecto de Ordenanza HCD</option>
+                  <option value="Visita Vecinal / Reclamo" className="bg-[#140b24]">🤝 Visita Vecinal / Reclamo</option>
+                  <option value="Salud / CAPS" className="bg-[#140b24]">🏥 Salud / CAPS</option>
+                  <option value="Medio Ambiente / Basurales" className="bg-[#140b24]">♻️ Medio Ambiente / Basurales</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Estado *
+                </label>
+                <select
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value as PinEstado)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                >
+                  <option value="Reclamo Vecinal Recibido" className="bg-[#140b24]">Reclamo Vecinal Recibido</option>
+                  <option value="Proyecto Presentado en HCD" className="bg-[#140b24]">Proyecto Presentado en HCD</option>
+                  <option value="En Gestión / Comisión" className="bg-[#140b24]">En Gestión / Comisión</option>
+                  <option value="Resuelto / Completado" className="bg-[#140b24]">Resuelto / Completado</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Concejal Responsable / Autor
+              </label>
+              <select
+                value={concejal}
+                onChange={(e) => setConcejal(e.target.value)}
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
               >
-                <Trash2 className="w-4 h-4" />
-              </button>
+                {CONCEJALES.map((c) => (
+                  <option key={c.id} value={c.nombre} className="bg-[#140b24]">
+                    {c.nombre}
+                  </option>
+                ))}
+                <option value="Bloque LLA Almirante Brown" className="bg-[#140b24]">Bloque LLA Almirante Brown</option>
+              </select>
+            </div>
+
+            {/* Subir Foto */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Foto del Lugar / Bache / Actividad
+              </label>
+              <div className="flex items-center gap-2">
+                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
+                  <Upload className="w-4 h-4 text-amber-400" />
+                  <span>{isUploadingPhoto ? 'Subiendo...' : fotoUrl ? 'Foto Cargada ✓' : 'Seleccionar Imagen (JPG/PNG)'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                </label>
+                {fotoUrl && (
+                  <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
+                    {fotoUrl}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Subir PDF */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Proyecto de Ordenanza / Nota Oficial (PDF)
+              </label>
+              <div className="flex items-center gap-2">
+                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
+                  <FileText className="w-4 h-4 text-amber-400" />
+                  <span>{isUploadingPdf ? 'Subiendo PDF...' : pdfUrl ? `PDF: ${pdfNombre} ✓` : 'Adjuntar Documento PDF'}</span>
+                  <input
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    onChange={handlePdfUpload}
+                    className="hidden"
+                  />
+                </label>
+                {pdfUrl && (
+                  <span className="text-[10px] text-emerald-400 font-mono truncate max-w-[150px]">
+                    {pdfNombre}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Descripción del Problema o Propuesta *
+              </label>
+              <textarea
+                rows={3}
+                required
+                value={descripcion}
+                onChange={(e) => setDescripcion(e.target.value)}
+                placeholder="Detalle del reclamo vecinal, expediente HCD o informe del estado de la calle..."
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>Guardar y Publicar Pin en el Mapa</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* List of existing pins with Delete action */}
+      <div className="glass-panel rounded-3xl p-6 border border-purple-500/30">
+        <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
+          Pines Registrados Actualmente ({pines.length})
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {pines.map((pin) => (
+            <div
+              key={pin.id}
+              className="p-3.5 rounded-2xl bg-purple-950/50 border border-purple-900/60 flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-bold text-amber-300 px-2 py-0.5 rounded-full bg-amber-400/10">
+                    {pin.categoria}
+                  </span>
+                  <span className="text-[10px] text-slate-400">{pin.fecha}</span>
+                </div>
+                <h5 className="text-xs font-bold text-white mb-1">{pin.titulo}</h5>
+                <p className="text-[11px] text-slate-300 mb-1">
+                  📍 {pin.calle} ({pin.localidad}) {pin.barrio ? `· Barrio ${pin.barrio}` : ''}
+                </p>
+                <p className="text-[10px] text-purple-300">
+                  Concejal: {pin.concejal} · {pin.apoyosVecinales || 0} apoyos
+                </p>
+              </div>
+
+              <div className="pt-2 mt-2 border-t border-purple-900/40 flex items-center justify-between">
+                <span className="text-[10px] text-emerald-400">{pin.estado}</span>
+                <button
+                  onClick={() => handleDeletePin(pin.id)}
+                  className="p-1 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors"
+                  title="Eliminar pin"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>

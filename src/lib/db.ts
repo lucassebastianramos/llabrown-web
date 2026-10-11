@@ -74,6 +74,7 @@ export async function initDatabase() {
           titulo TEXT NOT NULL,
           calle TEXT NOT NULL,
           localidad VARCHAR(128) NOT NULL,
+          barrio VARCHAR(128),
           lat DOUBLE PRECISION NOT NULL,
           lng DOUBLE PRECISION NOT NULL,
           categoria VARCHAR(64) NOT NULL,
@@ -87,6 +88,7 @@ export async function initDatabase() {
           apoyos_vecinales INT DEFAULT 0,
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
+        ALTER TABLE pines_territoriales ADD COLUMN IF NOT EXISTS barrio VARCHAR(128);
       `);
 
       // 4. Seed initial proyectos if empty
@@ -225,6 +227,7 @@ export async function getPinesDB(): Promise<import('@/types').PinTerritorial[]> 
       titulo: r.titulo,
       calle: r.calle,
       localidad: r.localidad,
+      barrio: r.barrio || undefined,
       lat: r.lat,
       lng: r.lng,
       categoria: r.categoria,
@@ -247,14 +250,15 @@ export async function getPinesDB(): Promise<import('@/types').PinTerritorial[]> 
 export async function createPinDB(pin: import('@/types').PinTerritorial): Promise<import('@/types').PinTerritorial> {
   await initDatabase();
   const res = await pool.query(
-    `INSERT INTO pines_territoriales (id, titulo, calle, localidad, lat, lng, categoria, estado, descripcion, concejal, fotos, pdf_url, pdf_nombre, fecha, apoyos_vecinales)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+    `INSERT INTO pines_territoriales (id, titulo, calle, localidad, barrio, lat, lng, categoria, estado, descripcion, concejal, fotos, pdf_url, pdf_nombre, fecha, apoyos_vecinales)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
      RETURNING *`,
     [
       pin.id,
       pin.titulo,
       pin.calle,
       pin.localidad,
+      pin.barrio || null,
       pin.lat,
       pin.lng,
       pin.categoria,
@@ -268,7 +272,10 @@ export async function createPinDB(pin: import('@/types').PinTerritorial): Promis
       pin.apoyosVecinales || 0
     ]
   );
-  return res.rows[0];
+  return {
+    ...res.rows[0],
+    barrio: res.rows[0].barrio || undefined
+  };
 }
 
 export async function deletePinDB(id: string): Promise<boolean> {

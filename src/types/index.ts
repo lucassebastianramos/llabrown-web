@@ -84,6 +84,7 @@ export interface PinTerritorial {
   titulo: string;
   calle: string;
   localidad: LocalidadNombre;
+  barrio?: string; // Barrio oficial según Ordenanza 13.906
   lat: number;
   lng: number;
   categoria: PinCategoria;

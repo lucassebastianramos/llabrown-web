@@ -10,10 +10,10 @@ export default function ElectoralMap() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
-            Pines en Calles de Brown
+            Mapa Territorial de Almirante Brown
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Relevamiento territorial de bacheo, luminarias, seguridad y proyectos legislativos del HCD georreferenciados en las 13 localidades del distrito.
+            Obras, reclamos de calles y ordenanzas georreferenciadas en los 155 barrios oficiales (Ord. N° 13.906) y 13 localidades del distrito.
           </p>
         </div>
 
