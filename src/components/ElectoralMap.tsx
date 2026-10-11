@@ -13,7 +13,7 @@ export default function ElectoralMap() {
             Mapa Territorial de Almirante Brown
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Obras, reclamos de calles y ordenanzas georreferenciadas en los 155 barrios oficiales (Ord. N° 13.906) y 13 localidades del distrito.
+            Obras, reclamos de calles y ordenanzas georreferenciadas en los 176 barrios oficiales (Ord. N° 13.906) y 13 localidades del distrito.
           </p>
         </div>
 

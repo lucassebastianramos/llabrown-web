@@ -537,7 +537,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
                 setIsSearching(true);
               }}
               onFocus={() => setIsSearching(true)}
-              placeholder="Buscar entre 1.484 calles y 155 barrios oficiales de Brown..."
+              placeholder="Buscar entre 1.484 calles y 176 barrios oficiales de Brown..."
               className="w-full pl-10 pr-9 py-2 rounded-xl bg-purple-950/80 border border-purple-800 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 transition-all shadow-inner"
             />
             {searchQuery && (
@@ -639,10 +639,10 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
                   ? 'bg-purple-700 text-white font-bold shadow-md border border-purple-400'
                   : 'bg-purple-950/60 hover:bg-purple-900/60 text-slate-400 border border-purple-900/60'
               }`}
-              title="Límites oficiales de los 155 barrios según Ordenanza N° 13.906 de Almirante Brown"
+              title="Límites oficiales de los 176 barrios según Ordenanza N° 13.906 de Almirante Brown"
             >
               <Building2 className="w-3.5 h-3.5 text-purple-300" />
-              <span>Barrios (155)</span>
+              <span>Barrios (176)</span>
               {showBarriosLayer && <Check className="w-3 h-3 stroke-[3]" />}
             </button>
 
@@ -782,7 +782,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
               Pines Territoriales, Barrios & Circuitos de Brown
             </span>
             <span className="text-[11px] font-semibold text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-              {pins.length} Reclamos y Obras · 155 Barrios · 11 Circuitos
+              {pins.length} Reclamos y Obras · 176 Barrios · 11 Circuitos
             </span>
           </div>
 
@@ -1091,7 +1091,7 @@ export default function StreetPinsMapInner({ initialPins = [] }: Props) {
                 Explorá el Mapa de Almirante Brown
               </h4>
               <p className="text-xs text-slate-300 max-w-xs leading-relaxed mb-4">
-                Hacé click en cualquiera de los pines de obras para ver fotos y descargar el proyecto en PDF, o explorá los 155 barrios (Ord. 13.906) y 11 circuitos electorales.
+                Hacé click en cualquiera de los pines de obras para ver fotos y descargar el proyecto en PDF, o explorá los 176 barrios (Ord. 13.906) y 11 circuitos electorales.
               </p>
               <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-900/50 text-left text-xs text-slate-300 w-full max-w-xs space-y-1.5">
                 <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[11px]">

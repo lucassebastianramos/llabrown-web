@@ -6976,6 +6976,846 @@
           ]
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Roca",
+        "localidad": "Burzaco",
+        "anexo": "ANEXO II",
+        "color": "#f59e0b",
+        "center": [
+          -34.832125,
+          -58.386125
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3845,
+              -34.834
+            ],
+            [
+              -58.3885,
+              -34.8355
+            ],
+            [
+              -58.3875,
+              -34.83
+            ],
+            [
+              -58.384,
+              -34.829
+            ],
+            [
+              -58.3845,
+              -34.834
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Santa Rosa",
+        "localidad": "Glew",
+        "anexo": "ANEXO IV",
+        "color": "#10b981",
+        "center": [
+          -34.8723,
+          -58.35815
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3582,
+              -34.8715
+            ],
+            [
+              -58.361,
+              -34.87
+            ],
+            [
+              -58.3585,
+              -34.8745
+            ],
+            [
+              -58.3549,
+              -34.8732
+            ],
+            [
+              -58.3582,
+              -34.8715
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Telepostal",
+        "localidad": "Glew",
+        "anexo": "ANEXO IV",
+        "color": "#10b981",
+        "center": [
+          -34.882725,
+          -58.387125
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3899,
+              -34.8845
+            ],
+            [
+              -58.3845,
+              -34.8836
+            ],
+            [
+              -58.3843,
+              -34.881
+            ],
+            [
+              -58.3898,
+              -34.8818
+            ],
+            [
+              -58.3899,
+              -34.8845
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "UPCN",
+        "localidad": "Glew",
+        "anexo": "ANEXO IV",
+        "color": "#10b981",
+        "center": [
+          -34.880675,
+          -58.387225
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3898,
+              -34.8804
+            ],
+            [
+              -58.385,
+              -34.8795
+            ],
+            [
+              -58.3843,
+              -34.881
+            ],
+            [
+              -58.3898,
+              -34.8818
+            ],
+            [
+              -58.3898,
+              -34.8804
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "COTEPA",
+        "localidad": "Glew",
+        "anexo": "ANEXO IV",
+        "color": "#10b981",
+        "center": [
+          -34.8808,
+          -58.392775
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3898,
+              -34.8804
+            ],
+            [
+              -58.3951,
+              -34.8831
+            ],
+            [
+              -58.3965,
+              -34.8812
+            ],
+            [
+              -58.3897,
+              -34.8785
+            ],
+            [
+              -58.3898,
+              -34.8804
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "COTEPA-PROGRESO",
+        "localidad": "Glew",
+        "anexo": "ANEXO IV",
+        "color": "#10b981",
+        "center": [
+          -34.878975,
+          -58.39345
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3897,
+              -34.8785
+            ],
+            [
+              -58.3965,
+              -34.8812
+            ],
+            [
+              -58.398,
+              -34.8795
+            ],
+            [
+              -58.3896,
+              -34.8767
+            ],
+            [
+              -58.3897,
+              -34.8785
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Casablanca",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.856946,
+          -58.374069
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.375958,
+              -34.856796
+            ],
+            [
+              -58.374717,
+              -34.858488
+            ],
+            [
+              -58.3722,
+              -34.8571
+            ],
+            [
+              -58.3734,
+              -34.8554
+            ],
+            [
+              -58.375958,
+              -34.856796
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Doña Sol",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.863,
+          -58.38915
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3905,
+              -34.8645
+            ],
+            [
+              -58.388,
+              -34.8638
+            ],
+            [
+              -58.3878,
+              -34.8615
+            ],
+            [
+              -58.3903,
+              -34.8622
+            ],
+            [
+              -58.3905,
+              -34.8645
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Las Lilas",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.865013,
+          -58.36545
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.369371,
+              -34.865059
+            ],
+            [
+              -58.3642,
+              -34.8622
+            ],
+            [
+              -58.361934,
+              -34.865147
+            ],
+            [
+              -58.366294,
+              -34.867644
+            ],
+            [
+              -58.369371,
+              -34.865059
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Rayo de Sol",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.870625,
+          -58.3946
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3912,
+              -34.871
+            ],
+            [
+              -58.3965,
+              -34.8728
+            ],
+            [
+              -58.398,
+              -34.8702
+            ],
+            [
+              -58.3927,
+              -34.8685
+            ],
+            [
+              -58.3912,
+              -34.871
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Viplastic",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.8464,
+          -58.37625
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3755,
+              -34.8488
+            ],
+            [
+              -58.3735,
+              -34.8458
+            ],
+            [
+              -58.377,
+              -34.844
+            ],
+            [
+              -58.379,
+              -34.847
+            ],
+            [
+              -58.3755,
+              -34.8488
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "14 de febrero",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.8627,
+          -58.368
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3718,
+              -34.8632
+            ],
+            [
+              -58.3694,
+              -34.8651
+            ],
+            [
+              -58.3642,
+              -34.8622
+            ],
+            [
+              -58.3666,
+              -34.8603
+            ],
+            [
+              -58.3718,
+              -34.8632
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Club Lomas",
+        "localidad": "Longchamps",
+        "anexo": "ANEXO VI",
+        "color": "#8b5cf6",
+        "center": [
+          -34.85909,
+          -58.370396
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.373682,
+              -34.857859
+            ],
+            [
+              -58.3695,
+              -34.855
+            ],
+            [
+              -58.3666,
+              -34.8603
+            ],
+            [
+              -58.3718,
+              -34.8632
+            ],
+            [
+              -58.373682,
+              -34.857859
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Betharram",
+        "localidad": "Malvinas Argentinas",
+        "anexo": "ANEXO VII",
+        "color": "#06b6d4",
+        "center": [
+          -34.814086,
+          -58.40678
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.409358,
+              -34.816376
+            ],
+            [
+              -58.402763,
+              -34.813766
+            ],
+            [
+              -58.4042,
+              -34.8118
+            ],
+            [
+              -58.4108,
+              -34.8144
+            ],
+            [
+              -58.409358,
+              -34.816376
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "San Miguel",
+        "localidad": "Malvinas Argentinas",
+        "anexo": "ANEXO VII",
+        "color": "#06b6d4",
+        "center": [
+          -34.81825,
+          -58.42265
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.4238,
+              -34.821
+            ],
+            [
+              -58.4265,
+              -34.8175
+            ],
+            [
+              -58.4215,
+              -34.8155
+            ],
+            [
+              -58.4188,
+              -34.819
+            ],
+            [
+              -58.4238,
+              -34.821
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Empleados de Comercio",
+        "localidad": "Malvinas Argentinas",
+        "anexo": "ANEXO VII",
+        "color": "#06b6d4",
+        "center": [
+          -34.8187,
+          -58.4179
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.4148,
+              -34.821
+            ],
+            [
+              -58.418362,
+              -34.820813
+            ],
+            [
+              -58.4215,
+              -34.8155
+            ],
+            [
+              -58.417,
+              -34.8175
+            ],
+            [
+              -58.4148,
+              -34.821
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Tsuji",
+        "localidad": "Ministro Rivadavia",
+        "anexo": "ANEXO VIII",
+        "color": "#f97316",
+        "center": [
+          -34.836225,
+          -58.3642
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3615,
+              -34.839
+            ],
+            [
+              -58.3638,
+              -34.8399
+            ],
+            [
+              -58.367,
+              -34.8335
+            ],
+            [
+              -58.3645,
+              -34.8325
+            ],
+            [
+              -58.3615,
+              -34.839
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "La Hermosa",
+        "localidad": "Ministro Rivadavia",
+        "anexo": "ANEXO VIII",
+        "color": "#f97316",
+        "center": [
+          -34.877095,
+          -58.353922
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.35289,
+              -34.875977
+            ],
+            [
+              -58.3562,
+              -34.8772
+            ],
+            [
+              -58.355,
+              -34.8785
+            ],
+            [
+              -58.351597,
+              -34.876704
+            ],
+            [
+              -58.35289,
+              -34.875977
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Las Latitas",
+        "localidad": "San Francisco De Asis",
+        "anexo": "ANEXO X",
+        "color": "#00d9ff",
+        "center": [
+          -34.817919,
+          -58.333048
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.3365,
+              -34.821
+            ],
+            [
+              -58.334,
+              -34.819
+            ],
+            [
+              -58.3304,
+              -34.8156
+            ],
+            [
+              -58.331293,
+              -34.816077
+            ],
+            [
+              -58.3365,
+              -34.821
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Suterh 1",
+        "localidad": "San Francisco De Asis",
+        "anexo": "ANEXO X",
+        "color": "#00d9ff",
+        "center": [
+          -34.822725,
+          -58.3455
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.344,
+              -34.8225
+            ],
+            [
+              -58.3455,
+              -34.8242
+            ],
+            [
+              -58.347,
+              -34.823
+            ],
+            [
+              -58.3455,
+              -34.8212
+            ],
+            [
+              -58.344,
+              -34.8225
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Soom",
+        "localidad": "San Francisco De Asis",
+        "anexo": "ANEXO X",
+        "color": "#00d9ff",
+        "center": [
+          -34.816019,
+          -58.333198
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.331293,
+              -34.816077
+            ],
+            [
+              -58.333,
+              -34.8175
+            ],
+            [
+              -58.335,
+              -34.816
+            ],
+            [
+              -58.3335,
+              -34.8145
+            ],
+            [
+              -58.331293,
+              -34.816077
+            ]
+          ]
+        ]
+      }
     }
   ]
 }
