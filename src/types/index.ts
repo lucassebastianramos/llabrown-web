@@ -1,0 +1,99 @@
+export type LocalidadNombre = 
+  | 'Adrogué'
+  | 'Burzaco'
+  | 'Claypole'
+  | 'Don Orione'
+  | 'Glew'
+  | 'José Mármol'
+  | 'Longchamps'
+  | 'Malvinas Argentinas'
+  | 'Ministro Rivadavia'
+  | 'Rafael Calzada'
+  | 'San Francisco de Asís'
+  | 'San José'
+  | 'Solano';
+
+export interface LocalidadInfo {
+  id: string;
+  nombre: LocalidadNombre;
+  circuito: string;
+  wa: string;
+  descripcion: string;
+  coordenadas: [number, number]; // [lat, lng]
+  hitos: string[];
+  referenteNombre: string;
+  destacado: string;
+}
+
+export interface ProyectoHCD {
+  id: string;
+  titulo: string;
+  expediente?: string;
+  fecha: string;
+  autor: string;
+  localidad: string;
+  categoria: 'Seguridad' | 'Transparencia' | 'Infraestructura' | 'Baja de Tasas' | 'Educación' | 'Salud' | 'Desregulación';
+  estado: 'Presentado' | 'En Comisión' | 'Aprobado' | 'En Tratamiento';
+  resumen: string;
+  destacado?: boolean;
+}
+
+export interface VisitaTerritorial {
+  id: string;
+  titulo: string;
+  localidad: LocalidadNombre;
+  circuito?: string;
+  fecha: string;
+  descripcion: string;
+  fotos: string[];
+  concejales: string[];
+  temasTratados: string[];
+}
+
+export interface MiembroEquipo {
+  id: string;
+  nombre: string;
+  rol: string;
+  localidad: string;
+  foto: string;
+  estilo?: string;
+  tipo: 'concejal' | 'consejero';
+  bio?: string;
+  redes?: {
+    instagram?: string;
+    twitter?: string;
+  };
+}
+
+export type PinCategoria = 
+  | 'Arreglo de Calles / Asfalto'
+  | 'Seguridad / Luminarias'
+  | 'Proyecto de Ordenanza HCD'
+  | 'Visita Vecinal / Reclamo'
+  | 'Salud / CAPS'
+  | 'Medio Ambiente / Basurales';
+
+export type PinEstado = 
+  | 'Reclamo Vecinal Recibido'
+  | 'Proyecto Presentado en HCD'
+  | 'En Gestión / Comisión'
+  | 'Resuelto / Completado';
+
+export interface PinTerritorial {
+  id: string;
+  titulo: string;
+  calle: string;
+  localidad: LocalidadNombre;
+  lat: number;
+  lng: number;
+  categoria: PinCategoria;
+  estado: PinEstado;
+  descripcion: string;
+  concejal: string;
+  fotos: string[];
+  pdfUrl?: string;
+  pdfNombre?: string;
+  fecha: string;
+  apoyosVecinales?: number;
+}
+

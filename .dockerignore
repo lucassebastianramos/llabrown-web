@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.gitignore
+.env*.local
+README.md
+legacy-static
+circuitos-electorales-pba/shp
+npm-debug.log*
