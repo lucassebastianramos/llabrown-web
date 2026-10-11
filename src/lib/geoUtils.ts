@@ -31,11 +31,15 @@ export interface SearchResult {
  * Normaliza cadenas de texto para búsqueda insensible a acentos y mayúsculas
  */
 export function normalizeText(str: string): string {
-  return str
+  let s = str
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .trim();
+  // Alias de búsqueda y variantes fonéticas comunes
+  s = s.replace(/\bgorritti\b/g, 'gorriti');
+  s = s.replace(/\boucra\b/g, 'uocra');
+  return s;
 }
 
 /**
