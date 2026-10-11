@@ -69,7 +69,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#mapa" className="hover:text-amber-400 transition-colors">
-                  Mapa Electoral & Localidades
+                  Pines en Calles y Obras
                 </a>
               </li>
               <li>
