@@ -5,19 +5,21 @@ import StreetPinsMap from '@/components/StreetPinsMap';
 
 export default function ElectoralMap() {
   return (
-    <section id="mapa" className="py-20 relative bg-[#08040d]">
+    <section id="mapa" className="py-20 bg-[#f5f4f8] border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
-            Mapa Territorial de Almirante Brown
+        {/* Encabezado limpio estilo institucional */}
+        <div className="max-w-3xl mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#6c4c99]">
+            Cartografía Distrital
+          </p>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
+            Mapa territorial de Almirante Brown
           </h2>
-          <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Obras, reclamos de calles y ordenanzas georreferenciadas en los 176 barrios oficiales (Ord. N° 13.906) y 13 localidades del distrito.
+          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+            Obras, reclamos de calles y ordenanzas georreferenciadas en los 176 barrios oficiales (Ord. N° 13.906) y las 13 localidades del partido.
           </p>
         </div>
 
-        {/* Leaflet Street Pins Map con ESRI y máscara territorial de Almirante Brown */}
         <div className="animate-fadeIn">
           <StreetPinsMap />
         </div>

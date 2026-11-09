@@ -10,7 +10,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main id="contenido" className="min-h-screen bg-[#08040d] text-slate-100 flex flex-col selection:bg-[#371859] selection:text-white">
+    <main id="contenido" className="min-h-screen bg-white text-[#1d1d1d] flex flex-col selection:bg-[#371859] selection:text-white">
       <Header />
       <Hero />
       <ElectoralMap />

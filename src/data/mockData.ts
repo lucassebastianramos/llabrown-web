@@ -422,7 +422,7 @@ export const CAROUSEL_GALLERY = [
   { img: '/img/vecinos4.jpeg', caption: 'Encuentro barrial con familias' },
   { img: '/img/vecinos5.jpeg', caption: 'Trabajando junto a los vecinos' },
   { img: '/img/vecinos6.jpeg', caption: 'Presencia constante en el distrito' },
-  { img: '/img/vecinos7.jpeg', caption: 'El cambio se construye desde la base' },
+  { img: '/img/vecinos7.jpeg', caption: 'La libertad avanza en cada barrio' },
   { img: '/img/vecinos8.jpeg', caption: 'Reuniones de coordinación territorial' }
 ];
 
@@ -471,7 +471,7 @@ export const PINES_INICIALES: import('../types').PinTerritorial[] = [
     lng: -58.3380,
     categoria: 'Seguridad / Luminarias',
     estado: 'Proyecto Presentado en HCD',
-    descripcion: 'Zona oscura y peligrosa en inmediaciones de la estación y cruce peatonal. Presentamos minuta de comunicación exigiendo recambio a LED.',
+    descripcion: 'Zona oscura y peligrosa en inmediaciones de la estación y cruce peatonal. Presentamos minuta de comunicación exigiendo reemplazo por luminarias LED.',
     concejal: 'Ezequiel Barreiro',
     fotos: ['/img/vecinos3.jpeg'],
     pdfUrl: '/uploads/proyecto-seguridad-claypole.pdf',

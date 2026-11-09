@@ -10,19 +10,16 @@ const config: Config = {
     extend: {
       colors: {
         lla: {
-          // Color oficial según Manual de Marca La Libertad Avanza (Pantone 2627 C / RGB 55, 24, 89)
-          primary: "#371859",
-          dark: "#0e0417",
-          deep: "#1a0b2e",
-          card: "#200e38",
-          border: "#431f6e",
-          accent: "#6b2da8",
-          light: "#9d5be3",
-          gold: {
-            DEFAULT: "#fbbf24",
-            hover: "#f59e0b",
-            light: "#fde68a",
-          },
+          // Paleta oficial La Libertad Avanza Nacional (lalibertadavanza.com.ar)
+          primary: "#371859",      // --color-principal (Pantone 2627 C)
+          secondary: "#2f0163",    // --color-secundario-01
+          deep: "#230552",         // --color-secundario-02
+          dark: "#120629",
+          violet: "#6c4c99",       // --color-02
+          celeste: "#39b5e6",      // --color-01
+          magenta: "#b23c8e",      // --color-03
+          charcoal: "#1d1d1d",     // --color-07
+          surface: "#f5f4f8",
         },
       },
       fontFamily: {

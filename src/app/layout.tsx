@@ -11,8 +11,8 @@ const montserrat = Montserrat({
 });
 
 export const viewport: Viewport = {
-  themeColor: '#0a0612',
-  colorScheme: 'dark',
+  themeColor: '#371859',
+  colorScheme: 'light',
 };
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s · LLA Almirante Brown',
   },
   description:
-    'Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown. Proyectos en el HCD, reclamos vecinales con seguimiento y presencia en los 13 barrios del distrito.',
+    'Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown. Proyectos en el HCD, reclamos vecinales con seguimiento y presencia en las 13 localidades del distrito.',
   keywords: [
     'La Libertad Avanza',
     'Almirante Brown',
@@ -52,10 +52,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${montserrat.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-[#0a0612] font-sans text-[#f4f2f7] antialiased">
+      <body className="min-h-screen bg-white font-sans text-[#1d1d1d] antialiased">
         <a
           href="#contenido"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#371859]"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#371859] focus:shadow-lg"
         >
           Saltar al contenido
         </a>

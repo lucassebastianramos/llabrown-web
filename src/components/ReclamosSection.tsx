@@ -3,23 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { LOCALIDADES } from '@/data/mockData';
 import { LocalidadNombre, ReclamoVecinal } from '@/types';
-import { 
-  FileText, 
-  Send, 
-  CheckCircle2, 
-  ExternalLink, 
-  Search, 
-  BookOpen, 
-  Scale, 
-  AlertCircle, 
-  ShieldCheck, 
-  PhoneCall, 
-  MapPin, 
-  Building2, 
-  Layers,
-  Sparkles,
+import {
+  FileText,
+  Send,
+  CheckCircle2,
+  ExternalLink,
+  Search,
+  BookOpen,
+  Scale,
+  ShieldCheck,
+  MapPin,
   MessageCircle,
-  HelpCircle
 } from 'lucide-react';
 import { buildWhatsAppReclamoUrl } from '@/lib/municipalReclamoService';
 
@@ -42,7 +36,6 @@ export default function ReclamosSection() {
   const [resultadoMsg, setResultadoMsg] = useState<string>('');
   const [showDigestoGuide, setShowDigestoGuide] = useState(false);
 
-  // Cargar barrios oficiales de la localidad seleccionada desde almirante-brown-barrios.json
   useEffect(() => {
     fetch('/data/almirante-brown-barrios.json')
       .then((res) => (res.ok ? res.json() : null))
@@ -74,7 +67,7 @@ export default function ReclamosSection() {
     'Mobiliario Urbano en Plazas y Vía Pública',
     'Servicios de Salud / Reclamo en CAPS',
     'Inspección / Habilitaciones Comerciales',
-    'Defensa Civil / Seguridad Barrial'
+    'Defensa Civil / Seguridad Barrial',
   ];
 
   const NORMAS_SUGERIDAS = [
@@ -93,7 +86,7 @@ export default function ReclamosSection() {
     {
       titulo: 'Higiene Urbana y Medio Ambiente',
       detalle: 'Prohibición de microbasurales y mantenimiento de zanjas y desagües pluviales.',
-    }
+    },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -149,82 +142,71 @@ export default function ReclamosSection() {
   };
 
   return (
-    <section id="reclamos" className="py-20 relative bg-[#08040d] border-t border-purple-950/40">
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-950/20 via-transparent to-transparent pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/80 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
-            <Scale className="w-3.5 h-3.5 text-amber-400" />
-            <span>Auditoría Ciudadana & Bloque HCD</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
-            Cargar Reclamo <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500">Vecinal</span>
+    <section id="reclamos" className="py-20 bg-[#371859] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Encabezado limpio estilo institucional */}
+        <div className="max-w-3xl mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#39b5e6]">
+            Auditoría Ciudadana · Bloque HCD
+          </p>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Cargar reclamo vecinal
           </h2>
-
-          <p className="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-            Canalizá tu reclamo con el bloque de concejales de <strong>La Libertad Avanza</strong>. 
-            Registramos tu solicitud en nuestra base de datos, ingresamos formalmente el trámite 
-            bajo el patrocinio del Concejal <strong>Juan Pedro Aquino</strong> y 
-            te entregamos tu número de reclamo para auditar la respuesta del municipio.
+          <p className="mt-3 text-white/85 text-sm sm:text-base leading-relaxed">
+            Canalizá tu solicitud con el bloque de concejales de <strong>La Libertad Avanza</strong>. Registramos tu reclamo en nuestra base de datos, ingresamos formalmente el trámite bajo el patrocinio del Concejal <strong>Juan Pedro Aquino</strong> y te entregamos tu número de seguimiento para auditar al municipio.
           </p>
         </div>
 
-        {/* Digesto Municipal HCD Integration Bar */}
-        <div className="mb-10 p-6 rounded-3xl bg-[#0f071b] border border-amber-400/25 shadow-xl relative overflow-hidden">
+        {/* Barra de integración con Digesto Oficial HCD */}
+        <div className="mb-10 p-6 rounded-2xl bg-[#230552] border border-white/15">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-2xl bg-purple-900/40 border border-purple-700/60 text-amber-400 shrink-0">
+              <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
                 <BookOpen className="w-6 h-6" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-base sm:text-lg font-bold text-white">
                     Digesto Oficial del Honorable Concejo Deliberante
                   </h3>
-                  <span className="px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-black uppercase tracking-wider border border-amber-400/40">
+                  <span className="px-2 py-0.5 rounded-full bg-white/15 text-white text-[10px] font-bold uppercase tracking-wider">
                     Oficial
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                  Todo reclamo vecinal tiene sustento en las ordenanzas y decretos municipales vigentes que el gobierno de Brown debe cumplir. Podés buscar y fundamentar tu solicitud directamente en el portal oficial del HCD.
+                <p className="text-xs text-white/80 mt-1 max-w-2xl leading-relaxed">
+                  Todo reclamo vecinal tiene sustento en las ordenanzas y decretos municipales vigentes que el municipio de Almirante Brown debe cumplir. Podés consultar las normas directamente en el portal oficial del HCD.
                 </p>
               </div>
             </div>
 
-            {/* Direct links to Digesto tools */}
             <div className="flex flex-wrap items-center gap-2 shrink-0 w-full lg:w-auto">
               <a
                 href="https://a.brown.gob.ar/hcd/digesto/buscarporpalabra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-purple-950/70 hover:bg-purple-900/80 border border-purple-700/60 text-white hover:text-amber-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-3.5 py-2 rounded-lg border border-white/25 hover:bg-white/10 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
-                <Search className="w-3.5 h-3.5 text-amber-400" />
-                <span>Por Palabra Clave</span>
-                <ExternalLink className="w-3 h-3 text-slate-400" />
+                <Search className="w-3.5 h-3.5 text-[#39b5e6]" />
+                <span>Por palabra clave</span>
+                <ExternalLink className="w-3 h-3 text-white/70" />
               </a>
 
               <a
                 href="https://a.brown.gob.ar/hcd/digesto/buscarpornumero"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-purple-950/70 hover:bg-purple-900/80 border border-purple-700/60 text-white hover:text-amber-300 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-3.5 py-2 rounded-lg border border-white/25 hover:bg-white/10 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
-                <FileText className="w-3.5 h-3.5 text-amber-400" />
-                <span>Por N° de Norma</span>
-                <ExternalLink className="w-3 h-3 text-slate-400" />
+                <FileText className="w-3.5 h-3.5 text-[#39b5e6]" />
+                <span>Por N° de norma</span>
+                <ExternalLink className="w-3 h-3 text-white/70" />
               </a>
 
               <a
                 href="https://a.brown.gob.ar/hcd/digesto"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md"
+                className="px-4 py-2 rounded-lg bg-white hover:bg-slate-100 text-[#371859] text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
               >
                 <span>Ver Digesto HCD</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -233,73 +215,71 @@ export default function ReclamosSection() {
           </div>
         </div>
 
-        {/* Main Grid: Form / Success Card + Audit Info */}
+        {/* Grilla principal: Tarjeta blanca de formulario (estilo LLA Nacional) + Paneles de auditoría */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Form or Success Card (8 cols) */}
           <div className="lg:col-span-8">
             {submittedReclamo ? (
-              /* Success & Tracking State */
-              <div className="p-8 rounded-3xl bg-[#0f071b] border border-amber-400/40 shadow-2xl animate-fadeIn">
+              <div className="p-6 sm:p-8 rounded-2xl bg-white text-[#1d1d1d] shadow-xl animate-fadeIn">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 rounded-2xl bg-amber-400/20 border border-amber-400/40 text-amber-400">
-                    <CheckCircle2 className="w-8 h-8" />
+                  <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-[#371859]">
+                    <CheckCircle2 className="w-7 h-7" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-black uppercase tracking-widest text-amber-400 block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#6c4c99] block">
                       Reclamo Registrado en Auditoría LLA
                     </span>
-                    <h3 className="text-2xl font-black text-white">
-                      ¡Tu reclamo está en marcha!
+                    <h3 className="text-2xl font-extrabold text-[#1d1d1d]">
+                      Tu reclamo ya está en seguimiento
                     </h3>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[#140a25] border border-purple-800/60 mb-6 space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-purple-900/50">
-                    <span className="text-xs text-slate-400">Código de Seguimiento LLA:</span>
-                    <span className="text-sm font-mono font-black text-amber-400 bg-purple-950/80 px-2.5 py-1 rounded-lg border border-purple-700/60">
+                <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 mb-6 space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200">
+                    <span className="text-xs text-slate-600">Código de Seguimiento LLA:</span>
+                    <span className="text-sm font-mono font-bold text-[#371859] bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200">
                       {submittedReclamo.codigoSeguimiento}
                     </span>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-purple-900/50">
-                    <span className="text-xs text-slate-400">Patrocinio Institucional:</span>
-                    <span className="text-xs font-bold text-white">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200">
+                    <span className="text-xs text-slate-600">Patrocinio Institucional:</span>
+                    <span className="text-xs font-bold text-slate-900">
                       {submittedReclamo.patrocinadoPor}
                     </span>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-purple-900/50">
-                    <span className="text-xs text-slate-400">Ubicación:</span>
-                    <span className="text-xs font-semibold text-slate-200">
-                      {submittedReclamo.calle} {submittedReclamo.altura || ''} · {submittedReclamo.barrio ? `${submittedReclamo.barrio}, ` : ''}{submittedReclamo.localidad}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200">
+                    <span className="text-xs text-slate-600">Ubicación:</span>
+                    <span className="text-xs font-semibold text-slate-800">
+                      {submittedReclamo.calle} {submittedReclamo.altura || ''} ·{' '}
+                      {submittedReclamo.barrio ? `${submittedReclamo.barrio}, ` : ''}
+                      {submittedReclamo.localidad}
                     </span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span className="text-xs text-slate-400">Estado en Sistema Municipal:</span>
-                    <span className="text-xs font-bold text-purple-300">
-                      {submittedReclamo.numeroReclamoMunicipal 
-                        ? `Ingresado - N° Oficial: ${submittedReclamo.numeroReclamoMunicipal}` 
-                        : 'Enviado a BrownGestión / En Auditoría de Bloque'}
+                    <span className="text-xs text-slate-600">Estado en Sistema Municipal:</span>
+                    <span className="text-xs font-bold text-[#371859]">
+                      {submittedReclamo.numeroReclamoMunicipal
+                        ? `Ingresado - N° Oficial: ${submittedReclamo.numeroReclamoMunicipal}`
+                        : 'Enviado a Gestión Municipal · En Auditoría de Bloque'}
                     </span>
                   </div>
                 </div>
 
                 {resultadoMsg && (
-                  <p className="text-xs text-slate-300 mb-6 bg-purple-950/40 p-3.5 rounded-xl border border-purple-800/40">
-                    ℹ️ {resultadoMsg}
+                  <p className="text-xs text-slate-700 mb-6 bg-purple-50/70 p-3.5 rounded-xl border border-purple-200">
+                    {resultadoMsg}
                   </p>
                 )}
 
-                {/* Actions: WhatsApp + Ver Mapa + Nuevo Reclamo */}
                 <div className="flex flex-wrap items-center gap-3">
                   <a
                     href={buildWhatsAppReclamoUrl(submittedReclamo)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all"
+                    className="flex-1 py-3 px-4 rounded-lg bg-[#371859] hover:bg-[#230552] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
                   >
                     <MessageCircle className="w-4 h-4 text-white" />
                     <span>Avisar al Concejal Pedro Aquino por WhatsApp</span>
@@ -307,48 +287,48 @@ export default function ReclamosSection() {
 
                   <a
                     href="#mapa"
-                    className="py-3 px-4 rounded-xl bg-purple-950/80 hover:bg-purple-900 text-white border border-purple-700/60 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all"
+                    className="py-3 px-4 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                   >
-                    <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Ver Mapa Territorial</span>
+                    <MapPin className="w-3.5 h-3.5 text-[#371859]" />
+                    <span>Ver Mapa</span>
                   </a>
 
                   <button
                     onClick={handleReset}
-                    className="py-3 px-4 rounded-xl bg-transparent hover:bg-white/[0.05] text-slate-300 hover:text-white text-xs font-semibold transition-all"
+                    className="py-3 px-4 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-semibold transition-colors"
                   >
                     Cargar otro reclamo
                   </button>
                 </div>
               </div>
             ) : (
-              /* Claim Input Form */
-              <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-3xl bg-[#0f071b] border border-white/[0.08] shadow-2xl space-y-6">
-                
-                <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Formulario de Solicitud Vecinal</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">Completá los detalles para que el bloque de concejales lo gestione formalmente.</p>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold text-amber-400 px-2.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/30">
-                    Paso 1 de 1
-                  </span>
+              <form
+                onSubmit={handleSubmit}
+                className="p-6 sm:p-8 rounded-2xl bg-white text-[#1d1d1d] shadow-xl space-y-5"
+              >
+                <div className="pb-4 border-b border-slate-200">
+                  <h3 className="text-xl font-extrabold text-[#1d1d1d]">
+                    Formulario de solicitud vecinal
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1">
+                    Completá los datos para que nuestro bloque legislativo ingrese y audite tu reclamo.
+                  </p>
                 </div>
 
                 {/* 1. Localidad & Barrio */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
                       Localidad *
                     </label>
                     <select
                       value={localidad}
                       onChange={(e) => setLocalidad(e.target.value as LocalidadNombre)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                       required
                     >
                       {LOCALIDADES.map((loc) => (
-                        <option key={loc.id} value={loc.nombre} className="bg-[#140a25]">
+                        <option key={loc.id} value={loc.nombre}>
                           {loc.nombre}
                         </option>
                       ))}
@@ -356,18 +336,20 @@ export default function ReclamosSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center justify-between">
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
                       <span>Barrio Oficial (Ord. 13.906)</span>
-                      <span className="text-[10px] text-amber-400">{barriosList.length} barrios</span>
+                      <span className="text-[10px] font-semibold text-[#6c4c99]">
+                        {barriosList.length} barrios
+                      </span>
                     </label>
                     <select
                       value={barrio}
                       onChange={(e) => setBarrio(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     >
-                      <option value="" className="bg-[#140a25]">Seleccionar Barrio...</option>
+                      <option value="">Seleccionar barrio...</option>
                       {barriosList.map((b) => (
-                        <option key={b} value={b} className="bg-[#140a25]">
+                        <option key={b} value={b}>
                           {b}
                         </option>
                       ))}
@@ -375,24 +357,24 @@ export default function ReclamosSection() {
                   </div>
                 </div>
 
-                {/* 2. Dirección: Calle, Altura y Esquina */}
+                {/* 2. Dirección */}
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
                   <div className="sm:col-span-6">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Calle Principal *
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Calle principal *
                     </label>
                     <input
                       type="text"
                       value={calle}
                       onChange={(e) => setCalle(e.target.value)}
                       placeholder="Ej: Humberto Primo, Amenedo, Salta..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                       required
                     />
                   </div>
 
                   <div className="sm:col-span-3">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
                       Altura / N°
                     </label>
                     <input
@@ -400,86 +382,88 @@ export default function ReclamosSection() {
                       value={altura}
                       onChange={(e) => setAltura(e.target.value)}
                       placeholder="Ej: 990 o S/N"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     />
                   </div>
 
                   <div className="sm:col-span-3">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Entre Calles / Esquina
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Entre calles / Esquina
                     </label>
                     <input
                       type="text"
                       value={entreCalles}
                       onChange={(e) => setEntreCalles(e.target.value)}
                       placeholder="Ej: y Roca"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
-                {/* 3. Tipo de Reclamo */}
+                {/* 3. Categoría */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Categoría del Reclamo *
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Categoría del reclamo *
                   </label>
                   <select
                     value={tipoReclamo}
                     onChange={(e) => setTipoReclamo(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     required
                   >
                     {TIPOS_RECLAMO.map((t) => (
-                      <option key={t} value={t} className="bg-[#140a25]">
+                      <option key={t} value={t}>
                         {t}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {/* 4. Descripción del Problema */}
+                {/* 4. Detalle */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center justify-between">
-                    <span>Detalle del Reclamo *</span>
-                    <span className="text-[10px] text-slate-400">Sé lo más específico posible</span>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                    <span>Detalle del problema *</span>
+                    <span className="text-[10px] font-normal text-slate-500">
+                      Sé lo más específico posible
+                    </span>
                   </label>
                   <textarea
                     rows={4}
                     value={descripcion}
                     onChange={(e) => setDescripcion(e.target.value)}
-                    placeholder="Contanos qué sucede: hace cuánto tiempo persiste el problema, si afecta el paso de ambulancias o colectivos, cables caídos, cráteres peligrosos o falta de respuesta previa del municipio..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                    placeholder="Contanos qué sucede: desde cuándo persiste el problema, si afecta el paso de ambulancias o colectivos, luminarias apagadas o falta de respuesta previa..."
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     required
                   />
                 </div>
 
-                {/* 5. Cita del Digesto Oficial (Opcional) */}
-                <div className="p-4 rounded-2xl bg-purple-950/30 border border-purple-800/40 space-y-2">
+                {/* 5. Cita del Digesto (Opcional) */}
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-[#371859] flex items-center gap-1.5">
                       <Scale className="w-3.5 h-3.5" />
-                      Fundamento Legal en Digesto HCD (Opcional)
+                      Fundamento legal en Digesto HCD (Opcional)
                     </span>
                     <button
                       type="button"
                       onClick={() => setShowDigestoGuide(!showDigestoGuide)}
-                      className="text-[11px] text-purple-300 hover:text-white underline transition-colors"
+                      className="text-[11px] font-semibold text-[#6c4c99] hover:text-[#371859] underline transition-colors"
                     >
                       {showDigestoGuide ? 'Ocultar sugerencias' : 'Ver sugerencias rápidas'}
                     </button>
                   </div>
 
                   {showDigestoGuide && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-[11px]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[11px]">
                       {NORMAS_SUGERIDAS.map((norma) => (
                         <button
                           type="button"
                           key={norma.titulo}
                           onClick={() => setNormaDigesto(norma.titulo)}
-                          className="p-2.5 rounded-xl bg-[#140a25] border border-purple-800/60 hover:border-amber-400 text-left transition-colors"
+                          className="p-2.5 rounded-lg bg-white border border-slate-200 hover:border-[#371859] text-left transition-colors"
                         >
-                          <strong className="text-amber-300 block">{norma.titulo}</strong>
-                          <span className="text-slate-400 text-[10px]">{norma.detalle}</span>
+                          <strong className="text-[#371859] block">{norma.titulo}</strong>
+                          <span className="text-slate-600 text-[10px]">{norma.detalle}</span>
                         </button>
                       ))}
                     </div>
@@ -490,65 +474,65 @@ export default function ReclamosSection() {
                     value={normaDigesto}
                     onChange={(e) => setNormaDigesto(e.target.value)}
                     placeholder="Ej: Ordenanza 13.906 de Barrios / Ordenanza Fiscal de Alumbrado y Bacheo"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                    className="w-full px-3.5 py-2 rounded-lg bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] transition-colors"
                   />
                 </div>
 
-                {/* 6. Datos del Vecino */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                {/* 6. Datos del vecino */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Tu Nombre y Apellido *
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Nombre y apellido *
                     </label>
                     <input
                       type="text"
                       value={nombreVecino}
                       onChange={(e) => setNombreVecino(e.target.value)}
                       placeholder="Ej: Martín Rodríguez"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                      Tu Teléfono / WhatsApp *
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Teléfono / WhatsApp *
                     </label>
                     <input
                       type="tel"
                       value={telefonoVecino}
                       onChange={(e) => setTelefonoVecino(e.target.value)}
                       placeholder="Ej: 11 3159-6936"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
                       DNI (Opcional)
                     </label>
                     <input
                       type="text"
                       value={dniVecino}
                       onChange={(e) => setDniVecino(e.target.value)}
-                      placeholder="Si no poseés, patrocina LLA"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#140a25] border border-purple-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                      placeholder="Patrocina Bloque LLA"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
-                {/* Submit button */}
-                <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs text-slate-400">
-                    <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Datos protegidos y auditados por el Bloque LLA</span>
+                {/* Botón de envío */}
+                <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-slate-600">
+                    <ShieldCheck className="w-4 h-4 text-[#371859] shrink-0" />
+                    <span>Datos resguardados y auditados por el Bloque LLA</span>
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-700 via-purple-600 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-purple-900/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                    className="px-6 py-3 rounded-lg bg-[#371859] hover:bg-[#230552] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -558,7 +542,7 @@ export default function ReclamosSection() {
                     ) : (
                       <>
                         <Send className="w-3.5 h-3.5" />
-                        <span>Enviar Reclamo para Auditoría</span>
+                        <span>Enviar reclamo</span>
                       </>
                     )}
                   </button>
@@ -567,83 +551,70 @@ export default function ReclamosSection() {
             )}
           </div>
 
-          {/* Right Column: Why audit with LLA / BrownGestión info (4 cols) */}
-          <div className="lg:col-span-4 space-y-6">
-            
-            {/* Box 1: Institutional sponsorship */}
-            <div className="p-6 rounded-3xl bg-[#0f071b] border border-purple-500/25 shadow-xl space-y-4">
+          {/* Columna Derecha: Información de auditoría institucional */}
+          <div className="lg:col-span-4 space-y-5">
+            <div className="p-6 rounded-2xl bg-[#230552] border border-white/15 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-purple-900/50 border border-purple-700 text-amber-400">
+                <div className="p-2.5 rounded-xl bg-white/10 text-[#39b5e6]">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white uppercase tracking-wider">
-                    Auditoría Permanente
-                  </h4>
-                  <span className="text-[11px] text-amber-400 font-semibold block">
+                  <h4 className="text-sm font-bold text-white">Auditoría Permanente</h4>
+                  <span className="text-xs text-white/75 block">
                     Coordinación Juan Pedro Aquino
                   </span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Cada reclamo vecinal no queda en el olvido. Los concejales de <strong>La Libertad Avanza</strong> cotejan los números de trámite en las sesiones del Concejo Deliberante para exigir la rendición de cuentas de las cuadrillas y el destino de las tasas municipales.
+              <p className="text-xs text-white/80 leading-relaxed">
+                Cada solicitud vecinal queda registrada para su seguimiento legislativo. Los concejales de <strong>La Libertad Avanza</strong> relevan los números de trámite en el Concejo Deliberante para exigir respuesta efectiva del municipio y control sobre las tasas.
               </p>
 
-              <div className="pt-3 border-t border-purple-900/40 space-y-2 text-xs">
-                <div className="flex items-center justify-between text-slate-300">
-                  <span>Teléfono / WhatsApp Oficial:</span>
-                  <strong className="text-amber-400 font-bold">11 3159-6936</strong>
+              <div className="pt-3 border-t border-white/15 space-y-2 text-xs">
+                <div className="flex items-center justify-between text-white/80">
+                  <span>WhatsApp Oficial:</span>
+                  <strong className="text-white font-bold">11 3159-6936</strong>
                 </div>
-                <div className="flex items-center justify-between text-slate-300">
+                <div className="flex items-center justify-between text-white/80">
                   <span>Sede Central:</span>
                   <span className="text-white">Humberto Primo 990, Burzaco</span>
                 </div>
               </div>
             </div>
 
-            {/* Box 2: Centralización Exclusiva y Transparencia */}
-            <div className="p-6 rounded-3xl bg-[#0f071b] border border-white/[0.08] shadow-xl space-y-3">
-              <div className="flex items-center gap-2 text-white font-bold text-sm">
-                <ShieldCheck className="w-4 h-4 text-amber-400" />
-                <span>Centralización y Auditoría Directa</span>
-              </div>
-
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Cada reclamo vecinal ingresado es resguardado en nuestra base de datos. Nuestro bloque legislativo tramita el ingreso formal ante las dependencias municipales y audita cada semana el estado de resolución en el HCD.
+            <div className="p-6 rounded-2xl bg-[#230552] border border-white/15 space-y-3">
+              <h4 className="text-sm font-bold text-white">Centralización y seguimiento directo</h4>
+              <p className="text-xs text-white/80 leading-relaxed">
+                Resguardamos cada reclamo ingresado por los vecinos de Brown, gestionamos su ingreso formal ante el área correspondiente y auditamos semanalmente su estado de resolución.
               </p>
-
               <a
                 href="#mapa"
-                className="w-full py-2.5 px-3 rounded-xl bg-purple-950/80 hover:bg-purple-900 text-white text-xs font-semibold flex items-center justify-between border border-purple-800/80 transition-colors group"
+                className="w-full py-2.5 px-3.5 rounded-lg border border-white/25 hover:bg-white/10 text-white text-xs font-semibold flex items-center justify-between transition-colors"
               >
-                <span className="group-hover:text-amber-300 transition-colors">Explorar Reclamos en el Mapa</span>
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                <span>Explorar reclamos en el mapa</span>
+                <MapPin className="w-3.5 h-3.5 text-[#39b5e6]" />
               </a>
             </div>
 
-            {/* Box 3: WhatsApp Direct Channel */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#1a0b2e] to-[#0e0417] border border-amber-400/30 shadow-xl space-y-3">
-              <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-                <MessageCircle className="w-4 h-4" />
-                <span>¿Dudas o Reclamo Urgente?</span>
+            <div className="p-6 rounded-2xl bg-[#230552] border border-white/15 space-y-3">
+              <div className="flex items-center gap-2 text-white font-bold text-sm">
+                <MessageCircle className="w-4 h-4 text-[#39b5e6]" />
+                <span>¿Consulta o reclamo urgente?</span>
               </div>
-              <p className="text-xs text-slate-300">
-                Escribinos directamente por WhatsApp y nuestro equipo de coordinadores territoriales de tu localidad te asiste al instante.
+              <p className="text-xs text-white/80 leading-relaxed">
+                Escribinos por WhatsApp y el equipo territorial de tu localidad te asiste directamente.
               </p>
               <a
                 href="https://wa.me/5491131596936?text=Hola%20Juan%20Pedro%2C%20tengo%20un%20reclamo%20vecinal%20urgente"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-purple-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"
+                className="w-full py-2.5 px-4 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-sm"
               >
                 <span>Escribir al 11 3159-6936</span>
               </a>
             </div>
-
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -9,9 +9,9 @@ const DynamicStreetPinsMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[520px] rounded-3xl glass-panel border border-purple-500/30 flex flex-col items-center justify-center text-slate-300">
-        <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-3" />
-        <span className="text-xs font-semibold">Cargando mapa interactivo de calles y pines...</span>
+      <div className="w-full h-[520px] rounded-2xl bg-white border border-slate-200 flex flex-col items-center justify-center text-slate-600 shadow-sm">
+        <div className="w-8 h-8 border-2 border-[#371859] border-t-transparent rounded-full animate-spin mb-3" />
+        <span className="text-xs font-semibold">Cargando mapa interactivo de calles y barrios...</span>
       </div>
     ),
   }

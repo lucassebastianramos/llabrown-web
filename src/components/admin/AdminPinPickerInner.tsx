@@ -1,28 +1,25 @@
 'use client';
 
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { PinTerritorial, PinCategoria, PinEstado, LocalidadNombre } from '@/types';
 import { LOCALIDADES, CONCEJALES } from '@/data/mockData';
-import { 
-  detectBarrio, 
-  searchBrownTerritory, 
-  SearchResult, 
+import {
+  detectBarrio,
+  searchBrownTerritory,
+  SearchResult,
   StreetItem,
-  BarrioProperties 
+  BarrioProperties,
 } from '@/lib/geoUtils';
-import { 
-  MapPin, 
-  PlusCircle, 
-  Trash2, 
-  Upload, 
-  FileText, 
+import {
+  PlusCircle,
+  Trash2,
+  Upload,
+  FileText,
   Building2,
   Search,
-  CheckCircle2,
-  AlertCircle,
-  X
+  X,
 } from 'lucide-react';
 
 const CARTO_KEY = 'cb1_4gpl_1_91252c0c164ed9fcbdef50a7';
@@ -56,12 +53,11 @@ export default function AdminPinPickerInner() {
   const [pines, setPines] = useState<PinTerritorial[]>([]);
   const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number }>({
     lat: -34.825,
-    lng: -58.385
+    lng: -58.385,
   });
 
   const [basemapStyle, setBasemapStyle] = useState<AdminBasemapKey>('esri');
 
-  // Form fields
   const [titulo, setTitulo] = useState('');
   const [calle, setCalle] = useState('');
   const [localidad, setLocalidad] = useState<LocalidadNombre>('Burzaco');
@@ -74,16 +70,13 @@ export default function AdminPinPickerInner() {
   const [pdfUrl, setPdfUrl] = useState('');
   const [pdfNombre, setPdfNombre] = useState('');
 
-  // Uploading states
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const [isUploadingPdf, setIsUploadingPdf] = useState(false);
 
-  // Geo data
   const [barriosGeoJSON, setBarriosGeoJSON] = useState<any | null>(null);
   const [callesData, setCallesData] = useState<StreetItem[]>([]);
   const [detectedBarrioInfo, setDetectedBarrioInfo] = useState<BarrioProperties | null>(null);
 
-  // Search input in Admin
   const [adminSearchQuery, setAdminSearchQuery] = useState('');
   const [adminSearchResults, setAdminSearchResults] = useState<SearchResult[]>([]);
   const [isAdminSearching, setIsAdminSearching] = useState(false);
@@ -94,7 +87,6 @@ export default function AdminPinPickerInner() {
   const tempMarkerRef = useRef<L.Marker | null>(null);
   const existingPinsLayerRef = useRef<L.LayerGroup | null>(null);
 
-  // Load existing pins
   const loadPines = () => {
     fetch('/api/pines')
       .then((res) => (res.ok ? res.json() : []))
@@ -118,14 +110,13 @@ export default function AdminPinPickerInner() {
       .catch((e) => console.warn('Error loading calles in admin:', e));
   }, []);
 
-  // Update barrio detection whenever coordinates change
   useEffect(() => {
     if (!barriosGeoJSON) return;
     const detected = detectBarrio(selectedCoords.lat, selectedCoords.lng, barriosGeoJSON);
     if (detected) {
       setDetectedBarrioInfo(detected);
       setBarrio(detected.nombre);
-      const matchLoc = LOCALIDADES.find(l => l.nombre.toLowerCase() === detected.localidad.toLowerCase());
+      const matchLoc = LOCALIDADES.find((l) => l.nombre.toLowerCase() === detected.localidad.toLowerCase());
       if (matchLoc) {
         setLocalidad(matchLoc.nombre);
       }
@@ -134,7 +125,6 @@ export default function AdminPinPickerInner() {
     }
   }, [selectedCoords, barriosGeoJSON]);
 
-  // Search handler in Admin
   useEffect(() => {
     if (!adminSearchQuery.trim() || adminSearchQuery.trim().length < 2) {
       setAdminSearchResults([]);
@@ -144,11 +134,9 @@ export default function AdminPinPickerInner() {
     setAdminSearchResults(results);
   }, [adminSearchQuery, callesData, barriosGeoJSON]);
 
-  // Initialize Map
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
 
-    // Límites territoriales estrictos de Almirante Brown
     const southWest = L.latLng(-34.918, -58.455);
     const northEast = L.latLng(-34.748, -58.285);
     const brownBounds = L.latLngBounds(southWest, northEast);
@@ -165,7 +153,6 @@ export default function AdminPinPickerInner() {
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // Initial TileLayer
     const initialCfg = ADMIN_BASEMAPS.esri;
     const tileLayer = L.tileLayer(initialCfg.url, {
       attribution: initialCfg.attribution,
@@ -173,7 +160,6 @@ export default function AdminPinPickerInner() {
     }).addTo(map);
     tileLayerRef.current = tileLayer;
 
-    // Cargar máscara perimetral
     fetch('/data/almirante-brown-rings.json')
       .then((res) => (res.ok ? res.json() : null))
       .then((rings: [number, number][][]) => {
@@ -182,19 +168,19 @@ export default function AdminPinPickerInner() {
           [-90, -180],
           [-90, 180],
           [90, 180],
-          [90, -180]
+          [90, -180],
         ];
 
         L.polygon([outerWorld, ...rings], {
-          fillColor: '#08040d',
-          fillOpacity: 0.93,
+          fillColor: '#1f0d3d',
+          fillOpacity: 0.88,
           stroke: false,
           interactive: false,
         }).addTo(mapInstanceRef.current);
 
         rings.forEach((ring) => {
           L.polyline(ring, {
-            color: '#a855f7',
+            color: '#6c4c99',
             weight: 2,
             opacity: 0.85,
             interactive: false,
@@ -203,20 +189,19 @@ export default function AdminPinPickerInner() {
       })
       .catch((e) => console.warn('Could not load mask rings in admin:', e));
 
-    // Render gentle barrios boundaries on admin map for visual guidance
     fetch('/data/almirante-brown-barrios.json')
       .then((r) => (r.ok ? r.json() : null))
       .then((barriosData) => {
         if (barriosData && mapInstanceRef.current) {
           L.geoJSON(barriosData, {
             style: (f) => ({
-              color: f?.properties?.color || '#a855f7',
+              color: f?.properties?.color || '#6c4c99',
               weight: 1,
               opacity: 0.5,
               fillOpacity: 0.08,
-              dashArray: '3, 4'
+              dashArray: '3, 4',
             }),
-            interactive: false
+            interactive: false,
           }).addTo(mapInstanceRef.current);
         }
       })
@@ -227,9 +212,9 @@ export default function AdminPinPickerInner() {
       html: `
         <div style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); cursor: grab;">
           <svg width="36" height="44" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#f59e0b"/>
+            <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#39b5e6"/>
             <path d="M16 1C7.72 1 1 7.72 1 16c0 9.8 14.2 22.3 15 23 0.8-.7 15-13.2 15-23C31 7.72 24.28 1 16 1z" stroke="#ffffff" stroke-width="2"/>
-            <circle cx="16" cy="15" r="5" fill="#08040d"/>
+            <circle cx="16" cy="15" r="5" fill="#371859"/>
           </svg>
         </div>
       `,
@@ -237,7 +222,6 @@ export default function AdminPinPickerInner() {
       iconAnchor: [18, 44],
     });
 
-    // Create marker
     const marker = L.marker([-34.825, -58.385], { icon: pinIcon, draggable: true }).addTo(map);
     tempMarkerRef.current = marker;
 
@@ -246,7 +230,6 @@ export default function AdminPinPickerInner() {
       setSelectedCoords({ lat: Number(pos.lat.toFixed(5)), lng: Number(pos.lng.toFixed(5)) });
     });
 
-    // On Click anywhere on map
     map.on('click', (e) => {
       const { lat, lng } = e.latlng;
       setSelectedCoords({ lat: Number(lat.toFixed(5)), lng: Number(lng.toFixed(5)) });
@@ -262,14 +245,12 @@ export default function AdminPinPickerInner() {
     };
   }, []);
 
-  // Update basemap when basemapStyle changes in Admin
   useEffect(() => {
     if (!tileLayerRef.current) return;
     const cfg = ADMIN_BASEMAPS[basemapStyle];
     tileLayerRef.current.setUrl(cfg.url);
   }, [basemapStyle]);
 
-  // Show existing pins on map with smaller badges
   useEffect(() => {
     if (!existingPinsLayerRef.current) return;
     existingPinsLayerRef.current.clearLayers();
@@ -278,9 +259,9 @@ export default function AdminPinPickerInner() {
       const icon = L.divIcon({
         className: 'admin-existing-pin',
         html: `
-          <div style="cursor: pointer; opacity: 0.7; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+          <div style="cursor: pointer; opacity: 0.8; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
             <svg width="22" height="28" viewBox="0 0 32 40" fill="none">
-              <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#7e22ce"/>
+              <path d="M16 0C7.16 0 0 7.16 0 16c0 10.5 14.8 23.3 15.4 23.8.4.3.9.3 1.2 0C17.2 39.3 32 26.5 32 16c0-8.84-7.16-16-16-16z" fill="#371859"/>
               <path d="M16 1C7.72 1 1 7.72 1 16c0 9.8 14.2 22.3 15 23 0.8-.7 15-13.2 15-23C31 7.72 24.28 1 16 1z" stroke="#ffffff" stroke-width="1.5"/>
             </svg>
           </div>
@@ -295,7 +276,6 @@ export default function AdminPinPickerInner() {
     });
   }, [pines]);
 
-  // Handle Search Result Selection in Admin
   const handleSelectAdminSearchResult = (res: SearchResult) => {
     if (!mapInstanceRef.current || !tempMarkerRef.current) return;
     setIsAdminSearching(false);
@@ -306,13 +286,11 @@ export default function AdminPinPickerInner() {
     tempMarkerRef.current.setLatLng([res.lat, res.lng]);
     setSelectedCoords({ lat: res.lat, lng: res.lng });
 
-    // Pre-fill calle if street was selected
     if (res.type === 'calle' && !calle) {
       setCalle(res.title);
     }
   };
 
-  // Center map when locality changes manually
   const handleLocalidadChange = (locNombre: LocalidadNombre) => {
     setLocalidad(locNombre);
     const loc = LOCALIDADES.find((l) => l.nombre === locNombre);
@@ -323,7 +301,6 @@ export default function AdminPinPickerInner() {
     }
   };
 
-  // Upload Photo handler
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -350,7 +327,6 @@ export default function AdminPinPickerInner() {
     }
   };
 
-  // Upload PDF handler
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -378,7 +354,6 @@ export default function AdminPinPickerInner() {
     }
   };
 
-  // Save Pin handler
   const handleCreatePin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!titulo || !calle) {
@@ -429,7 +404,6 @@ export default function AdminPinPickerInner() {
     }
   };
 
-  // Delete Pin handler
   const handleDeletePin = async (id: string) => {
     if (!confirm('¿Seguro que deseás eliminar este pin territorial?')) return;
     try {
@@ -444,11 +418,11 @@ export default function AdminPinPickerInner() {
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Top Street Search bar for Concejales */}
-      <div className="glass-panel p-4 rounded-3xl border border-amber-400/40 relative">
+      {/* Buscador Rápido de Calles y Barrios para Concejales */}
+      <div className="glass-panel p-4 rounded-3xl border border-purple-500/40 relative">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#39b5e6] animate-pulse" />
             <h3 className="text-sm font-bold text-white uppercase tracking-wider">
               Buscador Rápido de Calles y Barrios para Concejales
             </h3>
@@ -460,7 +434,7 @@ export default function AdminPinPickerInner() {
 
         <div className="relative">
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 text-amber-400 absolute left-3.5 pointer-events-none" />
+            <Search className="w-4 h-4 text-[#39b5e6] absolute left-3.5 pointer-events-none" />
             <input
               type="text"
               value={adminSearchQuery}
@@ -470,7 +444,7 @@ export default function AdminPinPickerInner() {
               }}
               onFocus={() => setIsAdminSearching(true)}
               placeholder="Ej: Amenedo, Alsina, Salta, Bynnon, Corimayo, Don Orione..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-purple-950/80 border border-purple-800 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400"
+              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-purple-950/80 border border-purple-800 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#39b5e6]"
             />
             {adminSearchQuery && (
               <button
@@ -486,12 +460,11 @@ export default function AdminPinPickerInner() {
             )}
           </div>
 
-          {/* Search Dropdown */}
           {isAdminSearching && adminSearchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-[#120722] border border-purple-600/60 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-purple-900/50 backdrop-blur-md">
               <div className="p-2 bg-purple-950/70 text-[10px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
                 <span>Calles y Barrios encontrados</span>
-                <span className="text-amber-400">{adminSearchResults.length} sugerencias</span>
+                <span className="text-[#39b5e6]">{adminSearchResults.length} sugerencias</span>
               </div>
               <div className="max-h-56 overflow-y-auto">
                 {adminSearchResults.map((res, i) => (
@@ -504,7 +477,7 @@ export default function AdminPinPickerInner() {
                       <span className="text-xs font-bold text-white block truncate">{res.title}</span>
                       <span className="text-[10px] text-slate-300 truncate">{res.subtitle}</span>
                     </div>
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300">
                       Ubicar aquí
                     </span>
                   </button>
@@ -516,12 +489,11 @@ export default function AdminPinPickerInner() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Map Picker Column (6 cols) */}
+        {/* Columna Mapa (6 cols) */}
         <div className="lg:col-span-6 glass-panel rounded-3xl p-5 border border-purple-500/30 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between pb-2 border-b border-purple-900/40 gap-2">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+              <span className="w-3 h-3 rounded-full bg-[#39b5e6]" />
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">
                 1. Posicioná el Pin en la Calle
               </h3>
@@ -538,7 +510,7 @@ export default function AdminPinPickerInner() {
                     onClick={() => setBasemapStyle(key)}
                     className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all ${
                       isActive
-                        ? 'bg-gradient-to-r from-purple-700 to-amber-500 text-white shadow-sm'
+                        ? 'bg-[#371859] text-white border border-purple-400/50 shadow-sm'
                         : 'text-slate-300 hover:text-white hover:bg-purple-900/50'
                     }`}
                   >
@@ -549,11 +521,10 @@ export default function AdminPinPickerInner() {
             </div>
           </div>
 
-          {/* Barrio Detectado Banner */}
           {detectedBarrioInfo ? (
             <div className="p-3 rounded-xl bg-purple-950/80 border border-purple-500/50 flex items-center justify-between text-xs animate-fadeIn">
               <div className="flex items-center gap-2 truncate">
-                <Building2 className="w-4 h-4 text-amber-400 shrink-0" />
+                <Building2 className="w-4 h-4 text-[#39b5e6] shrink-0" />
                 <span className="truncate text-slate-200">
                   Detectado: <strong>Barrio {detectedBarrioInfo.nombre}</strong> ({detectedBarrioInfo.localidad})
                 </span>
@@ -564,26 +535,25 @@ export default function AdminPinPickerInner() {
             </div>
           ) : (
             <p className="text-xs text-slate-300">
-              Hacé click o arrastrá el marcador amarillo a cualquier punto de Almirante Brown:
+              Hacé clic o arrastrá el marcador celeste a cualquier punto de Almirante Brown:
             </p>
           )}
 
-          {/* Leaflet Canvas */}
           <div
             ref={mapContainerRef}
             className="w-full h-[420px] rounded-2xl overflow-hidden border border-purple-900/60 z-0"
           />
 
           <div className="flex items-center justify-between text-xs text-slate-400 px-1">
-            <span>Arrastrá el pin amarillo para ajustar la posición</span>
+            <span>Arrastrá el marcador para ajustar la posición</span>
             <span className="text-purple-300">Líneas punteadas: Límites de barrios</span>
           </div>
         </div>
 
-        {/* Form Column (6 cols) */}
+        {/* Columna Formulario (6 cols) */}
         <div className="lg:col-span-6 glass-panel rounded-3xl p-6 border border-purple-500/30">
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-purple-900/40">
-            <PlusCircle className="w-5 h-5 text-amber-400" />
+            <PlusCircle className="w-5 h-5 text-[#39b5e6]" />
             <h3 className="text-base font-bold text-white">
               2. Completá los Datos del Reclamo o Proyecto
             </h3>
@@ -600,7 +570,7 @@ export default function AdminPinPickerInner() {
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Ej: Pedido de Asfalto y Cordón Cuneta en Calle Salta"
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
               />
             </div>
 
@@ -615,7 +585,7 @@ export default function AdminPinPickerInner() {
                   value={calle}
                   onChange={(e) => setCalle(e.target.value)}
                   placeholder="Ej: Calle Salta y Bynnon"
-                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
                 />
               </div>
 
@@ -626,7 +596,7 @@ export default function AdminPinPickerInner() {
                 <select
                   value={localidad}
                   onChange={(e) => handleLocalidadChange(e.target.value as LocalidadNombre)}
-                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
                 >
                   {LOCALIDADES.map((l) => (
                     <option key={l.id} value={l.nombre} className="bg-[#140b24]">
@@ -637,7 +607,6 @@ export default function AdminPinPickerInner() {
               </div>
             </div>
 
-            {/* Barrio according to Ordenanza 13.906 */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
                 Barrio (Ordenanza N° 13.906)
@@ -647,7 +616,7 @@ export default function AdminPinPickerInner() {
                 value={barrio}
                 onChange={(e) => setBarrio(e.target.value)}
                 placeholder="Se auto-detecta al mover el pin en el mapa"
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-amber-300 font-semibold focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-[#39b5e6] font-semibold focus:outline-none focus:border-[#39b5e6]"
               />
             </div>
 
@@ -659,14 +628,26 @@ export default function AdminPinPickerInner() {
                 <select
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value as PinCategoria)}
-                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
                 >
-                  <option value="Arreglo de Calles / Asfalto" className="bg-[#140b24]">🚧 Arreglo de Calles / Asfalto</option>
-                  <option value="Seguridad / Luminarias" className="bg-[#140b24]">🚨 Seguridad / Luminarias</option>
-                  <option value="Proyecto de Ordenanza HCD" className="bg-[#140b24]">🏛️ Proyecto de Ordenanza HCD</option>
-                  <option value="Visita Vecinal / Reclamo" className="bg-[#140b24]">🤝 Visita Vecinal / Reclamo</option>
-                  <option value="Salud / CAPS" className="bg-[#140b24]">🏥 Salud / CAPS</option>
-                  <option value="Medio Ambiente / Basurales" className="bg-[#140b24]">♻️ Medio Ambiente / Basurales</option>
+                  <option value="Arreglo de Calles / Asfalto" className="bg-[#140b24]">
+                    Arreglo de Calles / Asfalto
+                  </option>
+                  <option value="Seguridad / Luminarias" className="bg-[#140b24]">
+                    Seguridad / Luminarias
+                  </option>
+                  <option value="Proyecto de Ordenanza HCD" className="bg-[#140b24]">
+                    Proyecto de Ordenanza HCD
+                  </option>
+                  <option value="Visita Vecinal / Reclamo" className="bg-[#140b24]">
+                    Visita Vecinal / Reclamo
+                  </option>
+                  <option value="Salud / CAPS" className="bg-[#140b24]">
+                    Salud / CAPS
+                  </option>
+                  <option value="Medio Ambiente / Basurales" className="bg-[#140b24]">
+                    Medio Ambiente / Basurales
+                  </option>
                 </select>
               </div>
 
@@ -677,12 +658,20 @@ export default function AdminPinPickerInner() {
                 <select
                   value={estado}
                   onChange={(e) => setEstado(e.target.value as PinEstado)}
-                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
                 >
-                  <option value="Reclamo Vecinal Recibido" className="bg-[#140b24]">Reclamo Vecinal Recibido</option>
-                  <option value="Proyecto Presentado en HCD" className="bg-[#140b24]">Proyecto Presentado en HCD</option>
-                  <option value="En Gestión / Comisión" className="bg-[#140b24]">En Gestión / Comisión</option>
-                  <option value="Resuelto / Completado" className="bg-[#140b24]">Resuelto / Completado</option>
+                  <option value="Reclamo Vecinal Recibido" className="bg-[#140b24]">
+                    Reclamo Vecinal Recibido
+                  </option>
+                  <option value="Proyecto Presentado en HCD" className="bg-[#140b24]">
+                    Proyecto Presentado en HCD
+                  </option>
+                  <option value="En Gestión / Comisión" className="bg-[#140b24]">
+                    En Gestión / Comisión
+                  </option>
+                  <option value="Resuelto / Completado" className="bg-[#140b24]">
+                    Resuelto / Completado
+                  </option>
                 </select>
               </div>
             </div>
@@ -694,14 +683,16 @@ export default function AdminPinPickerInner() {
               <select
                 value={concejal}
                 onChange={(e) => setConcejal(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
               >
                 {CONCEJALES.map((c) => (
                   <option key={c.id} value={c.nombre} className="bg-[#140b24]">
                     {c.nombre}
                   </option>
                 ))}
-                <option value="Bloque LLA Almirante Brown" className="bg-[#140b24]">Bloque LLA Almirante Brown</option>
+                <option value="Bloque LLA Almirante Brown" className="bg-[#140b24]">
+                  Bloque LLA Almirante Brown
+                </option>
               </select>
             </div>
 
@@ -711,9 +702,15 @@ export default function AdminPinPickerInner() {
                 Foto del Lugar / Bache / Actividad
               </label>
               <div className="flex items-center gap-2">
-                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
-                  <Upload className="w-4 h-4 text-amber-400" />
-                  <span>{isUploadingPhoto ? 'Subiendo...' : fotoUrl ? 'Foto Cargada ✓' : 'Seleccionar Imagen (JPG/PNG)'}</span>
+                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-[#39b5e6] cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
+                  <Upload className="w-4 h-4 text-[#39b5e6]" />
+                  <span>
+                    {isUploadingPhoto
+                      ? 'Subiendo...'
+                      : fotoUrl
+                      ? 'Foto Cargada ✓'
+                      : 'Seleccionar Imagen (JPG/PNG)'}
+                  </span>
                   <input
                     type="file"
                     accept="image/*"
@@ -722,7 +719,7 @@ export default function AdminPinPickerInner() {
                   />
                 </label>
                 {fotoUrl && (
-                  <span className="text-[10px] text-amber-400 font-mono truncate max-w-[150px]">
+                  <span className="text-[10px] text-[#39b5e6] font-mono truncate max-w-[150px]">
                     {fotoUrl}
                   </span>
                 )}
@@ -735,9 +732,15 @@ export default function AdminPinPickerInner() {
                 Proyecto de Ordenanza / Nota Oficial (PDF)
               </label>
               <div className="flex items-center gap-2">
-                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-amber-400 cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
-                  <FileText className="w-4 h-4 text-amber-400" />
-                  <span>{isUploadingPdf ? 'Subiendo PDF...' : pdfUrl ? `PDF: ${pdfNombre} ✓` : 'Adjuntar Documento PDF'}</span>
+                <label className="flex-1 px-3 py-2 rounded-xl bg-purple-950/80 border border-purple-800 hover:border-[#39b5e6] cursor-pointer flex items-center justify-center gap-2 text-xs text-purple-200 transition-all">
+                  <FileText className="w-4 h-4 text-[#39b5e6]" />
+                  <span>
+                    {isUploadingPdf
+                      ? 'Subiendo PDF...'
+                      : pdfUrl
+                      ? `PDF: ${pdfNombre} ✓`
+                      : 'Adjuntar Documento PDF'}
+                  </span>
                   <input
                     type="file"
                     accept=".pdf,application/pdf"
@@ -746,7 +749,7 @@ export default function AdminPinPickerInner() {
                   />
                 </label>
                 {pdfUrl && (
-                  <span className="text-[10px] text-amber-400 font-mono truncate max-w-[150px]">
+                  <span className="text-[10px] text-[#39b5e6] font-mono truncate max-w-[150px]">
                     {pdfNombre}
                   </span>
                 )}
@@ -763,13 +766,13 @@ export default function AdminPinPickerInner() {
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
                 placeholder="Detalle del reclamo vecinal, expediente HCD o informe del estado de la calle..."
-                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800 text-xs text-white focus:outline-none focus:border-[#39b5e6]"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-700 to-amber-500 hover:from-purple-600 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg"
+              className="w-full py-3 rounded-xl bg-white hover:bg-slate-100 text-[#371859] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-lg"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Guardar y Publicar Pin en el Mapa</span>
@@ -778,7 +781,7 @@ export default function AdminPinPickerInner() {
         </div>
       </div>
 
-      {/* List of existing pins with Delete action */}
+      {/* Lista de pines existentes */}
       <div className="glass-panel rounded-3xl p-6 border border-purple-500/30">
         <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
           Pines Registrados Actualmente ({pines.length})
@@ -792,14 +795,14 @@ export default function AdminPinPickerInner() {
             >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] font-bold text-amber-300 px-2 py-0.5 rounded-full bg-amber-400/10">
+                  <span className="text-[10px] font-bold text-[#39b5e6] px-2 py-0.5 rounded-full bg-sky-500/15">
                     {pin.categoria}
                   </span>
                   <span className="text-[10px] text-slate-400">{pin.fecha}</span>
                 </div>
                 <h5 className="text-xs font-bold text-white mb-1">{pin.titulo}</h5>
                 <p className="text-[11px] text-slate-300 mb-1">
-                  📍 {pin.calle} ({pin.localidad}) {pin.barrio ? `· Barrio ${pin.barrio}` : ''}
+                  {pin.calle} ({pin.localidad}) {pin.barrio ? `· Barrio ${pin.barrio}` : ''}
                 </p>
                 <p className="text-[10px] text-purple-300">
                   Concejal: {pin.concejal} · {pin.apoyosVecinales || 0} apoyos
@@ -807,7 +810,7 @@ export default function AdminPinPickerInner() {
               </div>
 
               <div className="pt-2 mt-2 border-t border-purple-900/40 flex items-center justify-between">
-                <span className="text-[10px] text-amber-400">{pin.estado}</span>
+                <span className="text-[10px] text-purple-200 font-semibold">{pin.estado}</span>
                 <button
                   onClick={() => handleDeletePin(pin.id)}
                   className="p-1 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors"

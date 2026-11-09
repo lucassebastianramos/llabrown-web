@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { Shield, ArrowUp, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { ArrowUp, Instagram, Facebook, MessageCircle } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -11,160 +10,159 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#07030e] border-t border-purple-900/40 pt-16 pb-12 text-slate-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-purple-900/40">
-          
-          {/* Brand Col */}
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-purple-600/50 p-1 bg-purple-950/60">
+    <footer>
+      {/* Franja blanca superior de redes — estilo oficial LLA Nacional */}
+      <div className="bg-white border-t border-slate-200 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-base font-bold text-[#1d1d1d]">
+            Seguinos en nuestras redes
+          </span>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.instagram.com/lalibertadavanza_altebrownok"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-[#371859] hover:bg-[#230552] text-white flex items-center justify-center transition-colors"
+              aria-label="Instagram La Libertad Avanza Almirante Brown"
+            >
+              <Instagram className="w-5 h-5" />
+            </a>
+
+            <a
+              href="https://www.facebook.com/lalibertadavanzaaltebrown"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-[#371859] hover:bg-[#230552] text-white flex items-center justify-center transition-colors"
+              aria-label="Facebook La Libertad Avanza Almirante Brown"
+            >
+              <Facebook className="w-5 h-5" />
+            </a>
+
+            <a
+              href="https://wa.me/5491131596936"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-[#371859] hover:bg-[#230552] text-white flex items-center justify-center transition-colors"
+              aria-label="WhatsApp Oficial La Libertad Avanza Almirante Brown"
+            >
+              <MessageCircle className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Pie institucional violeta Pantone 2627 C (#371859) */}
+      <div className="bg-[#371859] text-white pt-14 pb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-10 border-b border-white/15">
+            {/* Marca y descripción */}
+            <div className="md:col-span-5 space-y-4">
+              <div className="relative w-48 h-14 overflow-hidden">
                 <Image
                   src="/img/logo.png"
-                  alt="La Libertad Avanza"
+                  alt="La Libertad Avanza Almirante Brown"
                   fill
-                  className="object-contain"
+                  className="object-contain object-[0%_40%] scale-[1.55] origin-left"
                 />
               </div>
-              <div className="flex flex-col leading-none">
-                <div className="flex items-baseline gap-1 text-white">
-                  <span className="font-medium text-xs sm:text-sm">LA</span>
-                  <span className="font-extrabold text-sm sm:text-base tracking-tight">LIBERTAD</span>
-                  <span className="font-semibold text-xs sm:text-sm">AVANZA</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold tracking-widest text-purple-300 uppercase mt-0.5">
-                  Almirante Brown
-                </span>
-              </div>
-            </div>
 
-            <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
-              Construyendo el cambio desde el territorio. Bloque de Concejales y Consejeros Escolares comprometidos con la transparencia, la baja de tasas y la libertad de los vecinos de Almirante Brown.
-            </p>
-
-            <div className="pt-2">
-              <div className="inline-block px-3 py-1.5 rounded-lg bg-purple-950/60 border border-purple-800/60 text-xs font-semibold text-amber-300">
-                Coordinación: Juan Pedro Aquino
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Navegación
-            </h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <a href="#inicio" className="hover:text-amber-400 transition-colors">
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="#mapa" className="hover:text-amber-400 transition-colors">
-                  Mapa Territorial
-                </a>
-              </li>
-              <li>
-                <a href="#reclamos" className="hover:text-amber-400 transition-colors">
-                  Reclamos Vecinales
-                </a>
-              </li>
-              <li>
-                <a href="#territorio" className="hover:text-amber-400 transition-colors">
-                  Territorio y Recorridas
-                </a>
-              </li>
-              <li>
-                <a href="#proyectos" className="hover:text-amber-400 transition-colors">
-                  Proyectos HCD
-                </a>
-              </li>
-              <li>
-                <a href="#equipo" className="hover:text-amber-400 transition-colors">
-                  Equipo Institucional
-                </a>
-              </li>
-              <li>
-                <a href="#contacto" className="hover:text-amber-400 transition-colors">
-                  Contacto y Participación
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Socials & Admin */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Seguinos en Redes
-            </h4>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <a
-                href="https://www.instagram.com/lalibertadavanza_altebrownok"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
-                aria-label="Instagram LLA Brown"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://www.facebook.com/lalibertadavanzaaltebrown"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
-                aria-label="Facebook LLA Brown"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://wa.me/5491131596936"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-purple-800/50 hover:border-amber-400/60 transition-all shadow-sm"
-                aria-label="WhatsApp LLA Brown"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </a>
-            </div>
-
-            <div className="space-y-1.5 text-[11px] text-slate-400">
-              <p className="flex items-center gap-1.5">
-                <span className="text-amber-400 font-bold">WhatsApp:</span> 11 3159-6936
+              <p className="text-sm text-white/80 max-w-md leading-relaxed">
+                Bloque de Concejales y Consejeros Escolares comprometidos con las ideas de la libertad, la baja de tasas y la transparencia municipal en cada localidad de Almirante Brown.
               </p>
-              <p>
+
+              <p className="text-xs font-semibold text-white/90">
+                Coordinación distrital: Juan Pedro Aquino
+              </p>
+            </div>
+
+            {/* Navegación */}
+            <div className="md:col-span-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white/70 mb-4">
+                Secciones
+              </h4>
+              <ul className="grid grid-cols-2 gap-2.5 text-sm text-white/85">
+                <li>
+                  <a href="#inicio" className="hover:text-white hover:underline underline-offset-4">
+                    Inicio
+                  </a>
+                </li>
+                <li>
+                  <a href="#mapa" className="hover:text-white hover:underline underline-offset-4">
+                    Mapa Territorial
+                  </a>
+                </li>
+                <li>
+                  <a href="#reclamos" className="hover:text-white hover:underline underline-offset-4">
+                    Reclamos Vecinales
+                  </a>
+                </li>
+                <li>
+                  <a href="#territorio" className="hover:text-white hover:underline underline-offset-4">
+                    Territorio
+                  </a>
+                </li>
+                <li>
+                  <a href="#proyectos" className="hover:text-white hover:underline underline-offset-4">
+                    Proyectos HCD
+                  </a>
+                </li>
+                <li>
+                  <a href="#equipo" className="hover:text-white hover:underline underline-offset-4">
+                    Equipo
+                  </a>
+                </li>
+                <li>
+                  <a href="#contacto" className="hover:text-white hover:underline underline-offset-4">
+                    Contacto
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Atención Institucional */}
+            <div className="md:col-span-3 space-y-3 text-sm">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white/70 mb-4">
+                Sede y Atención
+              </h4>
+              <p className="text-white/90">
+                <strong className="font-semibold text-white block">Sede Central</strong>
+                Humberto Primo 990, Burzaco
+              </p>
+              <p className="text-white/90">
+                <strong className="font-semibold text-white block">WhatsApp Oficial</strong>
+                <a
+                  href="https://wa.me/5491131596936"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline underline-offset-4"
+                >
+                  11 3159-6936
+                </a>
+              </p>
+              <p className="pt-1">
                 <a
                   href="https://a.brown.gob.ar/hcd/digesto"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-purple-300 hover:text-amber-400 underline decoration-purple-600 underline-offset-2 transition-colors"
+                  className="text-xs font-semibold text-[#39b5e6] hover:text-white underline underline-offset-4 transition-colors"
                 >
-                  Digesto Oficial HCD Brown &rarr;
+                  Digesto Oficial HCD Brown →
                 </a>
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            <span>© 2025-2026 La Libertad Avanza – Almirante Brown.</span>
-          </div>
+          {/* Barra inferior */}
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/75">
+            <span>© 2025–2026 La Libertad Avanza · Almirante Brown.</span>
 
-          <div className="flex items-center gap-4">
-            <span className="text-amber-400/90 font-bold">
-              Coordinación: Juan Pedro Aquino
-            </span>
             <button
               onClick={scrollToTop}
-              className="p-2 rounded-lg bg-purple-950/60 border border-purple-800/60 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/20 text-white hover:bg-white/10 transition-colors"
               aria-label="Volver arriba"
             >
+              <span>Subir</span>
               <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>

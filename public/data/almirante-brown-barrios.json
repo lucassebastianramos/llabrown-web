@@ -7,7 +7,7 @@
         "nombre": "Villa Paris",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.881456,
           -58.379816
@@ -259,7 +259,7 @@
         "nombre": "Roca",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.838566,
           -58.386476
@@ -407,7 +407,7 @@
         "nombre": "Las Calandrias",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.89605,
           -58.376255
@@ -603,7 +603,7 @@
         "nombre": "Puerto Argentino",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.769599,
           -58.332966
@@ -763,7 +763,7 @@
         "nombre": "El Triangulo",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.802533,
           -58.329344
@@ -895,7 +895,7 @@
         "nombre": "14 de Noviembre",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.770594,
           -58.326133
@@ -987,7 +987,7 @@
         "nombre": "La Gloria",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.760588,
           -58.334583
@@ -1075,7 +1075,7 @@
         "nombre": "Villa Laura",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.776382,
           -58.323379
@@ -1207,7 +1207,7 @@
         "nombre": "El Trebol",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.801732,
           -58.344986
@@ -1335,7 +1335,7 @@
         "nombre": "Glew Centro Este",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.889359,
           -58.375241
@@ -1591,7 +1591,7 @@
         "nombre": "San Javier",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.786231,
           -58.347003
@@ -1891,7 +1891,7 @@
         "nombre": "La Cava",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.775764,
           -58.341676
@@ -1971,7 +1971,7 @@
         "nombre": "Virgen de Lujan - Ombu",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.773109,
           -58.339678
@@ -2107,7 +2107,7 @@
         "nombre": "Las Tunas",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.786381,
           -58.325805
@@ -2187,7 +2187,7 @@
         "nombre": "Asuncion",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.7888,
           -58.336654
@@ -2367,7 +2367,7 @@
         "nombre": "La Loma",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.806865,
           -58.3686
@@ -2531,7 +2531,7 @@
         "nombre": "Santa Clara",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.791261,
           -58.335149
@@ -2691,7 +2691,7 @@
         "nombre": "Mármol Norte",
         "localidad": "José Mármol",
         "anexo": "ANEXO V",
-        "color": "#ec4899",
+        "color": "#6366f1",
         "center": [
           -34.781513,
           -58.374594
@@ -2815,7 +2815,7 @@
         "nombre": "Guadalupe",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.780235,
           -58.330162
@@ -2931,7 +2931,7 @@
         "nombre": "El Trébol (Glew)",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.87819,
           -58.401113
@@ -3019,7 +3019,7 @@
         "nombre": "Los Alamos",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.879312,
           -58.394814
@@ -3279,7 +3279,7 @@
         "nombre": "Barrio Arca",
         "localidad": "José Mármol",
         "anexo": "ANEXO V",
-        "color": "#ec4899",
+        "color": "#6366f1",
         "center": [
           -34.785786,
           -58.382587
@@ -3395,7 +3395,7 @@
         "nombre": "Santa Isabel",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.794322,
           -58.314115
@@ -3539,7 +3539,7 @@
         "nombre": "Ampliación Santa Rita",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.869495,
           -58.399491
@@ -3735,7 +3735,7 @@
         "nombre": "La Lucy",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.813965,
           -58.400312
@@ -3815,7 +3815,7 @@
         "nombre": "Ombu",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.875922,
           -58.376111
@@ -3971,7 +3971,7 @@
         "nombre": "Parque Uno",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.792507,
           -58.322782
@@ -4051,7 +4051,7 @@
         "nombre": "Los Pinos",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.855645,
           -58.366642
@@ -4207,7 +4207,7 @@
         "nombre": "Gorriti",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.904153,
           -58.394086
@@ -4407,7 +4407,7 @@
         "nombre": "Los Chalets",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.794089,
           -58.32147
@@ -4507,7 +4507,7 @@
         "nombre": "Saenz",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.803838,
           -58.349663
@@ -4623,7 +4623,7 @@
         "nombre": "Horizonte",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.793942,
           -58.32655
@@ -4831,7 +4831,7 @@
         "nombre": "Nueva Pompeya",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.797012,
           -58.319038
@@ -4919,7 +4919,7 @@
         "nombre": "Glew Centro Oeste",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.892016,
           -58.387294
@@ -5107,7 +5107,7 @@
         "nombre": "El Encuentro",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.811421,
           -58.408605
@@ -5311,7 +5311,7 @@
         "nombre": "Empleados de Comercio",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.823517,
           -58.41973
@@ -5395,7 +5395,7 @@
         "nombre": "Sideco",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.805807,
           -58.335407
@@ -5503,7 +5503,7 @@
         "nombre": "La Antena",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.827831,
           -58.440001
@@ -5619,7 +5619,7 @@
         "nombre": "Ona",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.82878,
           -58.443363
@@ -5787,7 +5787,7 @@
         "nombre": "Medalla Milagrosa",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.806717,
           -58.354974
@@ -5943,7 +5943,7 @@
         "nombre": "San Miguel",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.824663,
           -58.424606
@@ -6035,7 +6035,7 @@
         "nombre": "Loma de Burzaco",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.810675,
           -58.361877
@@ -6207,7 +6207,7 @@
         "nombre": "Policial",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.825102,
           -58.429284
@@ -6335,7 +6335,7 @@
         "nombre": "Lindo 1 Y 2",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.828095,
           -58.43529
@@ -6455,7 +6455,7 @@
         "nombre": "Barrio Vattuone",
         "localidad": "Adrogué",
         "anexo": "ANEXO I",
-        "color": "#ef4444",
+        "color": "#4c1d95",
         "center": [
           -34.812717,
           -58.39035
@@ -6571,7 +6571,7 @@
         "nombre": "Sakura",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.841906,
           -58.395234
@@ -6899,7 +6899,7 @@
         "nombre": "La Lucy",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.815749,
           -58.398933
@@ -6971,7 +6971,7 @@
         "nombre": "Betharram",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.816354,
           -58.4051
@@ -7087,7 +7087,7 @@
         "nombre": "Luz Y Fuerza",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.814696,
           -58.3879
@@ -7219,7 +7219,7 @@
         "nombre": "Mariano Moreno",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.815284,
           -58.357941
@@ -7387,7 +7387,7 @@
         "nombre": "San Luis",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.812101,
           -58.351996
@@ -7595,7 +7595,7 @@
         "nombre": "Parque Roma",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.894125,
           -58.399659
@@ -7879,7 +7879,7 @@
         "nombre": "Arzeno",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.819891,
           -58.412931
@@ -8035,7 +8035,7 @@
         "nombre": "Las Latitas",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.812699,
           -58.330013
@@ -8107,7 +8107,7 @@
         "nombre": "Barrio Lindo",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.823807,
           -58.433943
@@ -8471,7 +8471,7 @@
         "nombre": "Los Troncos",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.831623,
           -58.356362
@@ -8579,7 +8579,7 @@
         "nombre": "San Lucas",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.818314,
           -58.36275
@@ -8775,7 +8775,7 @@
         "nombre": "Gendarmeria",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.879448,
           -58.346219
@@ -8979,7 +8979,7 @@
         "nombre": "Madres",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.841291,
           -58.358269
@@ -9083,7 +9083,7 @@
         "nombre": "La Matera",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.831913,
           -58.361557
@@ -9127,7 +9127,7 @@
         "nombre": "El Recuerdo",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.827868,
           -58.400837
@@ -9319,7 +9319,7 @@
         "nombre": "Libertad",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.824595,
           -58.341467
@@ -9411,7 +9411,7 @@
         "nombre": "Barrio Parque",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.798922,
           -58.342454
@@ -9543,7 +9543,7 @@
         "nombre": "Martin Fierro",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.824664,
           -58.353561
@@ -9671,7 +9671,7 @@
         "nombre": "Suterh 2",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.821595,
           -58.339168
@@ -9723,7 +9723,7 @@
         "nombre": "Altos del Castillo",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.829974,
           -58.351349
@@ -9883,7 +9883,7 @@
         "nombre": "Primera Junta",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.831467,
           -58.378381
@@ -10107,7 +10107,7 @@
         "nombre": "Don Orione Viejo",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.826653,
           -58.346973
@@ -10207,7 +10207,7 @@
         "nombre": "Almafuerte",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.83331,
           -58.404167
@@ -10327,7 +10327,7 @@
         "nombre": "El Hornero",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.837567,
           -58.408876
@@ -10423,7 +10423,7 @@
         "nombre": "Soom",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.817675,
           -58.332241
@@ -10463,7 +10463,7 @@
         "nombre": "Las Rosas",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.825945,
           -58.368481
@@ -10591,7 +10591,7 @@
         "nombre": "La Carlota",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.838118,
           -58.398835
@@ -10711,7 +10711,7 @@
         "nombre": "Don Alejandro",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.832244,
           -58.395361
@@ -10927,7 +10927,7 @@
         "nombre": "El Gaucho",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.819046,
           -58.373033
@@ -11219,7 +11219,7 @@
         "nombre": "Claypole Este",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.797553,
           -58.334012
@@ -11463,7 +11463,7 @@
         "nombre": "6 de Diciembre",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.81855,
           -58.325639
@@ -11551,7 +11551,7 @@
         "nombre": "San Juan de Corimayo",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.835045,
           -58.361965
@@ -11703,7 +11703,7 @@
         "nombre": "del Carmen",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.843558,
           -58.359511
@@ -11819,7 +11819,7 @@
         "nombre": "Los Paraguayos",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.848278,
           -58.362349
@@ -11927,7 +11927,7 @@
         "nombre": "Esperanza",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.849378,
           -58.392466
@@ -12079,7 +12079,7 @@
         "nombre": "Parque Dos",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.795693,
           -58.320209
@@ -12143,7 +12143,7 @@
         "nombre": "Marmol Centro",
         "localidad": "José Mármol",
         "anexo": "ANEXO V",
-        "color": "#ec4899",
+        "color": "#6366f1",
         "center": [
           -34.790926,
           -58.373981
@@ -12419,7 +12419,7 @@
         "nombre": "Santa Maria",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.846865,
           -58.401598
@@ -12583,7 +12583,7 @@
         "nombre": "Rivadavia Centro",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.841378,
           -58.36468
@@ -12687,7 +12687,7 @@
         "nombre": "Barrio Parque",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.848419,
           -58.371061
@@ -12871,7 +12871,7 @@
         "nombre": "Policial (MR)",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.845174,
           -58.369846
@@ -12959,7 +12959,7 @@
         "nombre": "Tsuji",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.843508,
           -58.371002
@@ -13055,7 +13055,7 @@
         "nombre": "Los Ciruelos",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.851154,
           -58.365201
@@ -13159,7 +13159,7 @@
         "nombre": "Lujan",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.845187,
           -58.363856
@@ -13303,7 +13303,7 @@
         "nombre": "Suterh 1",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.819766,
           -58.336041
@@ -13343,7 +13343,7 @@
         "nombre": "Los Frutales",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.862418,
           -58.403559
@@ -13503,7 +13503,7 @@
         "nombre": "Santa Adela",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.854157,
           -58.400527
@@ -13679,7 +13679,7 @@
         "nombre": "Don Luis",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.86523,
           -58.375462
@@ -13791,7 +13791,7 @@
         "nombre": "Martin Arin",
         "localidad": "José Mármol",
         "anexo": "ANEXO V",
-        "color": "#ec4899",
+        "color": "#6366f1",
         "center": [
           -34.780295,
           -58.360566
@@ -14051,7 +14051,7 @@
         "nombre": "Amutum 2- Santa Rita",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.863805,
           -58.371806
@@ -14159,7 +14159,7 @@
         "nombre": "Santa Rita",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.866535,
           -58.392214
@@ -14271,7 +14271,7 @@
         "nombre": "La Jovita",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.79892,
           -58.322603
@@ -14359,7 +14359,7 @@
         "nombre": "Amutum 1",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.859897,
           -58.375102
@@ -14459,7 +14459,7 @@
         "nombre": "Barrio Municipal",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.861584,
           -58.373766
@@ -14527,7 +14527,7 @@
         "nombre": "Ferroviario",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.865984,
           -58.387861
@@ -14639,7 +14639,7 @@
         "nombre": "El Triangulo",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.852745,
           -58.386658
@@ -14711,7 +14711,7 @@
         "nombre": "Casablanca",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.857931,
           -58.375907
@@ -14771,7 +14771,7 @@
         "nombre": "Villa París (Lch)",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.872498,
           -58.380818
@@ -14931,7 +14931,7 @@
         "nombre": "Rayo de Sol",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.873377,
           -58.407215
@@ -15159,7 +15159,7 @@
         "nombre": "Jorge Newbery",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.869515,
           -58.391322
@@ -15247,7 +15247,7 @@
         "nombre": "Campo Ramos",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.856469,
           -58.397904
@@ -15375,7 +15375,7 @@
         "nombre": "La Carmen",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.87406,
           -58.394693
@@ -15567,7 +15567,7 @@
         "nombre": "Kanmar",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.880559,
           -58.355911
@@ -15739,7 +15739,7 @@
         "nombre": "Amancay",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.871997,
           -58.372511
@@ -15931,7 +15931,7 @@
         "nombre": "El Castillo Las Heras",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.876941,
           -58.387438
@@ -16063,7 +16063,7 @@
         "nombre": "Los Aromos",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.885852,
           -58.386996
@@ -16179,7 +16179,7 @@
         "nombre": "Las Lilas",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.865035,
           -58.364907
@@ -16263,7 +16263,7 @@
         "nombre": "Cotepa-Progreso",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.885417,
           -58.391418
@@ -16367,7 +16367,7 @@
         "nombre": "Cotepa",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.8826,
           -58.39223
@@ -16479,7 +16479,7 @@
         "nombre": "Supa",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.881537,
           -58.363453
@@ -16571,7 +16571,7 @@
         "nombre": "Almafuerte (Glew)",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.887855,
           -58.363133
@@ -16783,7 +16783,7 @@
         "nombre": "Uocra",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.90239,
           -58.397922
@@ -16899,7 +16899,7 @@
         "nombre": "Ipona",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.900378,
           -58.386483
@@ -17091,7 +17091,7 @@
         "nombre": "Telepostal",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.883245,
           -58.387336
@@ -17179,7 +17179,7 @@
         "nombre": "UPCN",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.881403,
           -58.387306
@@ -17263,7 +17263,7 @@
         "nombre": "La Primavera",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.819844,
           -58.39844
@@ -17423,7 +17423,7 @@
         "nombre": "Las Lomas de San Francisco",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.789433,
           -58.317769
@@ -17607,7 +17607,7 @@
         "nombre": "Complejo Habitacional SFS",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.789677,
           -58.324307
@@ -17723,7 +17723,7 @@
         "nombre": "Bicentenario",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.866884,
           -58.369554
@@ -17847,7 +17847,7 @@
         "nombre": "Ibañez",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.840223,
           -58.372877
@@ -18011,7 +18011,7 @@
         "nombre": "Loma Verde",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.817477,
           -58.421283
@@ -18223,7 +18223,7 @@
         "nombre": "8 de Noviembre",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.758142,
           -58.336192
@@ -18275,7 +18275,7 @@
         "nombre": "Lomas de Burzaco",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.811156,
           -58.375795
@@ -18499,7 +18499,7 @@
         "nombre": "Solis",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.818075,
           -58.403768
@@ -18603,7 +18603,7 @@
         "nombre": "La Arbolada",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.861946,
           -58.360664
@@ -18699,7 +18699,7 @@
         "nombre": "Corimayo",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.834337,
           -58.372417
@@ -18967,7 +18967,7 @@
         "nombre": "Arzeno",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.82221,
           -58.41121
@@ -19119,7 +19119,7 @@
         "nombre": "Altos de Longchamps",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.869034,
           -58.364449
@@ -19275,7 +19275,7 @@
         "nombre": "San Pablo",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.827636,
           -58.408655
@@ -19455,7 +19455,7 @@
         "nombre": "Zabala",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.783571,
           -58.326717
@@ -19575,7 +19575,7 @@
         "nombre": "San Agustin",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.782461,
           -58.321073
@@ -19719,7 +19719,7 @@
         "nombre": "Burzaco Centro",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.822684,
           -58.387326
@@ -20283,7 +20283,7 @@
         "nombre": "Ciudad Oculta",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.822658,
           -58.403442
@@ -20407,7 +20407,7 @@
         "nombre": "La Cumbre",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.828259,
           -58.418436
@@ -20543,7 +20543,7 @@
         "nombre": "La Pilarica",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.831601,
           -58.427043
@@ -20615,7 +20615,7 @@
         "nombre": "La Pilarica",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.827653,
           -58.426842
@@ -20731,7 +20731,7 @@
         "nombre": "Canario",
         "localidad": "Malvinas Argentinas",
         "anexo": "ANEXO VII",
-        "color": "#06b6d4",
+        "color": "#8b5cf6",
         "center": [
           -34.832851,
           -58.437189
@@ -20875,7 +20875,7 @@
         "nombre": "Longchamps Centro",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.861254,
           -58.388065
@@ -21315,7 +21315,7 @@
         "nombre": "La Hermosa",
         "localidad": "Ministro Rivadavia",
         "anexo": "ANEXO VIII",
-        "color": "#f97316",
+        "color": "#0ea5e9",
         "center": [
           -34.866557,
           -58.338951
@@ -21495,7 +21495,7 @@
         "nombre": "Adrogue Centro",
         "localidad": "Adrogué",
         "anexo": "ANEXO I",
-        "color": "#ef4444",
+        "color": "#4c1d95",
         "center": [
           -34.801769,
           -58.391554
@@ -22067,7 +22067,7 @@
         "nombre": "Los Studs",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.864583,
           -58.378333
@@ -22223,7 +22223,7 @@
         "nombre": "Viplastic",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.845171,
           -58.383836
@@ -22371,7 +22371,7 @@
         "nombre": "Sakura (Lch)",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.846761,
           -58.393525
@@ -22507,7 +22507,7 @@
         "nombre": "Progreso",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.88788,
           -58.395971
@@ -22675,7 +22675,7 @@
         "nombre": "San Jeronimo",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.784862,
           -58.338709
@@ -22919,7 +22919,7 @@
         "nombre": "Doña Sol",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.850469,
           -58.401217
@@ -23075,7 +23075,7 @@
         "nombre": "14 de Febrero",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.861413,
           -58.367785
@@ -23191,7 +23191,7 @@
         "nombre": "Claypole Oeste",
         "localidad": "Claypole",
         "anexo": "ANEXO III",
-        "color": "#3b82f6",
+        "color": "#39b5e6",
         "center": [
           -34.806195,
           -58.342647
@@ -23491,7 +23491,7 @@
         "nombre": "Longchamps Este",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.852683,
           -58.377891
@@ -23747,7 +23747,7 @@
         "nombre": "Club Lomas",
         "localidad": "Longchamps",
         "anexo": "ANEXO VI",
-        "color": "#8b5cf6",
+        "color": "#b23c8e",
         "center": [
           -34.857834,
           -58.370592
@@ -23847,7 +23847,7 @@
         "nombre": "Santa Ana",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.880171,
           -58.367115
@@ -24043,7 +24043,7 @@
         "nombre": "El Triunfo",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.886774,
           -58.340943
@@ -24167,7 +24167,7 @@
         "nombre": "600 Viviendas",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.876163,
           -58.357453
@@ -24299,7 +24299,7 @@
         "nombre": "Santa Rosa",
         "localidad": "Glew",
         "anexo": "ANEXO IV",
-        "color": "#10b981",
+        "color": "#371859",
         "center": [
           -34.874301,
           -58.358676
@@ -24403,7 +24403,7 @@
         "nombre": "Parque Industrial",
         "localidad": "Burzaco",
         "anexo": "ANEXO II",
-        "color": "#f59e0b",
+        "color": "#6c4c99",
         "center": [
           -34.841826,
           -58.420421
@@ -24871,7 +24871,7 @@
         "nombre": "2 de abril (RC)",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.776039,
           -58.334611
@@ -25139,7 +25139,7 @@
         "nombre": "Santa María (SJ)",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.757039,
           -58.33705
@@ -25195,7 +25195,7 @@
         "nombre": "Capilla del Señor",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.800213,
           -58.36923
@@ -25395,7 +25395,7 @@
         "nombre": "La Esther",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.826154,
           -58.360307
@@ -25579,7 +25579,7 @@
         "nombre": "Cerrito",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.820983,
           -58.356289
@@ -25703,7 +25703,7 @@
         "nombre": "Bipermu",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.816363,
           -58.328624
@@ -25751,7 +25751,7 @@
         "nombre": "Don Orione",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.815361,
           -58.341876
@@ -26123,7 +26123,7 @@
         "nombre": "Reservorio Don Orione",
         "localidad": "San Francisco De Asis",
         "anexo": "ANEXO X",
-        "color": "#00d9ff",
+        "color": "#9333ea",
         "center": [
           -34.821597,
           -58.333393
@@ -26191,7 +26191,7 @@
         "nombre": "Agustin Ramirez",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.769857,
           -58.343082
@@ -26319,7 +26319,7 @@
         "nombre": "San Ramon",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.755924,
           -58.337873
@@ -26387,7 +26387,7 @@
         "nombre": "Altos de Santa Ana",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.762064,
           -58.341073
@@ -26471,7 +26471,7 @@
         "nombre": "La Victoria",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.766995,
           -58.329768
@@ -26591,7 +26591,7 @@
         "nombre": "La Loma (SJ)",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.763702,
           -58.332067
@@ -26687,7 +26687,7 @@
         "nombre": "Garay",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.758929,
           -58.341033
@@ -26743,7 +26743,7 @@
         "nombre": "La Tablada",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.767938,
           -58.337734
@@ -26859,7 +26859,7 @@
         "nombre": "8 de Diciembre",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.765479,
           -58.335533
@@ -26995,7 +26995,7 @@
         "nombre": "San Jose",
         "localidad": "San José",
         "anexo": "ANEXO XII",
-        "color": "#a78bfa",
+        "color": "#7c3aed",
         "center": [
           -34.770053,
           -58.35067
@@ -27317,7 +27317,7 @@
         "nombre": "Santa Catalina",
         "localidad": "San Francisco Solano",
         "anexo": "ANEXO XI",
-        "color": "#fbbf24",
+        "color": "#5b21b6",
         "center": [
           -34.778157,
           -58.326264
@@ -27433,7 +27433,7 @@
         "nombre": "Villa Rafael Calzada",
         "localidad": "Rafael Calzada",
         "anexo": "ANEXO IX",
-        "color": "#84cc16",
+        "color": "#0284c7",
         "center": [
           -34.796238,
           -58.356546
