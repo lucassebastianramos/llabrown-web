@@ -47,14 +47,11 @@ export default function ProyectosSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Encabezado limpio */}
         <div className="max-w-3xl mb-10">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#6c4c99]">
-            Honorable Concejo Deliberante
-          </p>
-          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
-            Proyectos de ordenanza
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
+            Proyectos de ordenanza en el HCD
           </h2>
           <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Iniciativas legislativas impulsadas por el bloque de La Libertad Avanza Almirante Brown para aliviar el bolsillo de los vecinos, desregular trámites y auditar el gasto municipal. Consultá cada expediente en el Digesto Oficial o descargá el PDF con un clic.
+            Expedientes presentados por nuestro bloque para bajar tasas, eliminar trabas comerciales y auditar el gasto municipal. Consultá cada iniciativa en el Digesto Oficial o descargá el PDF.
           </p>
         </div>
 

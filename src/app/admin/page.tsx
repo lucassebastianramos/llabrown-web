@@ -68,10 +68,16 @@ export default function AdminPage() {
   const [copiedPlaca, setCopiedPlaca] = useState(false);
 
   useEffect(() => {
-    const authSession = localStorage.getItem('lla_admin_auth');
-    if (authSession === 'true') {
-      setIsAuthenticated(true);
-    }
+    fetch('/api/admin/auth')
+      .then((res) => (res.ok ? res.json() : { authenticated: false }))
+      .then((data) => {
+        if (data?.authenticated) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('lla_admin_auth');
+        }
+      })
+      .catch(() => {});
 
     fetch('/api/proyectos')
       .then((res) => (res.ok ? res.json() : null))
@@ -94,7 +100,10 @@ export default function AdminPage() {
         }
       })
       .catch(() => setVisitas(VISITAS_INICIALES));
+  }, []);
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
     fetch('/api/reclamos')
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
@@ -110,7 +119,7 @@ export default function AdminPage() {
         }
       })
       .catch(() => {});
-  }, []);
+  }, [isAuthenticated]);
 
   const handleSaveNumeroMunicipal = async (id: string) => {
     const num = editingMunicipalNumbers[id];
@@ -142,18 +151,30 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'lla2025' || password === 'brown2026' || password === 'aquino') {
-      setIsAuthenticated(true);
-      setLoginError(false);
-      localStorage.setItem('lla_admin_auth', 'true');
-    } else {
+    try {
+      const res = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        setIsAuthenticated(true);
+        setLoginError(false);
+        setPassword('');
+      } else {
+        setLoginError(true);
+      }
+    } catch {
       setLoginError(true);
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/auth', { method: 'DELETE' });
+    } catch {}
     setIsAuthenticated(false);
     localStorage.removeItem('lla_admin_auth');
   };

@@ -16,14 +16,11 @@ export default function EquipoSection() {
         {/* Encabezado limpio */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#6c4c99]">
-              Representación Institucional
-            </p>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
-              Nuestro equipo
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
+              Concejales y consejeros escolares
             </h2>
             <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Concejales y consejeros escolares comprometidos con la libertad, el orden institucional y la defensa del vecino de Almirante Brown.
+              Representantes de La Libertad Avanza en el Honorable Concejo Deliberante y en el Consejo Escolar de Almirante Brown.
             </p>
           </div>
 

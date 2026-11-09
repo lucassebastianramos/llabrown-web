@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, FileText, MapPin } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -14,48 +14,51 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Columna Editorial */}
           <div className="lg:col-span-7 text-left">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-[#39b5e6]">
-              Almirante Brown · Bloque Institucional
-            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-white/95">
+              <span className="w-2 h-2 rounded-full bg-[#39b5e6]" />
+              <span>Honorable Concejo Deliberante de Almirante Brown</span>
+            </div>
 
-            <h1 className="mt-3 text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-white leading-[1.08]">
-              La libertad avanza en cada barrio de Almirante Brown
+            <h1 className="mt-4 text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-[-0.03em] text-white leading-[1.06]">
+              Defendemos al vecino en el Concejo y en cada barrio de Brown
             </h1>
 
-            <p className="mt-5 text-base sm:text-lg text-white/85 max-w-2xl leading-relaxed">
-              Presencia territorial activa en las 13 localidades, proyectos reales de baja de tasas y transparencia en el Honorable Concejo Deliberante, y seguimiento directo de reclamos vecinales.
+            <p className="mt-5 text-base sm:text-lg text-white/85 max-w-[60ch] leading-relaxed">
+              Impulsamos proyectos reales de baja de tasas y control del gasto municipal, recorremos las 13 localidades del distrito y auditamos cada reclamo barrial con número de seguimiento.
             </p>
 
-            <p className="mt-4 text-sm font-bold tracking-wide text-[#39b5e6]">
-              #TuVozConstruye
-            </p>
-
-            {/* Acciones principales */}
+            {/* Acciones principales con jerarquía clara (page-cro) */}
             <div className="mt-8 flex flex-wrap items-center gap-3.5">
               <a
-                href="https://wa.me/5491131596936?text=Hola%20quiero%20sumarme%20a%20La%20Libertad%20Avanza%20Brown"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 py-3.5 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm transition-colors flex items-center gap-2 shadow-sm"
+                href="#reclamos"
+                className="min-h-[46px] px-6 py-3 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm transition-colors inline-flex items-center gap-2 shadow-sm"
               >
-                <span>Sumate</span>
+                <span>Cargar reclamo vecinal</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
               <a
-                href="#reclamos"
-                className="px-6 py-3.5 rounded-lg border border-white/40 hover:bg-white/10 text-white font-semibold text-sm transition-colors"
+                href="#contacto"
+                className="min-h-[46px] px-6 py-3 rounded-lg border border-white/40 hover:bg-white/10 text-white font-semibold text-sm transition-colors inline-flex items-center"
               >
-                Cargar reclamo vecinal
+                Sumate en tu localidad
               </a>
 
               <a
-                href="#mapa"
-                className="px-4 py-3 text-white/85 hover:text-white font-semibold text-sm transition-colors inline-flex items-center gap-1.5"
+                href="#proyectos"
+                className="min-h-[44px] px-3 py-2.5 text-white/85 hover:text-white font-semibold text-sm transition-colors inline-flex items-center gap-1.5"
               >
-                <MapPin className="w-4 h-4 text-[#39b5e6]" />
-                <span>Ver mapa territorial</span>
+                <FileText className="w-4 h-4 text-[#39b5e6]" />
+                <span>Ver proyectos en el HCD</span>
               </a>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/75">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#39b5e6]" />
+                Sede Central: Humberto Primo 990, Burzaco
+              </span>
+              <span className="font-semibold text-[#39b5e6]">#TuVozConstruye</span>
             </div>
           </div>
 
@@ -65,7 +68,7 @@ export default function Hero() {
               <div className="relative aspect-[4/3] w-full">
                 <Image
                   src="/img/a6.jpg"
-                  alt="Trabajo legislativo y territorial de La Libertad Avanza en Almirante Brown"
+                  alt="Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown"
                   fill
                   className="object-cover"
                   priority
@@ -75,49 +78,49 @@ export default function Hero() {
                 <span className="font-semibold text-white">
                   Bloque de Concejales y Consejeros Escolares
                 </span>
-                <span className="text-white/75 shrink-0">
-                  Coord. Juan Pedro Aquino
+                <span className="text-white/80 shrink-0">
+                  Jefe de Bloque: Juan Pedro Aquino
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Métricas Institucionales Limpias */}
+        {/* Datos institucionales verificables */}
         <div className="mt-14 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-6">
           <div>
-            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block">
+            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
               13
             </span>
-            <span className="text-xs font-semibold text-white/75 uppercase tracking-wider mt-1 block">
-              Localidades del distrito
+            <span className="text-xs font-medium text-white/80 mt-1 block">
+              Localidades con equipo activo
             </span>
           </div>
 
           <div>
-            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block">
+            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
               8
             </span>
-            <span className="text-xs font-semibold text-white/75 uppercase tracking-wider mt-1 block">
+            <span className="text-xs font-medium text-white/80 mt-1 block">
               Concejales en el HCD
             </span>
           </div>
 
           <div>
-            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block">
+            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
               4
             </span>
-            <span className="text-xs font-semibold text-white/75 uppercase tracking-wider mt-1 block">
-              Consejeros Escolares
+            <span className="text-xs font-medium text-white/80 mt-1 block">
+              Consejeros escolares
             </span>
           </div>
 
           <div>
-            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block">
+            <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
               176
             </span>
-            <span className="text-xs font-semibold text-white/75 uppercase tracking-wider mt-1 block">
-              Barrios oficiales (Ord. 13.906)
+            <span className="text-xs font-medium text-white/80 mt-1 block">
+              Barrios relevados (Ord. 13.906)
             </span>
           </div>
         </div>

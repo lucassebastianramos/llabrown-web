@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { updateReclamoDB } from '@/lib/db';
+import { isAdminAuthorized } from '@/lib/adminAuth';
 import { ReclamoVecinal } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -9,6 +10,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!isAdminAuthorized(req)) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
     const { id } = params;
     const body: Partial<ReclamoVecinal> = await req.json();
 
@@ -18,7 +23,7 @@ export async function PATCH(
     }
 
     return NextResponse.json(updated);
-  } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: 'Error al actualizar el reclamo.' }, { status: 500 });
   }
 }

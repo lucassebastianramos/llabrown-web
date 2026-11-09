@@ -103,6 +103,7 @@ export interface PinTerritorial {
 export type ReclamoEstado = 
   | 'Registrado en LLA'
   | 'Enviado a BrownGestión'
+  | 'Enviado a Gestión Municipal'
   | 'En Auditoría HCD'
   | 'Resuelto';
 

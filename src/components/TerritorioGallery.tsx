@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { CAROUSEL_GALLERY, VISITAS_INICIALES } from '@/data/mockData';
 import { VisitaTerritorial } from '@/types';
@@ -24,19 +24,26 @@ export default function TerritorioGallery() {
 
   const photos = CAROUSEL_GALLERY;
 
-  const handleNextPhoto = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedPhotoIndex !== null) {
-      setSelectedPhotoIndex((selectedPhotoIndex + 1) % photos.length);
-    }
-  };
+  const showNext = useCallback(() => {
+    setSelectedPhotoIndex((prev) => (prev === null ? null : (prev + 1) % photos.length));
+  }, [photos.length]);
 
-  const handlePrevPhoto = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedPhotoIndex !== null) {
-      setSelectedPhotoIndex((selectedPhotoIndex - 1 + photos.length) % photos.length);
-    }
-  };
+  const showPrev = useCallback(() => {
+    setSelectedPhotoIndex((prev) =>
+      prev === null ? null : (prev - 1 + photos.length) % photos.length
+    );
+  }, [photos.length]);
+
+  useEffect(() => {
+    if (selectedPhotoIndex === null) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedPhotoIndex(null);
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedPhotoIndex, showNext, showPrev]);
 
   return (
     <section id="territorio" className="py-20 bg-white border-b border-slate-200/80">
@@ -44,22 +51,20 @@ export default function TerritorioGallery() {
         {/* Encabezado limpio */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#6c4c99]">
-              Trabajo en la Calle
-            </p>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
-              Presencia en el territorio
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
+              Trabajo en los barrios de Brown
             </h2>
             <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Recorriendo cada localidad de Almirante Brown, escuchando a los vecinos y defendiendo las ideas de la libertad en cada barrio.
+              Reuniones con comerciantes, recorridas cuadra por cuadra y relevamiento presencial de obras y servicios públicos en las 13 localidades.
             </p>
           </div>
 
-          {/* Selector de pestañas limpio */}
+          {/* Selector de pestañas accesible */}
           <div className="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200 shrink-0 self-start md:self-auto">
             <button
+              type="button"
               onClick={() => setActiveTab('recorridas')}
-              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors ${
+              className={`min-h-[40px] px-4 py-2 rounded-md text-xs font-bold transition-colors ${
                 activeTab === 'recorridas'
                   ? 'bg-[#371859] text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
@@ -68,14 +73,15 @@ export default function TerritorioGallery() {
               Recorridas recientes
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('galeria')}
-              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors ${
+              className={`min-h-[40px] px-4 py-2 rounded-md text-xs font-bold transition-colors ${
                 activeTab === 'galeria'
                   ? 'bg-[#371859] text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Galería fotográfica
+              Galería fotográfica ({photos.length})
             </button>
           </div>
         </div>
@@ -84,7 +90,7 @@ export default function TerritorioGallery() {
         {activeTab === 'recorridas' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
             {visitas.map((visita) => (
-              <div
+              <article
                 key={visita.id}
                 className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:border-[#6c4c99]/50 hover:shadow-md transition-all flex flex-col justify-between"
               >
@@ -136,19 +142,21 @@ export default function TerritorioGallery() {
                     <span>Concejales: {visita.concejales.join(', ')}</span>
                   </span>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
 
-        {/* Tab 2: Galería */}
+        {/* Tab 2: Galería accesible por teclado */}
         {activeTab === 'galeria' && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 animate-fadeIn">
             {photos.map((item, index) => (
-              <div
-                key={index}
+              <button
+                type="button"
+                key={item.img}
                 onClick={() => setSelectedPhotoIndex(index)}
-                className="relative aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200 cursor-pointer group hover:border-[#371859] transition-all duration-200"
+                className="relative aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200 cursor-pointer group hover:border-[#371859] transition-all duration-200 text-left"
+                aria-label={`Ampliar foto: ${item.caption}`}
               >
                 <Image
                   src={item.img}
@@ -161,27 +169,35 @@ export default function TerritorioGallery() {
                     {item.caption}
                   </span>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         )}
 
-        {/* Modal Lightbox */}
+        {/* Modal Lightbox con soporte de teclado */}
         {selectedPhotoIndex !== null && (
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Visor de fotografías"
             onClick={() => setSelectedPhotoIndex(null)}
             className="fixed inset-0 z-50 bg-[#120629]/95 backdrop-blur-sm flex items-center justify-center p-4"
           >
             <button
+              type="button"
               onClick={() => setSelectedPhotoIndex(null)}
-              className="absolute top-6 right-6 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors"
-              aria-label="Cerrar modal"
+              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors"
+              aria-label="Cerrar visor"
             >
               <X className="w-6 h-6" />
             </button>
 
             <button
-              onClick={handlePrevPhoto}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrev();
+              }}
               className="absolute left-4 sm:left-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors"
               aria-label="Foto anterior"
             >
@@ -200,13 +216,22 @@ export default function TerritorioGallery() {
                   className="object-contain"
                 />
               </div>
-              <p className="mt-4 text-sm font-semibold text-white text-center max-w-lg">
-                {photos[selectedPhotoIndex].caption}
-              </p>
+              <div className="mt-4 flex flex-col items-center gap-1 text-center">
+                <p className="text-sm font-semibold text-white max-w-lg">
+                  {photos[selectedPhotoIndex].caption}
+                </p>
+                <span className="text-xs text-white/60 tabular-nums">
+                  {selectedPhotoIndex + 1} / {photos.length}
+                </span>
+              </div>
             </div>
 
             <button
-              onClick={handleNextPhoto}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
               className="absolute right-4 sm:right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors"
               aria-label="Siguiente foto"
             >

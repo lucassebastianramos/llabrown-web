@@ -1,16 +1,57 @@
 import { NextResponse } from 'next/server';
 import { getReclamosDB, createReclamoDB } from '@/lib/db';
-import { forwardToBrownGestion, ForwardResult } from '@/lib/municipalReclamoService';
+import { forwardToBrownGestion } from '@/lib/municipalReclamoService';
+import { isAdminAuthorized } from '@/lib/adminAuth';
 import { ReclamoVecinal } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+function clampStr(val: unknown, max: number): string {
+  if (typeof val !== 'string') return '';
+  return val.trim().slice(0, max);
+}
+
+export async function GET(req: Request) {
   try {
+    const url = new URL(req.url);
+    const codigoParam = url.searchParams.get('codigo')?.trim().toUpperCase();
+
     const reclamos = await getReclamosDB();
+
+    // Consulta pública de estado por código exacto (sin exponer DNI, teléfono ni altura exacta)
+    if (codigoParam) {
+      const found = reclamos.find(
+        (r) => r.codigoSeguimiento.trim().toUpperCase() === codigoParam
+      );
+      if (!found) {
+        return NextResponse.json(
+          { error: 'No encontramos un reclamo registrado con ese código. Verificá que esté bien escrito (ej: LLA-REC-2026-1234).' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({
+        reclamo: {
+          codigoSeguimiento: found.codigoSeguimiento,
+          localidad: found.localidad,
+          barrio: found.barrio,
+          tipoReclamo: found.tipoReclamo,
+          estado: found.estado,
+          numeroReclamoMunicipal: found.numeroReclamoMunicipal,
+          patrocinadoPor: found.patrocinadoPor,
+          fecha: found.fecha,
+        },
+      });
+    }
+
+    // Listado completo exclusivo para el panel de concejales autenticado
+    if (!isAdminAuthorized(req)) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
     return NextResponse.json(reclamos);
-  } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: 'No se pudieron consultar los reclamos.' }, { status: 500 });
   }
 }
 
@@ -18,14 +59,23 @@ export async function POST(req: Request) {
   try {
     const body: Partial<ReclamoVecinal> = await req.json();
 
-    if (!body.nombreVecino || !body.telefonoVecino || !body.localidad || !body.calle || !body.tipoReclamo || !body.descripcion) {
+    const nombreVecino = clampStr(body.nombreVecino, 120);
+    const telefonoVecino = clampStr(body.telefonoVecino, 48);
+    const localidad = clampStr(body.localidad, 80) as ReclamoVecinal['localidad'];
+    const calle = clampStr(body.calle, 160);
+    const tipoReclamo = clampStr(body.tipoReclamo, 120);
+    const descripcion = clampStr(body.descripcion, 2000);
+
+    if (!nombreVecino || !telefonoVecino || !localidad || !calle || !tipoReclamo || !descripcion) {
       return NextResponse.json(
-        { error: 'Por favor complete todos los campos obligatorios: nombre, teléfono, localidad, calle, tipo de reclamo y descripción.' },
+        {
+          error:
+            'Completá los datos obligatorios: nombre, teléfono, localidad, calle, categoría y detalle del problema.',
+        },
         { status: 400 }
       );
     }
 
-    // Generar código de seguimiento institucional de LLA
     const year = new Date().getFullYear();
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const codigoSeguimiento = `LLA-REC-${year}-${randomSuffix}`;
@@ -39,41 +89,39 @@ export async function POST(req: Request) {
     const newReclamo: ReclamoVecinal = {
       id,
       codigoSeguimiento,
-      nombreVecino: body.nombreVecino.trim(),
-      apellidoVecino: body.apellidoVecino?.trim(),
-      dniVecino: body.dniVecino?.trim(),
-      telefonoVecino: body.telefonoVecino.trim(),
-      localidad: body.localidad,
-      barrio: body.barrio?.trim(),
-      calle: body.calle.trim(),
-      altura: body.altura?.trim(),
-      entreCalles: body.entreCalles?.trim(),
-      tipoReclamo: body.tipoReclamo.trim(),
-      subtipoReclamo: body.subtipoReclamo?.trim(),
-      descripcion: body.descripcion.trim(),
-      normaDigesto: body.normaDigesto?.trim(),
+      nombreVecino,
+      apellidoVecino: clampStr(body.apellidoVecino, 100) || undefined,
+      dniVecino: clampStr(body.dniVecino, 24) || undefined,
+      telefonoVecino,
+      localidad,
+      barrio: clampStr(body.barrio, 120) || undefined,
+      calle,
+      altura: clampStr(body.altura, 24) || undefined,
+      entreCalles: clampStr(body.entreCalles, 160) || undefined,
+      tipoReclamo,
+      subtipoReclamo: clampStr(body.subtipoReclamo, 120) || undefined,
+      descripcion,
+      normaDigesto: clampStr(body.normaDigesto, 240) || undefined,
       estado: 'Registrado en LLA',
-      patrocinadoPor: 'Juan Pedro Aquino - Jefe de Bloque Concejales LLA',
+      patrocinadoPor: 'Juan Pedro Aquino · Jefe de Bloque Concejales LLA',
       fecha,
-      lat: body.lat,
-      lng: body.lng,
+      lat: typeof body.lat === 'number' && Number.isFinite(body.lat) ? body.lat : undefined,
+      lng: typeof body.lng === 'number' && Number.isFinite(body.lng) ? body.lng : undefined,
     };
 
-    // 1. Guardar en BD primero
     const saved = await createReclamoDB(newReclamo);
 
-    // 2. Ejecutar despacho automático al portal municipal BrownGestión
-    let forwardResult: ForwardResult = {
-      success: false,
-      mensaje: 'Reclamo registrado para seguimiento y auditoría por el Bloque LLA.',
-      portalUrl: 'https://www.browngestion.ar/solicitudesciudadanas/',
-    };
+    let publicMsg =
+      'Reclamo registrado por el Bloque de Concejales LLA para su ingreso formal y auditoría municipal.';
 
     try {
-      forwardResult = await forwardToBrownGestion(saved);
+      const forwardResult = await forwardToBrownGestion(saved);
       if (forwardResult.numeroReclamoMunicipal) {
         saved.numeroReclamoMunicipal = forwardResult.numeroReclamoMunicipal;
-        saved.estado = 'Enviado a BrownGestión';
+        saved.estado = 'Enviado a Gestión Municipal';
+      }
+      if (forwardResult.mensaje) {
+        publicMsg = forwardResult.mensaje;
       }
     } catch (fErr) {
       console.warn('Forward attempt failed:', fErr);
@@ -83,11 +131,16 @@ export async function POST(req: Request) {
       {
         ok: true,
         reclamo: saved,
-        resultadoMunicipal: forwardResult,
+        resultadoMunicipal: {
+          mensaje: publicMsg,
+        },
       },
       { status: 201 }
     );
-  } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  } catch {
+    return NextResponse.json(
+      { error: 'No pudimos registrar el reclamo en este momento. Intentá nuevamente o escribinos por WhatsApp.' },
+      { status: 500 }
+    );
   }
 }
