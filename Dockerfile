@@ -1,6 +1,6 @@
 # -------------------------------------------------------------
 # Dockerfile para Producción · La Libertad Avanza Almirante Brown
-# Compatible con x86_64 y ARM64 (Oracle Cloud Ampere A1)
+# Compatible con x86_64 y ARM64 (Oracle Cloud)
 # -------------------------------------------------------------
 
 FROM node:20-alpine AS base
@@ -37,10 +37,11 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copiar assets estáticos y standalone
-COPY --from=builder /app/public ./public
+# Copiar assets estáticos y standalone con permisos de escritura en /app/public/uploads
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
 
 USER nextjs
 
