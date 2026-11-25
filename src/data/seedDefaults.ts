@@ -36,12 +36,12 @@ export const DEFAULT_USERS: SeedUserSpec[] = [
     initialPassword: 'brown2026',
   },
   {
-    id: 'usr-brian-cabral',
-    username: 'briancabral18@gmail.com',
-    nombre: 'Brian Cabral',
+    id: 'usr-braian-cabral',
+    username: 'braiancabral18@gmail.com',
+    nombre: 'Braian Cabral',
     role: 'admin',
     cargo: 'Administrador LLA Almirante Brown',
-    email: 'briancabral18@gmail.com',
+    email: 'braiancabral18@gmail.com',
     initialPassword: 'cabral2026',
   },
   // 8 Concejales (cuentas de equipo: solo cargan noticias, expedientes y novedades a revisión)

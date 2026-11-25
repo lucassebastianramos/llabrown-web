@@ -451,7 +451,7 @@ export default function AdminPage() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Ej: admin, briancabral18@gmail.com, juan.aquino..."
+                  placeholder="Ej: admin, braiancabral18@gmail.com, juan.aquino..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-[#371859]"
                 />
               </div>
