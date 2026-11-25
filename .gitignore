@@ -12,3 +12,8 @@ yarn-error.log*
 next-env.d.ts
 /public/uploads/*
 !/public/uploads/.gitkeep
+/fiscalizacion/node_modules
+/fiscalizacion/dist
+/fiscalizacion/api/node_modules
+/fiscalizacion/api/dist
+/fiscalizacion/api/uploads

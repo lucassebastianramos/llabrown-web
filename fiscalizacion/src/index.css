@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Electoral Theme - Sobrios con acentos celeste/blanco/negro */
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Celeste institucional como primary */
+    --primary: 200 95% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 200 95% 85%;
+    --primary-dark: 200 95% 35%;
+
+    /* Grises elegantes */
+    --secondary: 220 13% 95%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 220 13% 95%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 200 95% 90%;
+    --accent-foreground: 222 47% 11%;
+
+    /* Estados del sistema */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Estados de fiscalización */
+    --assigned: 142 76% 36%; /* Verde - FG confirmado */
+    --incident: 0 84% 60%;    /* Rojo - incidencia abierta */
+    --vacant: 215 16% 60%;    /* Gris - vacante sin fiscal */
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 200 95% 45%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar electoral */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 200 95% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 40% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 222 40% 20%;
+    --sidebar-ring: 200 95% 45%;
+
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, hsl(200 95% 45%), hsl(200 95% 55%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%), hsl(38 92% 60%));
+
+    /* Sombras elegantes */
+    --shadow-card: 0 4px 6px -1px hsl(220 13% 91% / 0.1), 0 2px 4px -1px hsl(220 13% 91% / 0.06);
+    --shadow-elevated: 0 10px 15px -3px hsl(220 13% 91% / 0.1), 0 4px 6px -2px hsl(220 13% 91% / 0.05);
+    --shadow-glow: 0 0 20px hsl(200 95% 45% / 0.3);
+
+    /* Transiciones suaves */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Modo oscuro electoral */
+    --background: 222 47% 6%;
+    --foreground: 0 0% 98%;
+
+    --card: 222 40% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 222 40% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 200 95% 55%;
+    --primary-foreground: 222 47% 11%;
+    --primary-light: 200 95% 75%;
+    --primary-dark: 200 95% 25%;
+
+    --secondary: 222 40% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 222 40% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 200 95% 20%;
+    --accent-foreground: 0 0% 98%;
+
+    --success: 142 76% 46%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 0 0% 100%;
+
+    --assigned: 142 76% 46%;
+    --incident: 0 84% 70%;
+    --vacant: 215 16% 50%;
+
+    --border: 222 40% 20%;
+    --input: 222 40% 20%;
+    --ring: 200 95% 55%;
+
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 200 95% 55%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 222 40% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 222 40% 15%;
+    --sidebar-ring: 200 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

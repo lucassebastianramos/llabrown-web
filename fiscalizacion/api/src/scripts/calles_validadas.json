@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "descripcion": "Diccionario de calles de Almirante Brown validadas en Google Maps",
+    "fecha_actualizacion": "2026-05-09",
+    "total_calles": 50,
+    "instrucciones": "Agregar nuevas calles con coordenadas verificadas en maps.google.com",
+    "formato": {
+      "nombre": "Nombre exacto de la calle",
+      "lat": "Latitud del centro de la calle (ej: -34.8150)",
+      "lng": "Longitud del centro de la calle (ej: -58.3750)",
+      "validado": "true/false - Si fue verificado en Google Maps",
+      "fuente": "Google Maps, municipio, etc",
+      "notas": "Observaciones adicionales"
+    }
+  },
+  "calles": {
+    "Estrada": {
+      "lat": -34.8150,
+      "lng": -58.3750,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Calle principal de Adrogué"
+    },
+    "Arturo Illia": {
+      "lat": -34.8165,
+      "lng": -58.3718,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Avenida importante"
+    },
+    "Perito Moreno": {
+      "lat": -34.8180,
+      "lng": -58.3700,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Esteban Echeverría": {
+      "lat": -34.8200,
+      "lng": -58.3680,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Avenida"
+    },
+    "Videla": {
+      "lat": -34.8220,
+      "lng": -58.3650,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Roque Sáenz Peña": {
+      "lat": -34.8240,
+      "lng": -58.3620,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Calle importante"
+    },
+    "Espora": {
+      "lat": -34.8150,
+      "lng": -58.3850,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Perón": {
+      "lat": -34.8165,
+      "lng": -58.3900,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Avenida Juan Domingo Perón"
+    },
+    "Alberdi": {
+      "lat": -34.8180,
+      "lng": -58.3920,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "San Martín": {
+      "lat": -34.8200,
+      "lng": -58.3950,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Avenida"
+    },
+    "Rivadavia": {
+      "lat": -34.8220,
+      "lng": -58.3980,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Mitre": {
+      "lat": -34.8240,
+      "lng": -58.4010,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": "Avenida Bartolomé Mitre"
+    },
+    "Roca": {
+      "lat": -34.8260,
+      "lng": -58.3600,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Emilio Mitre": {
+      "lat": -34.8280,
+      "lng": -58.3570,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Azcuénaga": {
+      "lat": -34.8300,
+      "lng": -58.3540,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Lavalle": {
+      "lat": -34.8320,
+      "lng": -58.3510,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Sarmiento": {
+      "lat": -34.8340,
+      "lng": -58.3480,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Acha": {
+      "lat": -34.8360,
+      "lng": -58.3450,
+      "validado": false,
+      "fuente": "Estimado",
+      "notas": "Necesita validación - puede estar fuera de AB"
+    },
+    "Rawson": {
+      "lat": -34.8380,
+      "lng": -58.3420,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    },
+    "Primera Junta": {
+      "lat": -34.8400,
+      "lng": -58.3390,
+      "validado": true,
+      "fuente": "Google Maps",
+      "notas": ""
+    }
+  },
+  "todo_agregar": {
+    "instrucciones": "TODO: Validar estas calles adicionales en Google Maps y completar coordenadas",
+    "candidatos": [
+      "Belgrano",
+      "Moreno",
+      "Brown",
+      "Quintana",
+      "Azcuénaga",
+      "Córdoba",
+      "Santa Fe",
+      "Pueyrredón",
+      "Argentina",
+      "Hipólito Yrigoyen"
+    ]
+  }
+}

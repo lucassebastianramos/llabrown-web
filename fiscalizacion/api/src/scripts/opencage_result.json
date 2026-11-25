@@ -1,0 +1,109 @@
+{
+  "annotations": {
+    "DMS": {
+      "lat": "34° 47' 49.95600'' S",
+      "lng": "58° 23' 0.63600'' W"
+    },
+    "MGRS": "21HUB7343748573",
+    "Maidenhead": "GF05te38xq",
+    "Mercator": {
+      "x": -6499222.604,
+      "y": -4111972.664
+    },
+    "OSM": {
+      "note_url": "https://www.openstreetmap.org/note/new#map=17/-34.79721/-58.38351&layers=N",
+      "url": "https://www.openstreetmap.org/?mlat=-34.79721&mlon=-58.38351#map=17/-34.79721/-58.38351"
+    },
+    "UN_M49": {
+      "regions": {
+        "AMERICAS": "019",
+        "AR": "032",
+        "LATIN_AMERICA": "419",
+        "SOUTH_AMERICA": "005",
+        "WORLD": "001"
+      },
+      "statistical_groupings": [
+        "LEDC"
+      ]
+    },
+    "callingcode": 54,
+    "currency": {
+      "alternate_symbols": [
+        "AR$"
+      ],
+      "decimal_mark": ",",
+      "disambiguate_symbol": "AR$",
+      "html_entity": "$",
+      "iso_code": "ARS",
+      "iso_numeric": "032",
+      "name": "Argentine Peso",
+      "smallest_denomination": 1,
+      "subunit": "Centavo",
+      "subunit_to_unit": 100,
+      "symbol": "$",
+      "symbol_first": 1,
+      "thousands_separator": "."
+    },
+    "flag": "🇦🇷",
+    "geohash": "69y6p3q7t9gth2ycx9hq",
+    "qibla": 76.33,
+    "roadinfo": {
+      "drive_on": "right",
+      "speed_in": "km/h"
+    },
+    "sun": {
+      "rise": {
+        "apparent": 1778409420,
+        "astronomical": 1778404200,
+        "civil": 1778407800,
+        "nautical": 1778406000
+      },
+      "set": {
+        "apparent": 1778446980,
+        "astronomical": 1778452200,
+        "civil": 1778448540,
+        "nautical": 1778450400
+      }
+    },
+    "timezone": {
+      "name": "America/Argentina/Buenos_Aires",
+      "now_in_dst": 0,
+      "offset_sec": -10800,
+      "offset_string": "-0300",
+      "short_name": "-03"
+    },
+    "what3words": {
+      "words": "curve.badge.fortress"
+    }
+  },
+  "bounds": {
+    "northeast": {
+      "lat": -34.6951714,
+      "lng": -58.2723198
+    },
+    "southwest": {
+      "lat": -34.8810005,
+      "lng": -58.4631653
+    }
+  },
+  "components": {
+    "ISO_3166-1_alpha-2": "AR",
+    "ISO_3166-1_alpha-3": "ARG",
+    "_category": "place",
+    "_normalized_city": "Almirante Brown",
+    "_type": "city",
+    "continent": "South America",
+    "country": "Argentina",
+    "country_code": "ar",
+    "county": "Partido de Almirante Brown",
+    "state": "Buenos Aires",
+    "state_code": "B",
+    "town": "Almirante Brown"
+  },
+  "confidence": 5,
+  "formatted": "Almirante Brown, Partido de Almirante Brown, Argentina",
+  "geometry": {
+    "lat": -34.79721,
+    "lng": -58.38351
+  }
+}

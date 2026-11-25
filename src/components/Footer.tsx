@@ -83,47 +83,52 @@ export default function Footer() {
               </h4>
               <ul className="grid grid-cols-2 gap-2.5 text-sm text-white/85">
                 <li>
-                  <a href="#inicio" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#inicio" className="hover:text-white hover:underline underline-offset-4">
                     Inicio
                   </a>
                 </li>
                 <li>
-                  <a href="#nacion" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#nacion" className="hover:text-white hover:underline underline-offset-4">
                     Nación y Provincia
                   </a>
                 </li>
                 <li>
-                  <a href="#mapa" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#mapa" className="hover:text-white hover:underline underline-offset-4">
                     Mapa Territorial
                   </a>
                 </li>
                 <li>
-                  <a href="#reclamos" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#reclamos" className="hover:text-white hover:underline underline-offset-4">
                     Reclamos Vecinales
                   </a>
                 </li>
                 <li>
-                  <a href="#territorio" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#territorio" className="hover:text-white hover:underline underline-offset-4">
                     Territorio
                   </a>
                 </li>
                 <li>
-                  <a href="#proyectos" className="hover:text-white hover:underline underline-offset-4">
-                    Proyectos HCD
+                  <a href="/expedientes" className="hover:text-white hover:underline underline-offset-4">
+                    Expedientes HCD
                   </a>
                 </li>
                 <li>
-                  <a href="#equipo" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/#equipo" className="hover:text-white hover:underline underline-offset-4">
                     Equipo y Legisladores
                   </a>
                 </li>
                 <li>
-                  <a href="/f/fiscalizacion" className="hover:text-white hover:underline underline-offset-4">
-                    Fiscalización
+                  <a href="/fiscalizacion" className="hover:text-white hover:underline underline-offset-4">
+                    Sistema Fiscalización
                   </a>
                 </li>
                 <li>
-                  <a href="#contacto" className="hover:text-white hover:underline underline-offset-4">
+                  <a href="/f/fiscalizacion" className="hover:text-white hover:underline underline-offset-4">
+                    Sumarme como Fiscal
+                  </a>
+                </li>
+                <li>
+                  <a href="/#contacto" className="hover:text-white hover:underline underline-offset-4">
                     Contacto
                   </a>
                 </li>

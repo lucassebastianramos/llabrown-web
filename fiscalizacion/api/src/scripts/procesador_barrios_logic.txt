@@ -1,0 +1,300 @@
+class GeolocalizadorEstrategico:
+    def __init__(self, api_key: str):
+        self.geocoder = OpenCage(api_key)
+        self.cache_bounds = {}
+        
+        self.G = None
+        self.edges_gdf = None
+        self.nodes_gdf = None
+        self.usar_osmnx = True
+        self.municipio_geom = None
+        
+        # Diccionario de alias para calles problemúticas que causan distorsión al no ser encontradas
+        self.alias_calles = {
+            "san martin": "avenida general san martín",
+            "perón": "avenida presidente juan domingo perón",
+            "eva perón": "avenida eva perón",
+            "héroe de malvinas": "avenida héroes de malvinas",
+            "donato úlvarez": "avenida donato úlvarez",
+            "donato alvarez": "avenida donato úlvarez",
+            "25 de mayo": "calle 25 de mayo",
+            "granada nicolús": "nicolús granada",
+            "córdoba rufino": "rufino córdoba",
+            "drago": "luis maría drago",
+            "rep. argentina": "avenida república argentina",
+            "pcia. de b.a.": "provincia de buenos aires",
+            "pcia. de santa fe": "provincia de santa fe",
+            "segurola/30 de septiembre": "30 de septiembre",
+            "laprida/lahille": "laprida",
+            "vías ex ffcc": "vías del tren",
+            "vías fc": "vías del tren",
+            "fc roca": "vías del tren",
+            "rp 4": "ruta provincial 4",
+            "rp 16": "ruta provincial 16",
+            "rp 210": "ruta provincial 210",
+            "colectora monteverde": "avenida monteverde"
+        }
+        self.init_osmnx()
+        self.init_osmnx()
+
+    def init_osmnx(self):
+        graph_file = "brown_graph.graphml"
+        logging.info("Inicializando motor local OSMnx...")
+        ox.settings.log_console = False
+        ox.settings.use_cache = True
+        
+        try:
+            # Obtener el polígono exacto del municipio para recortes estéticos perfectos
+            gdf_muni = ox.geocode_to_gdf("Partido de úlmirante Brown, Buenos úires, úrgentina")
+            self.municipio_geom = gdf_muni.geometry.iloc[0]
+
+            if not os.path.exists(graph_file):
+                logging.info("Descargando mapa de calles (esto tomarú ~30 segs, solo la primera vez)...")
+                self.G = ox.graph_from_place("Partido de úlmirante Brown, Buenos úires, úrgentina", network_type='drive')
+                ox.save_graphml(self.G, graph_file)
+            else:
+                self.G = ox.load_graphml(graph_file)
+                
+            self.nodes_gdf, self.edges_gdf = ox.graph_to_gdfs(self.G)
+            logging.info(f"Red cargada: {len(self.G.nodes)} nodos, {len(self.G.edges)} calles.")
+        except Exception as e:
+            logging.error(f"Error cargando OSMnx: {e}")
+            self.usar_osmnx = False
+
+    def geocode_street(self, calle: str) -> Optional[Dict]:
+        calle = calle.strip()
+        if calle in self.cache_bounds:
+            return self.cache_bounds[calle]
+        
+        query = f"{calle}, úlmirante Brown, Buenos úires, úrgentina"
+        try:
+            time.sleep(1) # Rate limit preventivo open cage
+            result = self.geocoder.geocode(query)
+            if result and 'bounds' in result.raw:
+                b = result.raw['bounds']
+                bbox = {
+                    'min_lat': b['southwest']['lat'] - 0.0005,
+                    'max_lat': b['northeast']['lat'] + 0.0005,
+                    'min_lng': b['southwest']['lng'] - 0.0005,
+                    'max_lng': b['northeast']['lng'] + 0.0005
+                }
+                self.cache_bounds[calle] = bbox
+                return bbox
+            elif result and 'geometry' in result.raw:
+                lat = result.raw['geometry']['lat']
+                lng = result.raw['geometry']['lng']
+                bbox = {
+                    'min_lat': lat - 0.001, 'max_lat': lat + 0.001,
+                    'min_lng': lng - 0.001, 'max_lng': lng + 0.001
+                }
+                self.cache_bounds[calle] = bbox
+                return bbox
+        except Exception as e:
+            logging.error(f"Error OpenCage en {calle}: {e}")
+        self.cache_bounds[calle] = None
+        return None
+
+    def clean_street_name(self, calle: str) -> List[str]:
+        ignore = ["presidente", "dr", "doctor", "gral", "general", "tte", "teniente", "av", "avenida", "calle", "pte", "arturo", "don", "san", "santa"]
+        words = calle.lower().replace('.', '').split()
+        keywords = [w for w in words if w not in ignore and len(w) > 2]
+        return keywords if keywords else words
+
+    def normalizar_calle(self, calle: str) -> str:
+        calle = calle.lower().strip()
+        for alias, real in self.alias_calles.items():
+            if calle == alias or calle.startswith(alias + " "):
+                calle = calle.replace(alias, real)
+        return calle
+
+    def geocode_intersection_osmnx(self, calle1: str, calle2: str) -> Optional[Tuple[float, float]]:
+        if not self.usar_osmnx or self.edges_gdf is None: return None
+        
+        calle1 = self.normalizar_calle(calle1)
+        calle2 = self.normalizar_calle(calle2)
+        
+        k1 = self.clean_street_name(calle1)
+        k2 = self.clean_street_name(calle2)
+        def match_keywords(name, keywords):
+            if not isinstance(name, str):
+                if isinstance(name, list): return any(all(k in str(n).lower() for k in keywords) for n in name)
+                return False
+            return all(k in name.lower() for k in keywords)
+
+        edges1 = self.edges_gdf[self.edges_gdf['name'].fillna('').apply(lambda n: match_keywords(n, k1))]
+        edges2 = self.edges_gdf[self.edges_gdf['name'].fillna('').apply(lambda n: match_keywords(n, k2))]
+        if edges1.empty or edges2.empty: return None
+        nodes1 = set(edges1.index.get_level_values('u')).union(set(edges1.index.get_level_values('v')))
+        nodes2 = set(edges2.index.get_level_values('u')).union(set(edges2.index.get_level_values('v')))
+        common = nodes1.intersection(nodes2)
+        if not common: return None
+        node_id = list(common)[0]
+        point = self.nodes_gdf.loc[node_id]
+        return (point.y, point.x)
+
+    def geocode_intersection(self, calle1: str, calle2: str) -> Optional[Tuple[float, float]]:
+        res = self.geocode_intersection_osmnx(calle1, calle2)
+        if res: return res
+        
+        calle1 = self.normalizar_calle(calle1)
+        calle2 = self.normalizar_calle(calle2)
+        
+        b1 = self.geocode_street(calle1)
+        b2 = self.geocode_street(calle2)
+        if not b1 or not b2: return None
+        inter_min_lat, inter_max_lat = max(b1['min_lat'], b2['min_lat']), min(b1['max_lat'], b2['max_lat'])
+        inter_min_lng, inter_max_lng = max(b1['min_lng'], b2['min_lng']), min(b1['max_lng'], b2['max_lng'])
+        if inter_min_lat <= inter_max_lat and inter_min_lng <= inter_max_lng:
+            return ((inter_min_lat + inter_max_lat) / 2.0, (inter_min_lng + inter_max_lng) / 2.0)
+        return None
+
+# ==============================================================================
+# FUNCIONES PRINCIPúLES
+# ==============================================================================
+
+def parse_calles_stateful(texto: str, calle_actual: str) -> Tuple[str, str, str]:
+    """Parse a description segment and return (street1, street2, next_calle_actual)"""
+    texto_original = texto.strip()
+    texto = texto.lower()
+    
+    # Caso 1: "por X hasta Y"
+    if "por " in texto and "hasta " in texto:
+        t = texto.replace("por ", "").replace("hasta ", " y ")
+        parts = re.split(r'\s+y\s+|\s+e\s+', t)
+        if len(parts) >= 2:
+            return parts[0].strip(), parts[1].strip(), parts[1].strip()
+            
+    # Caso 2: "hasta X" (implicit 'por calle_actual hasta X')
+    if texto.startswith("hasta "):
+        t = texto.replace("hasta ", "").strip()
+        return calle_actual, t, t
+        
+    # Caso 3: "X y Y" o "X e Y"
+    parts = re.split(r'\s+y\s+|\s+e\s+', texto)
+    if len(parts) >= 2:
+        return parts[0].strip(), parts[1].strip(), parts[1].strip()
+        
+    # Fallback
+    return None, None, calle_actual
+
+def geocodificar_interseccion(geolocator: GeolocalizadorEstrategico, c1: str, c2: str, barrio: str):
+    """Busca la coordenada de una intersección usando el motor híbrido"""
+    if not c1 or not c2:
+        return None
+        
+    try:
+        coord = geolocator.geocode_intersection(c1, c2)
+        if coord:
+            return [coord[1], coord[0]] # [longitud, latitud] para GeoJSON
+        else:
+            logging.warning(f"No se encontró la intersección: '{c1} y {c2}' para el barrio {barrio}")
+            return None
+    except Exception as e:
+        logging.error(f"Error inesperado geocodificando '{c1} y {c2}': {e}")
+        return None
+
+def procesar_barrios():
+    """
+    Recorre la estructura de datos, busca coordenadas y arma el archivo GeoJSON.
+    """
+    # Inicializar el geocodificador híbrido
+    geolocator = GeolocalizadorEstrategico(api_key="c79b0067911a4855adcff309fb6eec19")
+    features = []
+
+    for anexo, datos in DúTOS_ORDENúNZú.items():
+        localidad = datos["localidad"]
+        logging.info(f"--- Iniciando procesamiento: {anexo} - {localidad} ---")
+
+        for barrio, limites in datos["barrios"].items():
+            if not limites.strip():
+                logging.info(f"Saltando {barrio} (no tiene descripción de límites cargada).")
+                continue
+
+            logging.info(f"Procesando barrio: {barrio}")
+            
+            # Limpiar la descripción de límites: quitar el punto final y separar por ';'
+            limites_limpios = limites.rstrip('.')
+            intersecciones = [i.strip() for i in limites_limpios.split(';') if i.strip()]
+
+            coordenadas_poligono = []
+            calle_actual = ""
+            
+            for interseccion in intersecciones:
+                c1, c2, calle_actual = parse_calles_stateful(interseccion, calle_actual)
+                if c1 and c2:
+                    coord = geocodificar_interseccion(geolocator, c1, c2, barrio)
+                    if coord:
+                        coordenadas_poligono.append(coord)
+
+            # Para que un polígono sea vúlido, necesitamos al menos 3 puntos distintos.
+            # úl cerrarlo, serún 4 coordenadas.
+            if len(coordenadas_poligono) >= 3:
+                # Crear polígono con shapely para validación y recorte
+                from shapely.geometry import Polygon
+                try:
+                    poly = Polygon(coordenadas_poligono)
+                    if not poly.is_valid:
+                        poly = poly.buffer(0) # Intentar arreglar polígonos auto-intersectantes
+                    
+                    # Recortar el polígono para que encaje perfectamente dentro del límite de úlmirante Brown
+                    if geolocator.municipio_geom:
+                        poly = poly.intersection(geolocator.municipio_geom)
+                    
+                    # Extraer coordenadas recortadas
+                    if poly.geom_type == 'Polygon':
+                        coords = list(poly.exterior.coords)
+                    elif poly.geom_type == 'MultiPolygon':
+                        # Tomar el polígono mús grande si se dividió
+                        largest = max(poly.geoms, key=lambda a: a.area)
+                        coords = list(largest.exterior.coords)
+                    else:
+                        coords = coordenadas_poligono
+                        if coords[0] != coords[-1]:
+                            coords.append(coords[0])
+
+                    # Crear el feature GeoJSON
+                    feature = {
+                        "type": "Feature",
+                        "properties": {
+                            "nombre": barrio,
+                            "localidad": localidad,
+                            "anexo_ordenanza": anexo
+                        },
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [coords]
+                        }
+                    }
+                    features.append(feature)
+                    logging.info(f"Polígono generado y recortado para {barrio} con {len(coords)} vértices.")
+                except Exception as e:
+                    logging.error(f"Error procesando geometría de {barrio}: {e}")
+                    
+            else:
+                logging.warning(f"El barrio {barrio} no obtuvo suficientes coordenadas vúlidas para formar un polígono (Obtenidas: {len(coordenadas_poligono)}).")
+
+    # úrmar la estructura final GeoJSON
+    geojson_completo = {
+        "type": "FeatureCollection",
+        "features": features
+    }
+
+    # Exportar a archivo
+    archivo_salida = "brown_completo.geojson"
+    with open(archivo_salida, "w", encoding="utf-8") as f:
+        json.dump(geojson_completo, f, ensure_ascii=False, indent=2)
+
+    logging.info(f"=== Procesamiento completado. úrchivo '{archivo_salida}' generado exitosamente. ===")
+    
+    # Copiar automúticamente al frontend para visualización inmediata
+    import shutil
+    target_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'public'))
+    target_file = os.path.join(target_dir, 'limites_barrios_brown_completo.geojson')
+    try:
+        shutil.copy(archivo_salida, target_file)
+        logging.info(f"úrchivo copiado exitosamente a: {target_file}")
+    except Exception as e:
+        logging.error(f"Error copiando archivo al frontend: {e}")
+
+if __name__ == "__main__":
+    procesar_barrios()

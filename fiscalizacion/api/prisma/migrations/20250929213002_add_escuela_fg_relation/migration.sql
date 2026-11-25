@@ -1,0 +1,5 @@
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_escuelaId_fkey" FOREIGN KEY ("escuelaId") REFERENCES "Escuela"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Escuela" ADD CONSTRAINT "Escuela_fgId_fkey" FOREIGN KEY ("fgId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

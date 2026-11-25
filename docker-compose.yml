@@ -1,5 +1,5 @@
 services:
-  # Base de Datos PostgreSQL
+  # Base de Datos PostgreSQL (sirve llabrown y fiscaliza)
   db:
     image: postgres:16-alpine
     container_name: llabrown-postgres
@@ -19,7 +19,7 @@ services:
     networks:
       - llabrown-net
 
-  # Aplicación Web Next.js Standalone
+  # Aplicación Web Next.js Standalone (Puerto 3000)
   web:
     build:
       context: .
@@ -40,10 +40,34 @@ services:
     networks:
       - llabrown-net
 
+  # Sistema de Fiscalización Electoral (SPA /fiscalizacion + API Express/Prisma en Puerto 3001)
+  fiscalizacion:
+    build:
+      context: ./fiscalizacion
+      dockerfile: Dockerfile
+    container_name: llabrown-fiscalizacion
+    restart: always
+    ports:
+      - "127.0.0.1:3001:3001"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-lla_user}:${POSTGRES_PASSWORD:-lla_password_2026}@db:5432/fiscaliza
+      JWT_SECRET: ${FISCALIZA_JWT_SECRET:-lla-brown-fiscalizacion-jwt-secret-2026}
+      PORT: 3001
+      NODE_ENV: production
+    volumes:
+      - fiscaliza_uploads:/app/api/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - llabrown-net
+
 volumes:
   postgres_data:
     driver: local
   uploads_data:
+    driver: local
+  fiscaliza_uploads:
     driver: local
 
 networks:

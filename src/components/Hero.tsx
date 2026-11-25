@@ -73,18 +73,18 @@ export default function Hero() {
               </a>
 
               <a
-                href="#contacto"
+                href="/fiscalizacion"
                 className="min-h-[46px] px-6 py-3 rounded-lg border border-white/40 hover:bg-white/10 text-white font-semibold text-sm transition-colors inline-flex items-center"
               >
-                Sumate en tu localidad
+                Sistema de Fiscalización
               </a>
 
               <a
-                href="#proyectos"
+                href="/expedientes"
                 className="min-h-[44px] px-3 py-2.5 text-white/85 hover:text-white font-semibold text-sm transition-colors inline-flex items-center gap-1.5"
               >
                 <FileText className="w-4 h-4 text-[#39b5e6]" />
-                <span>Ver proyectos en el HCD</span>
+                <span>Ver expedientes HCD</span>
               </a>
             </div>
 

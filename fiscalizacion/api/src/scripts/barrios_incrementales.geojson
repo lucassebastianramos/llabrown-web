@@ -1,0 +1,185 @@
+{
+  "type": "FeatureCollection",
+  "name": "INCREMENTAL - ORDENANZA 13.906",
+  "bbox": [
+    -58.447793760992305,
+    -34.90986784518467,
+    -58.29239338925479,
+    -34.75428071637758
+  ],
+  "properties": {
+    "generado": "2026-05-09T22:56:45.328977",
+    "municipio": "Almirante Brown",
+    "provincia": "Buenos Aires",
+    "total_barrios_precisos": 4,
+    "calles_validadas": 19,
+    "metodo": "Generador Incremental (mejora conforme se validan calles)",
+    "nota": "Cada vez que valides una calle nueva, re-ejecuta este script"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "barrio_vattuone",
+      "properties": {
+        "nombre": "Barrio Vattuone",
+        "localidad": "Adrogué",
+        "anexo": "ANEXO I",
+        "color": "#EF4444",
+        "tipo": "Barrio",
+        "ordenanza": "13.906",
+        "metodo": "Rectangular (Fallback)",
+        "geometria": "rectangular"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.367,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.823
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "adrogué_centro",
+      "properties": {
+        "nombre": "Adrogué Centro",
+        "localidad": "Adrogué",
+        "anexo": "ANEXO I",
+        "color": "#EF4444",
+        "tipo": "Barrio",
+        "ordenanza": "13.906",
+        "metodo": "Rectangular (Fallback)",
+        "geometria": "rectangular"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.367,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.823
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "burzaco_centro",
+      "properties": {
+        "nombre": "Burzaco Centro",
+        "localidad": "Burzaco",
+        "anexo": "ANEXO II",
+        "color": "#F59E0B",
+        "tipo": "Barrio",
+        "ordenanza": "13.906",
+        "metodo": "Rectangular (Fallback)",
+        "geometria": "rectangular"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.367,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.823
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "claypole_este",
+      "properties": {
+        "nombre": "Claypole Este",
+        "localidad": "Claypole",
+        "anexo": "ANEXO III",
+        "color": "#3B82F6",
+        "tipo": "Barrio",
+        "ordenanza": "13.906",
+        "metodo": "Rectangular (Fallback)",
+        "geometria": "rectangular"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.367,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.806999999999995
+            ],
+            [
+              -58.383,
+              -34.823
+            ],
+            [
+              -58.367,
+              -34.823
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

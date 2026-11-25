@@ -1,0 +1,272 @@
+// Esquema inicial basado en la estructura de Supabase
+// Puedes modificar los modelos según lo que necesites
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String          @id @default(uuid())
+  nombre         String
+  apellido       String
+  email          String          @unique
+  password       String
+  role           UserRole
+  dni            String?
+  celular        String?
+  mesaNro        String? // Número de mesa asignado (para fiscales de mesa)
+  seccionId      Int?
+  escuelaId      String?
+  // Relation to the escuela the user belongs to (not FG), optional
+  escuela        Escuela?        @relation("UserEscuela", fields: [escuelaId], references: [id])
+  // Back-relation: escuelas where this user is the Fiscal General (FG)
+  escuelasFG     Escuela[]       @relation("EscuelaFG")
+  // Back-relation: mesas donde es fiscal asignado
+  mesas          Mesa[]          @relation("MesaFiscal")
+  // New: many-to-many assignments to escuelas with role
+  asignaciones   Asignacion[]
+  // Back-relations: password resets and scrap FG history
+  passwordResets PasswordReset[]
+  scrapFgs       ScrapFg[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  // Security flags
+  mustChangePassword Boolean     @default(false)
+  // Relations
+  securityQuestions SecurityQuestion[]
+  passwordHistory   PasswordHistory[]
+  twoFactorTokens   TwoFactorToken[]
+}
+
+enum UserRole {
+  coordinador
+  encargado_seccion
+  fiscal_general
+  fiscal_mesa
+}
+
+model Escuela {
+  id           String       @id @default(uuid())
+  nombre       String
+  domicilio    String
+  circuito     String
+  seccion      Int
+  lat          Float?
+  lng          Float?
+  fgId         String?
+  fg           User?        @relation("EscuelaFG", fields: [fgId], references: [id])
+  // Back-relation: users (of any role) that belong to this escuela via User.escuelaId
+  users        User[]       @relation("UserEscuela")
+  fiscales     Fiscal[]
+  incidencias  Incidencia[]
+  mesas        Mesa[]
+  // New: assignments back-relation
+  asignaciones Asignacion[]
+  // Back-relation: scrap FG history
+  scrapFgs     ScrapFg[]
+}
+
+model Fiscal {
+  id        String   @id @default(uuid())
+  nombre    String
+  apellido  String
+  dni       String?
+  celular   String?
+  role      UserRole
+  escuela   Escuela? @relation(fields: [escuelaId], references: [id])
+  escuelaId String?
+}
+
+model Incidencia {
+  id          String         @id @default(uuid())
+  tipo        IncidentType
+  estado      IncidentStatus
+  descripcion String
+  escuela     Escuela?       @relation(fields: [escuelaId], references: [id])
+  escuelaId   String?
+  createdAt   DateTime       @default(now())
+}
+
+model Mesa {
+  id        String  @id @default(uuid())
+  nro       String
+  escuelaId String
+  escuela   Escuela @relation(fields: [escuelaId], references: [id])
+  fiscalId  String?
+  fiscal    User?   @relation("MesaFiscal", fields: [fiscalId], references: [id])
+
+  // Back-relations for jornada, resultados y actas
+  jornada    MesaJornada?
+  resultados MesaResultados?
+  actas      MesaActa[]
+
+  @@unique([escuelaId, nro])
+}
+
+// New: jornada de votación por mesa (estado del día electoral)
+model MesaJornada {
+  id         String   @id @default(uuid())
+  mesaId     String   @unique
+  mesa       Mesa     @relation(fields: [mesaId], references: [id])
+  electores  Int?
+  status     JornadaStatus @default(pendiente)
+  openedAt   DateTime?
+  closedAt   DateTime?
+  // Lista de números de elector marcados (1..electores)
+  votantes   Int[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("mesa_jornada")
+}
+
+enum JornadaStatus {
+  pendiente
+  abierta
+  cerrada
+}
+
+// New: resultados por alianza para la mesa (JSON flexible)
+model MesaResultados {
+  id         String   @id @default(uuid())
+  mesaId     String   @unique
+  mesa       Mesa     @relation(fields: [mesaId], references: [id])
+  resultados Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("mesa_resultados")
+}
+
+// New: archivo de acta (foto/pdf) subido por la mesa
+model MesaActa {
+  id         String   @id @default(uuid())
+  mesaId     String
+  mesa       Mesa     @relation(fields: [mesaId], references: [id])
+  filename   String
+  mimeType   String
+  size       Int
+  path       String // ruta local relativa para servir
+  uploadedAt DateTime @default(now())
+
+  @@index([mesaId])
+}
+
+// New join model to allow a person assigned to multiple escuelas with a specific role
+model Asignacion {
+  id        String   @id @default(uuid())
+  userId    String
+  escuelaId String
+  role      UserRole
+
+  user    User    @relation(fields: [userId], references: [id])
+  escuela Escuela @relation(fields: [escuelaId], references: [id])
+
+  @@unique([userId, escuelaId, role])
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+// Security policy singleton (id = 'default')
+model SecurityPolicy {
+  id                String  @id @default("default")
+  minLen            Int     @default(8)
+  requireUpperLower Boolean @default(true)
+  requireNumber     Boolean @default(true)
+  requireSpecial    Boolean @default(false)
+  questionsCount    Int     @default(2)
+  enforce2FA        Boolean @default(false)
+  noReuseLastN      Int     @default(3)
+  forbidPII         Boolean @default(true)
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+}
+
+model SecurityQuestion {
+  id       String  @id @default(uuid())
+  userId   String
+  question String
+  answerHash String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model PasswordHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  passwordHash String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model TwoFactorToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model ScrapFg {
+  id        String   @id @default(uuid())
+  escuelaId String
+  userId    String
+  movedAt   DateTime @default(now())
+  reason    String?
+
+  escuela Escuela @relation(fields: [escuelaId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([escuelaId])
+  @@index([userId])
+}
+
+model Alianza {
+  id      String  @id @default(uuid())
+  nombre  String  @unique
+  orden   Int     @default(0)
+  activo  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum IncidentType {
+  ausencia_fiscal
+  problema_tecnico
+  irregularidad
+  consulta
+  otro
+}
+
+enum IncidentStatus {
+  abierta
+  en_proceso
+  resuelta
+  cerrada
+}

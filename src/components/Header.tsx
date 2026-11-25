@@ -11,18 +11,17 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('inicio');
 
   const navLinks = [
-    { id: 'inicio', label: 'Inicio', href: '#inicio' },
-    { id: 'nacion', label: 'Nación', href: '#nacion' },
-    { id: 'mapa', label: 'Mapa', href: '#mapa' },
-    { id: 'reclamos', label: 'Reclamos', href: '#reclamos' },
-    { id: 'territorio', label: 'Territorio', href: '#territorio' },
-    { id: 'proyectos', label: 'Proyectos', href: '#proyectos' },
-    { id: 'equipo', label: 'Equipo', href: '#equipo' },
-    { id: 'contacto', label: 'Contacto', href: '#contacto' },
+    { id: 'inicio', label: 'Inicio', href: '#inicio', external: false },
+    { id: 'nacion', label: 'Nación', href: '#nacion', external: false },
+    { id: 'mapa', label: 'Mapa', href: '#mapa', external: false },
+    { id: 'reclamos', label: 'Reclamos', href: '#reclamos', external: false },
+    { id: 'expedientes', label: 'Expedientes', href: '/expedientes', external: true },
+    { id: 'equipo', label: 'Equipo', href: '#equipo', external: false },
+    { id: 'contacto', label: 'Contacto', href: '#contacto', external: false },
   ];
 
   useEffect(() => {
-    const sectionIds = ['inicio', 'nacion', 'mapa', 'reclamos', 'territorio', 'proyectos', 'equipo', 'contacto'];
+    const sectionIds = ['inicio', 'nacion', 'mapa', 'reclamos', 'territorio', 'equipo', 'contacto'];
     const handleScroll = () => {
       setScrolled(window.scrollY > 12);
 
@@ -72,6 +71,17 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
+              if (link.external) {
+                return (
+                  <Link
+                    key={link.id}
+                    href={link.href}
+                    className="relative py-1.5 text-sm font-semibold text-white/85 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              }
               return (
                 <a
                   key={link.id}
@@ -90,12 +100,12 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/f/fiscalizacion"
+            <a
+              href="/fiscalizacion"
               className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm transition-colors shadow-sm"
             >
-              Fiscalizá
-            </Link>
+              Fiscalización
+            </a>
 
             <button
               type="button"
@@ -115,6 +125,19 @@ export default function Header() {
           <div className="flex flex-col divide-y divide-white/10">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
+              if (link.external) {
+                return (
+                  <Link
+                    key={link.id}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-3 text-sm font-semibold flex items-center justify-between text-white/90 hover:text-white"
+                  >
+                    <span>{link.label}</span>
+                    <span className="text-white/60">→</span>
+                  </Link>
+                );
+              }
               return (
                 <a
                   key={link.id}
@@ -131,14 +154,14 @@ export default function Header() {
             })}
           </div>
 
-          <div className="pt-2">
-            <Link
-              href="/f/fiscalizacion"
+          <div className="pt-2 grid grid-cols-1 gap-2">
+            <a
+              href="/fiscalizacion"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full justify-center px-5 py-3 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm flex items-center gap-2 shadow-sm"
             >
-              Inscripción de Fiscales
-            </Link>
+              Sistema de Fiscalización
+            </a>
           </div>
         </div>
       )}
