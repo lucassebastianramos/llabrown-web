@@ -324,14 +324,16 @@ export async function initDatabase() {
         CREATE INDEX IF NOT EXISTS idx_respuestas_slug ON formulario_respuestas(formulario_slug);
       `);
 
-      // 10. Tabla site_config (dinamización de página + credenciales SMTP Zoho)
+      // 10. Tabla site_config (dinamización de página + credenciales SMTP Zoho por casilla)
       await client.query(`
         CREATE TABLE IF NOT EXISTS site_config (
           id VARCHAR(32) PRIMARY KEY,
           config_json JSONB NOT NULL,
           zoho_smtp_pass TEXT,
+          zoho_accounts_json JSONB NOT NULL DEFAULT '{}'::jsonb,
           updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
+        ALTER TABLE site_config ADD COLUMN IF NOT EXISTS zoho_accounts_json JSONB NOT NULL DEFAULT '{}'::jsonb;
       `);
 
       // 11. Tabla correos_enviados (historial Zoho Mail)
@@ -1776,15 +1778,25 @@ export async function getFormularioRespuestasDB(slugOrId: string): Promise<Formu
 // =========================================================================
 // CONFIGURACIÓN DINÁMICA DEL SITIO Y SMTP ZOHO
 // =========================================================================
-export async function getSiteConfigWithSecretsDB(): Promise<{ config: SiteConfig; smtpPass: string }> {
+export async function getSiteConfigWithSecretsDB(): Promise<{
+  config: SiteConfig;
+  smtpPass: string;
+  zohoAccounts: Record<string, string>;
+}> {
   try {
     await initDatabase();
-    const res = await pool.query(`SELECT config_json, zoho_smtp_pass FROM site_config WHERE id = 'main' LIMIT 1`);
+    const res = await pool.query(
+      `SELECT config_json, zoho_smtp_pass, zoho_accounts_json FROM site_config WHERE id = 'main' LIMIT 1`
+    );
     if (res.rows.length > 0) {
       const merged: SiteConfig = { ...DEFAULT_SITE_CONFIG, ...(res.rows[0].config_json || {}) };
       const pass = res.rows[0].zoho_smtp_pass || process.env.ZOHO_SMTP_PASS || '';
-      merged.zohoSmtpConfigured = Boolean(merged.zohoSmtpUser && pass);
-      return { config: merged, smtpPass: pass };
+      const accounts: Record<string, string> =
+        res.rows[0].zoho_accounts_json && typeof res.rows[0].zoho_accounts_json === 'object'
+          ? res.rows[0].zoho_accounts_json
+          : {};
+      merged.zohoSmtpConfigured = Boolean((merged.zohoSmtpUser && pass) || Object.keys(accounts).length > 0);
+      return { config: merged, smtpPass: pass, zohoAccounts: accounts };
     }
   } catch {
     // fallback
@@ -1793,6 +1805,7 @@ export async function getSiteConfigWithSecretsDB(): Promise<{ config: SiteConfig
   return {
     config: { ...fallbackSiteConfig, zohoSmtpConfigured: Boolean(fallbackSiteConfig.zohoSmtpUser && pass) },
     smtpPass: pass,
+    zohoAccounts: {},
   };
 }
 
@@ -1806,13 +1819,20 @@ export async function updateSiteConfigDB(
   smtpPass?: string,
   actor?: SessionUser
 ): Promise<SiteConfig> {
-  const { config: current, smtpPass: currentPass } = await getSiteConfigWithSecretsDB();
+  const { config: current, smtpPass: currentPass, zohoAccounts: currentAccounts } =
+    await getSiteConfigWithSecretsDB();
   const nextConfig: SiteConfig = {
     ...current,
     ...updates,
   };
   const nextPass = smtpPass !== undefined && smtpPass.trim().length > 0 ? smtpPass.trim() : currentPass;
-  nextConfig.zohoSmtpConfigured = Boolean(nextConfig.zohoSmtpUser && nextPass);
+  const nextAccounts: Record<string, string> = { ...currentAccounts };
+  if (smtpPass !== undefined && smtpPass.trim().length > 0 && nextConfig.zohoSmtpUser) {
+    nextAccounts[nextConfig.zohoSmtpUser.trim().toLowerCase()] = smtpPass.trim();
+  }
+  nextConfig.zohoSmtpConfigured = Boolean(
+    (nextConfig.zohoSmtpUser && nextPass) || Object.keys(nextAccounts).length > 0
+  );
 
   fallbackSiteConfig = nextConfig;
   fallbackSmtpPass = nextPass;
@@ -1820,10 +1840,10 @@ export async function updateSiteConfigDB(
   try {
     await initDatabase();
     await pool.query(
-      `INSERT INTO site_config (id, config_json, zoho_smtp_pass, updated_at)
-       VALUES ('main', $1::jsonb, $2, NOW())
-       ON CONFLICT (id) DO UPDATE SET config_json = EXCLUDED.config_json, zoho_smtp_pass = EXCLUDED.zoho_smtp_pass, updated_at = NOW()`,
-      [JSON.stringify(nextConfig), nextPass || null]
+      `INSERT INTO site_config (id, config_json, zoho_smtp_pass, zoho_accounts_json, updated_at)
+       VALUES ('main', $1::jsonb, $2, $3::jsonb, NOW())
+       ON CONFLICT (id) DO UPDATE SET config_json = EXCLUDED.config_json, zoho_smtp_pass = EXCLUDED.zoho_smtp_pass, zoho_accounts_json = EXCLUDED.zoho_accounts_json, updated_at = NOW()`,
+      [JSON.stringify(nextConfig), nextPass || null, JSON.stringify(nextAccounts)]
     );
   } catch (err) {
     console.warn('updateSiteConfigDB fallback:', (err as Error).message);

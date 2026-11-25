@@ -18,22 +18,13 @@ export interface SeedUserSpec {
 
 export const DEFAULT_USERS: SeedUserSpec[] = [
   {
-    id: 'usr-admin',
-    username: 'admin',
-    nombre: 'Administración General LLA Brown',
+    id: 'usr-juan-aquino',
+    username: 'juan.aquino',
+    nombre: 'Juan Pedro Aquino',
     role: 'admin',
-    cargo: 'Administrador del Sistema',
+    cargo: 'Coordinador Distrital · Jefe de Bloque · Administrador',
     email: 'lalibertadavanza@llabrown.com.ar',
-    initialPassword: 'lla2025',
-  },
-  {
-    id: 'usr-coordinacion',
-    username: 'coordinacion',
-    nombre: 'Coordinación Distrital LLA Brown',
-    role: 'admin',
-    cargo: 'Coordinación y Aprobación Editorial',
-    email: 'prensa@llabrown.com.ar',
-    initialPassword: 'brown2026',
+    initialPassword: 'aquino2026',
   },
   {
     id: 'usr-braian-cabral',
@@ -44,16 +35,16 @@ export const DEFAULT_USERS: SeedUserSpec[] = [
     email: 'braiancabral18@gmail.com',
     initialPassword: 'cabral2026',
   },
-  // 8 Concejales (cuentas de equipo: solo cargan noticias, expedientes y novedades a revisión)
   {
-    id: 'usr-juan-aquino',
-    username: 'juan.aquino',
-    nombre: 'Juan Pedro Aquino',
-    role: 'editor',
-    cargo: 'Concejal · Jefe de Bloque',
+    id: 'usr-admin',
+    username: 'admin',
+    nombre: 'Administración Técnica LLA Brown',
+    role: 'admin',
+    cargo: 'Administrador del Sistema',
     email: 'lalibertadavanza@llabrown.com.ar',
-    initialPassword: 'aquino2026',
+    initialPassword: 'lla2025',
   },
+  // 7 Concejales (cuentas de equipo: solo cargan noticias, expedientes y novedades a revisión)
   {
     id: 'usr-diego-garrido',
     username: 'diego.garrido',
@@ -159,7 +150,7 @@ export const DEFAULT_USERS: SeedUserSpec[] = [
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
   heroTitulo: 'Defendemos al vecino en el Concejo y en cada barrio de Brown',
   heroSubtitulo:
-    'Impulsamos proyectos reales de baja de tasas y control del gasto municipal, recorremos las 13 localidades del distrito y auditamos cada reclamo barrial con número de seguimiento.',
+    'Impulsamos proyectos reales de baja de tasas y control del gasto municipal, recorremos las 12 localidades del distrito y auditamos cada reclamo barrial con número de seguimiento.',
   heroLema: '#TuVozConstruye',
   sedeDireccion: 'Humberto Primo 990, Burzaco',
   whatsappNumero: '5491131596936',
@@ -250,7 +241,7 @@ export const NOTICIAS_INICIALES: NoticiaItem[] = [
     bajada:
       'Concejales y legisladores provinciales de La Libertad Avanza coordinaron pedidos de informes sobre seguridad, rutas y partidas educativas destinadas al Conurbano Sur.',
     cuerpo:
-      'En una reunión de trabajo con representantes bonaerenses de la Tercera Sección, el bloque encabezado por Juan Pedro Aquino repasó los reclamos prioritarios de las 13 localidades de Almirante Brown, con eje en el Fondo Educativo, corredores escolares seguros y mantenimiento de avenidas provinciales.',
+      'En una reunión de trabajo con representantes bonaerenses de la Tercera Sección, el bloque encabezado por Juan Pedro Aquino repasó los reclamos prioritarios de las 12 localidades de Almirante Brown, con eje en el Fondo Educativo, corredores escolares seguros y mantenimiento de avenidas provinciales.',
     ambito: 'Provincia',
     localidad: 'Tercera Sección / Almirante Brown',
     imagenUrl: '/img/a7.jpg',
@@ -265,7 +256,7 @@ export const NOTICIAS_INICIALES: NoticiaItem[] = [
     id: 'not-3',
     titulo: 'Nuevo canal de seguimiento vecinal y transparencia legislativa en Brown',
     bajada:
-      'Los vecinos de las 13 localidades ya pueden cargar reclamos con código único de auditoría y verificar el avance de los proyectos presentados en el HCD.',
+      'Los vecinos de las 12 localidades ya pueden cargar reclamos con código único de auditoría y verificar el avance de los proyectos presentados en el HCD.',
     cuerpo:
       'Cada reclamo registrado en nuestra plataforma queda asentado en la base de datos institucional del bloque para controlar los plazos de respuesta municipal y, ante demoras, elevar pedidos formales en el Honorable Concejo Deliberante.',
     ambito: 'Distrito',

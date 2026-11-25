@@ -8,7 +8,7 @@ import { SiteConfig } from '@/types';
 
 export default function Hero() {
   const [config, setConfig] = useState<SiteConfig>(DEFAULT_SITE_CONFIG);
-  const [localidadesCount, setLocalidadesCount] = useState<number>(13);
+  const [localidadesCount, setLocalidadesCount] = useState<number>(12);
   const [concejalesCount, setConcejalesCount] = useState<number>(8);
   const [consejerosCount, setConsejerosCount] = useState<number>(4);
 

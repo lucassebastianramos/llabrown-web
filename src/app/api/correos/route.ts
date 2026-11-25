@@ -25,7 +25,9 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (body?.action === 'test') {
-      const result = await verifyZohoSmtpConnection();
+      const result = await verifyZohoSmtpConnection(
+        typeof body?.remitente === 'string' ? body.remitente : undefined
+      );
       return NextResponse.json(result, { status: result.ok ? 200 : 400 });
     }
 

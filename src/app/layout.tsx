@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: '%s | LLA Almirante Brown',
   },
   description:
-    'Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown. Cargá reclamos barriales con código de seguimiento, consultá expedientes en el HCD y sumate en las 13 localidades.',
+    'Bloque de concejales y consejeros escolares de La Libertad Avanza en Almirante Brown. Cargá reclamos barriales con código de seguimiento, consultá expedientes en el HCD y sumate en las 12 localidades.',
   keywords: [
     'La Libertad Avanza Almirante Brown',
     'Juan Pedro Aquino',
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'La Libertad Avanza Almirante Brown',
     description:
-      'Reclamos vecinales con código de seguimiento, proyectos de baja de tasas en el HCD y presencia en las 13 localidades de Almirante Brown.',
+      'Reclamos vecinales con código de seguimiento, proyectos de baja de tasas en el HCD y presencia en las 12 localidades de Almirante Brown.',
     url: 'https://llabrown.com.ar',
     siteName: 'La Libertad Avanza Almirante Brown',
     images: [

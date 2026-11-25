@@ -13,7 +13,7 @@ export default function ElectoralMap() {
             Mapa territorial de Almirante Brown
           </h2>
           <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Reclamos de calles, pedidos de obras y proyectos georreferenciados en los 176 barrios oficiales (Ordenanza N° 13.906) de las 13 localidades del partido.
+            Reclamos de calles, pedidos de obras y proyectos georreferenciados en los 176 barrios oficiales (Ordenanza N° 13.906) de las 12 localidades del partido.
           </p>
         </div>
 

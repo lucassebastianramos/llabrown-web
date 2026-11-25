@@ -55,7 +55,7 @@ export default function TerritorioGallery() {
               Trabajo en los barrios de Brown
             </h2>
             <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Reuniones con comerciantes, recorridas cuadra por cuadra y relevamiento presencial de obras y servicios públicos en las 13 localidades.
+              Reuniones con comerciantes, recorridas cuadra por cuadra y relevamiento presencial de obras y servicios públicos en las 12 localidades.
             </p>
           </div>
 

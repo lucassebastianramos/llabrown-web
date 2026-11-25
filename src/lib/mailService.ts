@@ -11,14 +11,35 @@ export interface SendMailInput {
   enviadoPor: string;
 }
 
+function resolveMailboxAuth(
+  requestedSender: string | undefined,
+  configUser: string | undefined,
+  defaultPass: string,
+  accounts: Record<string, string>
+): { authUser: string; authPass: string } {
+  const cleanSender = (requestedSender || '').trim().toLowerCase();
+  if (cleanSender && accounts[cleanSender]) {
+    return { authUser: cleanSender, authPass: accounts[cleanSender] };
+  }
+  const fallbackUser = (configUser || process.env.ZOHO_SMTP_USER || 'lalibertadavanza@llabrown.com.ar')
+    .trim()
+    .toLowerCase();
+  const fallbackPass = accounts[fallbackUser] || defaultPass || process.env.ZOHO_SMTP_PASS || '';
+  return { authUser: fallbackUser, authPass: fallbackPass };
+}
+
 export async function sendZohoMail(input: SendMailInput): Promise<CorreoEnviado> {
-  const { config, smtpPass } = await getSiteConfigWithSecretsDB();
+  const { config, smtpPass, zohoAccounts } = await getSiteConfigWithSecretsDB();
 
   const host = config.zohoSmtpHost || process.env.ZOHO_SMTP_HOST || 'smtp.zoho.com';
   const port = Number(config.zohoSmtpPort || process.env.ZOHO_SMTP_PORT || 465);
-  const authUser = config.zohoSmtpUser || process.env.ZOHO_SMTP_USER || config.emailGeneral;
-  const authPass = smtpPass || process.env.ZOHO_SMTP_PASS || '';
-  const remitente = input.remitente || authUser || 'lalibertadavanza@llabrown.com.ar';
+  const { authUser, authPass } = resolveMailboxAuth(
+    input.remitente,
+    config.zohoSmtpUser || config.emailGeneral,
+    smtpPass,
+    zohoAccounts
+  );
+  const remitente = authUser;
 
   const cleanRecipients = input.destinatarios
     .map((d) => d.trim().toLowerCase())
@@ -42,7 +63,7 @@ export async function sendZohoMail(input: SendMailInput): Promise<CorreoEnviado>
   if (!authUser || !authPass) {
     recordBase.estado = 'simulado';
     recordBase.errorDetalle =
-      'SMTP de Zoho pendiente de configurar (falta Contraseña de Aplicación de Zoho Mail en Panel → Correos Zoho). El correo quedó respaldado en base de datos.';
+      'SMTP de Zoho pendiente de configurar en Panel → Correos Zoho. El correo quedó respaldado en base de datos.';
     await logCorreoEnviadoDB(recordBase);
     return recordBase;
   }
@@ -79,7 +100,7 @@ export async function sendZohoMail(input: SendMailInput): Promise<CorreoEnviado>
 
     await transporter.sendMail({
       from: `"La Libertad Avanza Almirante Brown" <${authUser}>`,
-      replyTo: remitente,
+      replyTo: input.remitente || authUser,
       to: cleanRecipients.length === 1 ? cleanRecipients[0] : authUser,
       bcc: cleanRecipients.length > 1 ? cleanRecipients : undefined,
       subject: input.asunto.trim(),
@@ -97,17 +118,21 @@ export async function sendZohoMail(input: SendMailInput): Promise<CorreoEnviado>
   return recordBase;
 }
 
-export async function verifyZohoSmtpConnection(): Promise<{ ok: boolean; message: string }> {
-  const { config, smtpPass } = await getSiteConfigWithSecretsDB();
+export async function verifyZohoSmtpConnection(senderEmail?: string): Promise<{ ok: boolean; message: string }> {
+  const { config, smtpPass, zohoAccounts } = await getSiteConfigWithSecretsDB();
   const host = config.zohoSmtpHost || process.env.ZOHO_SMTP_HOST || 'smtp.zoho.com';
   const port = Number(config.zohoSmtpPort || process.env.ZOHO_SMTP_PORT || 465);
-  const authUser = config.zohoSmtpUser || process.env.ZOHO_SMTP_USER || '';
-  const authPass = smtpPass || process.env.ZOHO_SMTP_PASS || '';
+  const { authUser, authPass } = resolveMailboxAuth(
+    senderEmail,
+    config.zohoSmtpUser || config.emailGeneral,
+    smtpPass,
+    zohoAccounts
+  );
 
   if (!authUser || !authPass) {
     return {
       ok: false,
-      message: 'Cargá tu usuario Zoho y la Contraseña de Aplicación SMTP antes de probar la conexión.',
+      message: 'Cargá tu usuario Zoho y la contraseña SMTP antes de probar la conexión.',
     };
   }
 
@@ -122,6 +147,6 @@ export async function verifyZohoSmtpConnection(): Promise<{ ok: boolean; message
     await transporter.verify();
     return { ok: true, message: `Conexión SMTP verificada con ${host}:${port} (${authUser}).` };
   } catch (err) {
-    return { ok: false, message: `Error SMTP Zoho: ${(err as Error).message}` };
+    return { ok: false, message: `Error SMTP Zoho (${authUser}): ${(err as Error).message}` };
   }
 }

@@ -35,17 +35,6 @@ export const LOCALIDADES: LocalidadInfo[] = [
     destacado: 'Relevamiento de cloacas y luminarias en barrios periféricos.'
   },
   {
-    id: 'don-orione',
-    nombre: 'Don Orione',
-    circuito: '0022A',
-    wa: 'https://wa.me/5491131596936',
-    descripcion: 'Gran complejo habitacional y comunidad viva con enorme potencial de desarrollo y demandas de infraestructura.',
-    coordenadas: [-34.8105, -58.3411],
-    hitos: ['Complejo Habitacional Don Orione', 'Santuario Cottolengo', 'Polideportivo', 'Centro Comunitario'],
-    referenteNombre: 'Equipo Territorial Don Orione',
-    destacado: 'Presencia constante en plazas y diálogo con centros de jubilados.'
-  },
-  {
     id: 'glew',
     nombre: 'Glew',
     circuito: '0022',
@@ -116,11 +105,11 @@ export const LOCALIDADES: LocalidadInfo[] = [
     nombre: 'San Francisco de Asís',
     circuito: '0022A',
     wa: 'https://wa.me/5491131596936',
-    descripcion: 'Localidad creada para jerarquizar el sector este, abarcando complejos y barrios en consolidación.',
+    descripcion: 'Localidad del sector este del distrito que abarca la ciudad y complejo habitacional Don Orione, el Santuario Cottolengo y barrios en consolidación.',
     coordenadas: [-34.8055, -58.3278],
-    hitos: ['Centro Cívico San Francisco', 'Plaza de las Américas', 'Complejo habitacional'],
-    referenteNombre: 'Equipo Territorial San Francisco de Asís',
-    destacado: 'Reuniones periódicas por alarmas comunitarias y corredores seguros.'
+    hitos: ['Ciudad y Complejo Don Orione', 'Santuario Cottolengo', 'Centro Cívico San Francisco', 'Plaza de las Américas'],
+    referenteNombre: 'Equipo Territorial San Francisco de Asís y Don Orione',
+    destacado: 'Presencia en plazas, diálogo con jubilados y reuniones por corredores seguros.'
   },
   {
     id: 'san-jose',
@@ -402,7 +391,7 @@ export const VISITAS_INICIALES: VisitaTerritorial[] = [
     localidad: 'Adrogué',
     circuito: '0017',
     fecha: '24/06/2025',
-    descripcion: 'Equipo completo reunido para coordinar el cronograma de recorridas en las 13 localidades y la agenda de ordenanzas en el Concejo Deliberante.',
+    descripcion: 'Equipo completo reunido para coordinar el cronograma de recorridas en las 12 localidades y la agenda de ordenanzas en el Concejo Deliberante.',
     fotos: ['/img/vecinos6.jpeg', '/img/foto18.jpeg'],
     concejales: ['Juan Pedro Aquino', 'Diego Garrido', 'Ezequiel Barreiro', 'Florencia Colman', 'Ariel Vieyra', 'Natalia German', 'Ivan Ibañez', 'Miriam Locher'],
     temasTratados: ['Coordinación de bloque', 'Fiscalización permanente', 'Agenda legislativa 2025']

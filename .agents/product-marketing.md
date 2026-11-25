@@ -3,7 +3,7 @@
 ## 1. Overview & Primary Purpose
 Web oficial y plataforma de gestión vecinal y control legislativo de **La Libertad Avanza en Almirante Brown** (Provincia de Buenos Aires, Argentina), encabezada en el Honorable Concejo Deliberante por **Juan Pedro Aquino** (Jefe de Bloque de Concejales LLA, Profesor de Historia y Ciencias Sociales egresado del ISFD Nº 41).
 
-El sitio cumple tres trabajos concretos para el vecino de las 13 localidades de Almirante Brown (Adrogué, Burzaco, Longchamps, Glew, Rafael Calzada, Claypole, José Mármol, Ministro Rivadavia, Malvinas Argentinas, San José, San Francisco de Asís, Solano y Don Orione):
+El sitio cumple tres trabajos concretos para el vecino de las 12 localidades de Almirante Brown (Adrogué, Burzaco, Longchamps, Glew, Rafael Calzada, Claypole, José Mármol, Ministro Rivadavia, Malvinas Argentinas, San José, San Francisco de Asís —incluye Ciudad Don Orione— y Solano):
 1. **Recibir y dar seguimiento real a reclamos barriales** (baches, luminarias, seguridad, residuos, obras sin terminar) con código único de seguimiento (`LLA-XXXX`), geolocalización opcional y elevación formal para auditar al Ejecutivo Municipal.
 2. **Transparentar el trabajo legislativo en el HCD** con acceso directo a los expedientes presentados por el bloque, descarga de PDFs respaldatorios y consulta directa en el Digesto Oficial (`https://a.brown.gob.ar/hcd/digesto`).
 3. **Sumar vecinos a la fiscalización, afiliación y trabajo territorial** en cada localidad, con contacto directo por WhatsApp y en la Sede Central de Burzaco.
