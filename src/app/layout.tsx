@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Montserrat } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import FloatingWA from '@/components/FloatingWA';
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+const montserrat = localFont({
+  src: './fonts/montserrat-latin-variable.woff2',
+  weight: '400 800',
   display: 'swap',
   variable: '--font-montserrat',
 });
