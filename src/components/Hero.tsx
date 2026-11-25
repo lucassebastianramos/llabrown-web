@@ -1,10 +1,45 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ArrowRight, FileText, MapPin } from 'lucide-react';
+import { DEFAULT_SITE_CONFIG } from '@/data/seedDefaults';
+import { SiteConfig } from '@/types';
 
 export default function Hero() {
+  const [config, setConfig] = useState<SiteConfig>(DEFAULT_SITE_CONFIG);
+  const [localidadesCount, setLocalidadesCount] = useState<number>(13);
+  const [concejalesCount, setConcejalesCount] = useState<number>(8);
+  const [consejerosCount, setConsejerosCount] = useState<number>(4);
+
+  useEffect(() => {
+    fetch('/api/config')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.heroTitulo) setConfig(data);
+      })
+      .catch(() => {});
+
+    fetch('/api/localidades')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setLocalidadesCount(data.length);
+      })
+      .catch(() => {});
+
+    fetch('/api/equipo')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const conc = data.filter((m: any) => m.tipo === 'concejal').length;
+          const cons = data.filter((m: any) => m.tipo === 'consejero').length;
+          if (conc > 0) setConcejalesCount(conc);
+          if (cons > 0) setConsejerosCount(cons);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section
       id="inicio"
@@ -12,7 +47,7 @@ export default function Hero() {
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Columna Editorial */}
+          {/* Columna Editorial dinámica */}
           <div className="lg:col-span-7 text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-white/95">
               <span className="w-2 h-2 rounded-full bg-[#39b5e6]" />
@@ -20,14 +55,14 @@ export default function Hero() {
             </div>
 
             <h1 className="mt-4 text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-[-0.03em] text-white leading-[1.06]">
-              Defendemos al vecino en el Concejo y en cada barrio de Brown
+              {config.heroTitulo}
             </h1>
 
             <p className="mt-5 text-base sm:text-lg text-white/85 max-w-[60ch] leading-relaxed">
-              Impulsamos proyectos reales de baja de tasas y control del gasto municipal, recorremos las 13 localidades del distrito y auditamos cada reclamo barrial con número de seguimiento.
+              {config.heroSubtitulo}
             </p>
 
-            {/* Acciones principales con jerarquía clara (page-cro) */}
+            {/* Acciones principales */}
             <div className="mt-8 flex flex-wrap items-center gap-3.5">
               <a
                 href="#reclamos"
@@ -56,13 +91,13 @@ export default function Hero() {
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/75">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#39b5e6]" />
-                Sede Central: Humberto Primo 990, Burzaco
+                Sede Central: {config.sedeDireccion}
               </span>
-              <span className="font-semibold text-[#39b5e6]">#TuVozConstruye</span>
+              <span className="font-semibold text-[#39b5e6]">{config.heroLema}</span>
             </div>
           </div>
 
-          {/* Columna Fotográfica Real */}
+          {/* Columna Fotográfica */}
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-[#230552]">
               <div className="relative aspect-[4/3] w-full">
@@ -86,11 +121,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Datos institucionales verificables */}
+        {/* Métricas dinámicas desde PostgreSQL */}
         <div className="mt-14 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-6">
           <div>
             <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
-              13
+              {localidadesCount}
             </span>
             <span className="text-xs font-medium text-white/80 mt-1 block">
               Localidades con equipo activo
@@ -99,7 +134,7 @@ export default function Hero() {
 
           <div>
             <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
-              8
+              {concejalesCount}
             </span>
             <span className="text-xs font-medium text-white/80 mt-1 block">
               Concejales en el HCD
@@ -108,7 +143,7 @@ export default function Hero() {
 
           <div>
             <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
-              4
+              {consejerosCount}
             </span>
             <span className="text-xs font-medium text-white/80 mt-1 block">
               Consejeros escolares
@@ -117,7 +152,7 @@ export default function Hero() {
 
           <div>
             <span className="text-3xl sm:text-4xl font-extrabold text-white tabular-nums block tracking-tight">
-              176
+              {config.barriosCount}
             </span>
             <span className="text-xs font-medium text-white/80 mt-1 block">
               Barrios relevados (Ord. 13.906)

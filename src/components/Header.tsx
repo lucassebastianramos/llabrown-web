@@ -12,6 +12,7 @@ export default function Header() {
 
   const navLinks = [
     { id: 'inicio', label: 'Inicio', href: '#inicio' },
+    { id: 'nacion', label: 'Nación', href: '#nacion' },
     { id: 'mapa', label: 'Mapa', href: '#mapa' },
     { id: 'reclamos', label: 'Reclamos', href: '#reclamos' },
     { id: 'territorio', label: 'Territorio', href: '#territorio' },
@@ -21,7 +22,7 @@ export default function Header() {
   ];
 
   useEffect(() => {
-    const sectionIds = ['inicio', 'mapa', 'reclamos', 'territorio', 'proyectos', 'equipo', 'contacto'];
+    const sectionIds = ['inicio', 'nacion', 'mapa', 'reclamos', 'territorio', 'proyectos', 'equipo', 'contacto'];
     const handleScroll = () => {
       setScrolled(window.scrollY > 12);
 
@@ -56,7 +57,6 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 h-20">
-          {/* Logo institucional blanco oficial */}
           <Link href="#inicio" className="flex items-center shrink-0" aria-label="La Libertad Avanza Almirante Brown">
             <div className="relative w-44 sm:w-52 h-14 overflow-hidden">
               <Image
@@ -69,8 +69,7 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Navegación Desktop simple estilo LLA Nacional */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -90,18 +89,16 @@ export default function Header() {
             })}
           </nav>
 
-          {/* CTA Blanco institucional + Menú móvil */}
           <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="https://wa.me/5491131596936?text=Hola%20quiero%20sumarme%20a%20La%20Libertad%20Avanza%20Brown"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/f/fiscalizacion"
               className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm transition-colors shadow-sm"
             >
-              Sumate
-            </a>
+              Fiscalizá
+            </Link>
 
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2.5 rounded-lg border border-white/20 text-white hover:bg-white/10 transition-colors"
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
@@ -113,7 +110,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Menú Móvil */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[#2f0163] border-t border-white/10 px-5 pt-3 pb-6 space-y-3 shadow-xl animate-fadeIn">
           <div className="flex flex-col divide-y divide-white/10">
@@ -136,15 +132,13 @@ export default function Header() {
           </div>
 
           <div className="pt-2">
-            <a
-              href="https://wa.me/5491131596936?text=Hola%20quiero%20sumarme%20a%20La%20Libertad%20Avanza%20Brown"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/f/fiscalizacion"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full justify-center px-5 py-3 rounded-lg bg-white hover:bg-slate-100 text-[#371859] font-bold text-sm flex items-center gap-2 shadow-sm"
             >
-              Sumate
-            </a>
+              Inscripción de Fiscales
+            </Link>
           </div>
         </div>
       )}

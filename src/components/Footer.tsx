@@ -88,6 +88,11 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
+                  <a href="#nacion" className="hover:text-white hover:underline underline-offset-4">
+                    Nación y Provincia
+                  </a>
+                </li>
+                <li>
                   <a href="#mapa" className="hover:text-white hover:underline underline-offset-4">
                     Mapa Territorial
                   </a>
@@ -109,12 +114,22 @@ export default function Footer() {
                 </li>
                 <li>
                   <a href="#equipo" className="hover:text-white hover:underline underline-offset-4">
-                    Equipo
+                    Equipo y Legisladores
+                  </a>
+                </li>
+                <li>
+                  <a href="/f/fiscalizacion" className="hover:text-white hover:underline underline-offset-4">
+                    Fiscalización
                   </a>
                 </li>
                 <li>
                   <a href="#contacto" className="hover:text-white hover:underline underline-offset-4">
                     Contacto
+                  </a>
+                </li>
+                <li>
+                  <a href="/admin" className="text-white/70 hover:text-white hover:underline underline-offset-4">
+                    Portal Concejales
                   </a>
                 </li>
               </ul>
@@ -138,6 +153,15 @@ export default function Footer() {
                   className="hover:underline underline-offset-4"
                 >
                   11 3159-6936
+                </a>
+              </p>
+              <p className="text-white/90">
+                <strong className="font-semibold text-white block">Correo Institucional</strong>
+                <a
+                  href="mailto:lalibertadavanza@llabrown.com.ar"
+                  className="hover:underline underline-offset-4 break-all"
+                >
+                  lalibertadavanza@llabrown.com.ar
                 </a>
               </p>
               <p className="pt-1">

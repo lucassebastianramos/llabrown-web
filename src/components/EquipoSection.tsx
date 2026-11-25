@@ -1,65 +1,84 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { CONCEJALES, CONSEJEROS } from '@/data/mockData';
-import { Shield, GraduationCap, MapPin } from 'lucide-react';
+import { LEGISLADORES_INICIALES } from '@/data/seedDefaults';
+import { MiembroEquipo, TipoMiembroEquipo } from '@/types';
+import { Building2, Flag, GraduationCap, MapPin, Shield } from 'lucide-react';
 
 export default function EquipoSection() {
-  const [activeTab, setActiveTab] = useState<'concejales' | 'consejeros'>('concejales');
+  const [activeTab, setActiveTab] = useState<TipoMiembroEquipo>('concejal');
+  const [miembros, setMiembros] = useState<MiembroEquipo[]>([
+    ...CONCEJALES,
+    ...CONSEJEROS,
+    ...LEGISLADORES_INICIALES,
+  ]);
 
-  const list = activeTab === 'concejales' ? CONCEJALES : CONSEJEROS;
+  useEffect(() => {
+    fetch('/api/equipo')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setMiembros(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const byTipo = (t: TipoMiembroEquipo) => miembros.filter((m) => m.tipo === t);
+  const list = byTipo(activeTab);
+
+  const tabs: Array<{ id: TipoMiembroEquipo; label: string; icon: React.ReactNode; count: number }> = [
+    { id: 'concejal', label: 'Concejales', icon: <Shield className="w-3.5 h-3.5" />, count: byTipo('concejal').length },
+    { id: 'consejero', label: 'Consejeros Escolares', icon: <GraduationCap className="w-3.5 h-3.5" />, count: byTipo('consejero').length },
+    { id: 'legislador_provincial', label: 'Legisladores Provinciales', icon: <Building2 className="w-3.5 h-3.5" />, count: byTipo('legislador_provincial').length },
+    { id: 'legislador_nacional', label: 'Legisladores Nacionales', icon: <Flag className="w-3.5 h-3.5" />, count: byTipo('legislador_nacional').length },
+  ];
 
   return (
     <section id="equipo" className="py-20 bg-white border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Encabezado limpio */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="max-w-2xl">
+        <div className="flex flex-col gap-6 mb-10">
+          <div className="max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1d1d1d] tracking-tight">
-              Concejales y consejeros escolares
+              Concejales, consejeros y legisladores
             </h2>
             <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Representantes de La Libertad Avanza en el Honorable Concejo Deliberante y en el Consejo Escolar de Almirante Brown.
+              Representantes de La Libertad Avanza en el Concejo Deliberante, el Consejo Escolar de Almirante Brown, la Legislatura bonaerense y el Congreso de la Nación.
             </p>
           </div>
 
-          <div className="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200 shrink-0 self-start md:self-auto">
-            <button
-              onClick={() => setActiveTab('concejales')}
-              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors flex items-center gap-2 ${
-                activeTab === 'concejales'
-                  ? 'bg-[#371859] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <Shield className="w-3.5 h-3.5" />
-              <span>Concejales (8)</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('consejeros')}
-              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors flex items-center gap-2 ${
-                activeTab === 'consejeros'
-                  ? 'bg-[#371859] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>Consejeros Escolares (4)</span>
-            </button>
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`min-h-[42px] px-4 py-2 rounded-lg text-xs font-bold transition-colors inline-flex items-center gap-2 border ${
+                  activeTab === tab.id
+                    ? 'bg-[#371859] text-white border-[#371859] shadow-sm'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+                }`}
+              >
+                {tab.icon}
+                <span>
+                  {tab.label} ({tab.count})
+                </span>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Grilla de representantes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeIn">
           {list.map((miembro) => (
-            <div
+            <article
               key={miembro.id}
               className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:border-[#6c4c99]/50 hover:shadow-md transition-all flex flex-col group"
             >
               <div className="relative w-full aspect-[4/5] bg-slate-100 overflow-hidden">
                 <Image
-                  src={miembro.foto}
+                  src={miembro.foto || '/img/a6.jpg'}
                   alt={miembro.nombre}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -86,13 +105,13 @@ export default function EquipoSection() {
                     <span>{miembro.localidad}</span>
                   </div>
                   {miembro.bio && (
-                    <p className="mt-3 text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                    <p className="mt-3 text-xs text-slate-600 line-clamp-4 leading-relaxed">
                       {miembro.bio}
                     </p>
                   )}
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

@@ -1,21 +1,31 @@
-export type LocalidadNombre = 
-  | 'Adrogué'
-  | 'Burzaco'
-  | 'Claypole'
-  | 'Don Orione'
-  | 'Glew'
-  | 'José Mármol'
-  | 'Longchamps'
-  | 'Malvinas Argentinas'
-  | 'Ministro Rivadavia'
-  | 'Rafael Calzada'
-  | 'San Francisco de Asís'
-  | 'San José'
-  | 'Solano';
+export type LocalidadNombre = string;
+
+export type UserRole = 'admin' | 'editor';
+
+export type ApprovalStatus = 'pendiente' | 'aprobado' | 'rechazado';
+
+export interface SessionUser {
+  id: string;
+  username: string;
+  nombre: string;
+  role: UserRole;
+  cargo: string;
+}
+
+export interface UsuarioSistema {
+  id: string;
+  username: string;
+  nombre: string;
+  role: UserRole;
+  cargo: string;
+  email?: string;
+  activo: boolean;
+  createdAt?: string;
+}
 
 export interface LocalidadInfo {
   id: string;
-  nombre: LocalidadNombre;
+  nombre: string;
   circuito: string;
   wa: string;
   descripcion: string;
@@ -23,6 +33,8 @@ export interface LocalidadInfo {
   hitos: string[];
   referenteNombre: string;
   destacado: string;
+  activo?: boolean;
+  orden?: number;
 }
 
 export interface ProyectoHCD {
@@ -38,19 +50,60 @@ export interface ProyectoHCD {
   estado: 'Presentado' | 'En Comisión' | 'Aprobado' | 'En Tratamiento';
   resumen: string;
   destacado?: boolean;
+  estadoAprobacion?: ApprovalStatus;
+  creadoPor?: string;
+  revisadoPor?: string;
+  revisadoAt?: string;
+  motivoRechazo?: string;
+  deletedAt?: string | null;
 }
 
 export interface VisitaTerritorial {
   id: string;
   titulo: string;
-  localidad: LocalidadNombre;
+  localidad: string;
   circuito?: string;
   fecha: string;
   descripcion: string;
   fotos: string[];
   concejales: string[];
   temasTratados: string[];
+  estadoAprobacion?: ApprovalStatus;
+  creadoPor?: string;
+  revisadoPor?: string;
+  revisadoAt?: string;
+  motivoRechazo?: string;
+  deletedAt?: string | null;
 }
+
+export type NoticiaAmbito = 'Nación' | 'Provincia' | 'Distrito' | 'Novedades';
+
+export interface NoticiaItem {
+  id: string;
+  titulo: string;
+  bajada: string;
+  cuerpo: string;
+  ambito: NoticiaAmbito;
+  localidad?: string;
+  imagenUrl?: string;
+  fuenteUrl?: string;
+  autor: string;
+  fecha: string;
+  destacada?: boolean;
+  estadoAprobacion: ApprovalStatus;
+  creadoPor?: string;
+  revisadoPor?: string;
+  revisadoAt?: string;
+  motivoRechazo?: string;
+  deletedAt?: string | null;
+  createdAt?: string;
+}
+
+export type TipoMiembroEquipo =
+  | 'concejal'
+  | 'consejero'
+  | 'legislador_provincial'
+  | 'legislador_nacional';
 
 export interface MiembroEquipo {
   id: string;
@@ -59,15 +112,17 @@ export interface MiembroEquipo {
   localidad: string;
   foto: string;
   estilo?: string;
-  tipo: 'concejal' | 'consejero';
+  tipo: TipoMiembroEquipo;
   bio?: string;
+  orden?: number;
+  activo?: boolean;
   redes?: {
     instagram?: string;
     twitter?: string;
   };
 }
 
-export type PinCategoria = 
+export type PinCategoria =
   | 'Arreglo de Calles / Asfalto'
   | 'Seguridad / Luminarias'
   | 'Proyecto de Ordenanza HCD'
@@ -75,7 +130,7 @@ export type PinCategoria =
   | 'Salud / CAPS'
   | 'Medio Ambiente / Basurales';
 
-export type PinEstado = 
+export type PinEstado =
   | 'Reclamo Vecinal Recibido'
   | 'Proyecto Presentado en HCD'
   | 'En Gestión / Comisión'
@@ -85,8 +140,8 @@ export interface PinTerritorial {
   id: string;
   titulo: string;
   calle: string;
-  localidad: LocalidadNombre;
-  barrio?: string; // Barrio oficial según Ordenanza 13.906
+  localidad: string;
+  barrio?: string;
   lat: number;
   lng: number;
   categoria: PinCategoria;
@@ -100,7 +155,7 @@ export interface PinTerritorial {
   apoyosVecinales?: number;
 }
 
-export type ReclamoEstado = 
+export type ReclamoEstado =
   | 'Registrado en LLA'
   | 'Enviado a BrownGestión'
   | 'Enviado a Gestión Municipal'
@@ -109,26 +164,113 @@ export type ReclamoEstado =
 
 export interface ReclamoVecinal {
   id: string;
-  codigoSeguimiento: string; // ej. LLA-REC-2025-XXXX
+  codigoSeguimiento: string;
   nombreVecino: string;
   apellidoVecino?: string;
   dniVecino?: string;
   telefonoVecino: string;
-  localidad: LocalidadNombre;
-  barrio?: string; // Barrio de Ordenanza 13.906
+  localidad: string;
+  barrio?: string;
   calle: string;
   altura?: string;
   entreCalles?: string;
   tipoReclamo: string;
   subtipoReclamo?: string;
   descripcion: string;
-  normaDigesto?: string; // Cita del Digesto Oficial (https://a.brown.gob.ar/hcd/digesto)
+  normaDigesto?: string;
   estado: ReclamoEstado;
-  numeroReclamoMunicipal?: string; // N° oficial devuelto o registrado en Solicitudes Brown
-  patrocinadoPor: string; // 'Juan Pedro Aquino - Jefe de Bloque Concejales LLA'
+  numeroReclamoMunicipal?: string;
+  patrocinadoPor: string;
   fecha: string;
   lat?: number;
   lng?: number;
   createdAt?: string;
 }
 
+export type CampoTipo =
+  | 'text'
+  | 'textarea'
+  | 'email'
+  | 'tel'
+  | 'number'
+  | 'select'
+  | 'localidad'
+  | 'checkbox'
+  | 'date';
+
+export interface CampoFormulario {
+  id: string;
+  label: string;
+  tipo: CampoTipo;
+  requerido: boolean;
+  placeholder?: string;
+  opciones?: string[];
+}
+
+export interface FormularioDinamico {
+  id: string;
+  slug: string;
+  titulo: string;
+  descripcion: string;
+  categoria: string;
+  emailNotificacion?: string;
+  campos: CampoFormulario[];
+  activo: boolean;
+  respuestasCount?: number;
+  creadoPor?: string;
+  createdAt?: string;
+  deletedAt?: string | null;
+}
+
+export interface FormularioRespuesta {
+  id: string;
+  formularioId: string;
+  formularioSlug: string;
+  datos: Record<string, string | boolean>;
+  createdAt: string;
+}
+
+export interface SiteConfig {
+  heroTitulo: string;
+  heroSubtitulo: string;
+  heroLema: string;
+  sedeDireccion: string;
+  whatsappNumero: string;
+  whatsappDisplay: string;
+  instagramUrl: string;
+  facebookUrl: string;
+  emailGeneral: string;
+  emailFiscalizacion: string;
+  emailPrensa: string;
+  barriosCount: number;
+  nacionTitulo: string;
+  nacionBajada: string;
+  zohoSmtpHost?: string;
+  zohoSmtpPort?: number;
+  zohoSmtpUser?: string;
+  zohoSmtpConfigured?: boolean;
+}
+
+export interface CorreoEnviado {
+  id: string;
+  remitente: string;
+  destinatarios: string[];
+  asunto: string;
+  cuerpo: string;
+  estado: 'enviado' | 'error' | 'simulado';
+  errorDetalle?: string;
+  enviadoPor: string;
+  createdAt: string;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  entidad: string;
+  entidadId: string;
+  accion: string;
+  usuario: string;
+  rol: string;
+  detalle?: string;
+  respaldoJson: Record<string, unknown>;
+  createdAt: string;
+}

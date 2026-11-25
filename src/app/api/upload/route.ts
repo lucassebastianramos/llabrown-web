@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import crypto from 'crypto';
-import { isAdminAuthorized } from '@/lib/adminAuth';
+import { isAuthenticatedUser } from '@/lib/adminAuth';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,45 +11,25 @@ const ALLOWED_EXTENSIONS = new Set(['.pdf', '.jpg', '.jpeg', '.png', '.webp']);
 
 function hasValidMagicBytes(buffer: Buffer, ext: string): boolean {
   if (buffer.length < 12) return false;
-
   if (ext === '.pdf') {
-    // %PDF-
-    return (
-      buffer[0] === 0x25 &&
-      buffer[1] === 0x50 &&
-      buffer[2] === 0x44 &&
-      buffer[3] === 0x46 &&
-      buffer[4] === 0x2d
-    );
+    return buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46 && buffer[4] === 0x2d;
   }
-
   if (ext === '.jpg' || ext === '.jpeg') {
     return buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
   }
-
   if (ext === '.png') {
-    return (
-      buffer[0] === 0x89 &&
-      buffer[1] === 0x50 &&
-      buffer[2] === 0x4e &&
-      buffer[3] === 0x47
-    );
+    return buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47;
   }
-
   if (ext === '.webp') {
-    return (
-      buffer.subarray(0, 4).toString('ascii') === 'RIFF' &&
-      buffer.subarray(8, 12).toString('ascii') === 'WEBP'
-    );
+    return buffer.subarray(0, 4).toString('ascii') === 'RIFF' && buffer.subarray(8, 12).toString('ascii') === 'WEBP';
   }
-
   return false;
 }
 
 export async function POST(req: Request) {
   try {
-    if (!isAdminAuthorized(req)) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    if (!isAuthenticatedUser(req)) {
+      return NextResponse.json({ error: 'Iniciá sesión para subir archivos.' }, { status: 401 });
     }
 
     const formData = await req.formData();

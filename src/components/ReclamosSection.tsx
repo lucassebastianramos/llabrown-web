@@ -47,7 +47,17 @@ export default function ReclamosSection() {
   const [dniVecino, setDniVecino] = useState<string>('');
   const [normaDigesto, setNormaDigesto] = useState<string>('');
 
+  const [localidadesList, setLocalidadesList] = useState(LOCALIDADES);
   const [barriosList, setBarriosList] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch('/api/localidades')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setLocalidadesList(data);
+      })
+      .catch(() => {});
+  }, []);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string>('');
   const [submittedReclamo, setSubmittedReclamo] = useState<ReclamoVecinal | null>(null);
@@ -546,7 +556,7 @@ export default function ReclamosSection() {
                       className="w-full min-h-[44px] px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#371859] focus:bg-white transition-colors"
                       required
                     >
-                      {LOCALIDADES.map((loc) => (
+                      {localidadesList.map((loc) => (
                         <option key={loc.id} value={loc.nombre}>
                           {loc.nombre}
                         </option>
