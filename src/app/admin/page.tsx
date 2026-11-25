@@ -443,7 +443,7 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Usuario
+                Usuario o Correo
               </label>
               <div className="relative">
                 <User className="w-4 h-4 text-[#6c4c99] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -451,7 +451,7 @@ export default function AdminPage() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Ej: admin, juan.aquino, ariel.vieyra..."
+                  placeholder="Ej: admin, briancabral18@gmail.com, juan.aquino..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-[#371859]"
                 />
               </div>

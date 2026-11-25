@@ -577,7 +577,7 @@ export async function authenticateUserDB(
   try {
     await initDatabase();
     const res = await pool.query(
-      'SELECT * FROM usuarios WHERE LOWER(username) = $1 AND activo = true LIMIT 1',
+      'SELECT * FROM usuarios WHERE (LOWER(username) = $1 OR LOWER(email) = $1) AND activo = true LIMIT 1',
       [cleanUser]
     );
     if (res.rows.length > 0) {

@@ -35,6 +35,15 @@ export const DEFAULT_USERS: SeedUserSpec[] = [
     email: 'prensa@llabrown.com.ar',
     initialPassword: 'brown2026',
   },
+  {
+    id: 'usr-brian-cabral',
+    username: 'briancabral18@gmail.com',
+    nombre: 'Brian Cabral',
+    role: 'admin',
+    cargo: 'Administrador LLA Almirante Brown',
+    email: 'briancabral18@gmail.com',
+    initialPassword: 'cabral2026',
+  },
   // 8 Concejales (cuentas de equipo: solo cargan noticias, expedientes y novedades a revisión)
   {
     id: 'usr-juan-aquino',
