@@ -7,19 +7,20 @@
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --prefer-offline
+RUN npm ci --no-audit --no-fund --prefer-offline --maxsockets=5
 COPY index.html vite.config.ts tailwind.config.ts postcss.config.js tsconfig.json tsconfig.app.json tsconfig.node.json components.json ./
 COPY public ./public
 COPY src ./src
 ENV VITE_API_URL=/fiscalizacion-api
+ENV NODE_OPTIONS=--max-old-space-size=768
 RUN npm run build
 
 # 2. Build Backend Express + Prisma
 FROM node:20-alpine AS api-builder
 RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app/api
-COPY api/package.json ./
-RUN npm install --no-audit
+COPY api/package.json api/package-lock.json ./
+RUN npm ci --no-audit --no-fund --prefer-offline --maxsockets=5
 COPY api/prisma ./prisma
 RUN npx prisma generate
 COPY api/tsconfig.json ./

@@ -3,7 +3,7 @@ import * as mesaService from '../services/mesa.service.js';
 import { getAuthUser } from '../lib/auth.js';
 
 export const updateMesaFiscal = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = String(req.params.id || '');
   const { fiscalId } = req.body as { fiscalId: string | null };
   try {
     if (!id) return res.status(400).json({ error: 'Parámetro id requerido' });

@@ -42,7 +42,7 @@ export const createIncidencia = async (req: Request, res: Response) => {
 };
 
 export const updateIncidencia = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = String(req.params.id || '');
   try {
     if (!id) return res.status(400).json({ error: 'Parámetro id requerido' });
     const updatedIncidencia = await incidenciaService.updateIncidencia(id, req.body);
@@ -54,7 +54,7 @@ export const updateIncidencia = async (req: Request, res: Response) => {
 };
 
 export const deleteIncidencia = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = String(req.params.id || '');
   try {
     if (!id) return res.status(400).json({ error: 'Parámetro id requerido' });
     await incidenciaService.deleteIncidencia(id);

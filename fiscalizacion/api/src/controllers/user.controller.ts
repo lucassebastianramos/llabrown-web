@@ -27,7 +27,7 @@ export const create = async (req: Request, res: Response) => {
 
 export const remove = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id || '');
     if (!id) return res.status(400).json({ error: 'Id requerido' });
     await userService.deleteUser(id);
     res.status(204).send();
@@ -39,7 +39,7 @@ export const remove = async (req: Request, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id || '');
     const { password } = req.body || {};
     if (!id || !password) return res.status(400).json({ error: 'Id y password requeridos' });
     await userService.resetPassword(id, password);

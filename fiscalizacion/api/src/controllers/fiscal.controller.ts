@@ -43,7 +43,7 @@ export const createFiscal = async (req: Request, res: Response) => {
 };
 
 export const updateFiscal = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = String(req.params.id || '');
   try {
     if (!id) return res.status(400).json({ error: 'Parámetro id requerido' });
     const updatedFiscal = await fiscalService.updateFiscal(id, req.body);
@@ -55,7 +55,7 @@ export const updateFiscal = async (req: Request, res: Response) => {
 };
 
 export const deleteFiscal = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = String(req.params.id || '');
   try {
     if (!id) return res.status(400).json({ error: 'Parámetro id requerido' });
     await fiscalService.deleteFiscal(id);
